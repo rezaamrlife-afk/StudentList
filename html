@@ -1,0 +1,492 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0a0a0a; }
+
+.screen {
+  background: #0d0d0d;
+  min-height: 100vh;
+  font-family: var(--font-sans, sans-serif);
+  color: #fff;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: #111;
+  border-bottom: 1px solid #222;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.logo span {
+  color: #6c8ef5;
+}
+
+.group-badge {
+  background: #6c8ef5;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+.days-label {
+  font-size: 13px;
+  color: #888;
+  margin-left: 4px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.dot.active { background: #6c8ef5; }
+
+.timer-bar-wrap {
+  width: 120px;
+  height: 3px;
+  background: #222;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.timer-bar {
+  height: 100%;
+  background: #6c8ef5;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.btn-pause {
+  background: #222;
+  border: 1px solid #333;
+  color: #aaa;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-pause:hover { background: #2a2a2a; color: #fff; }
+
+.slide {
+  flex: 1;
+  padding: 28px 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.slide-header {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.group-title {
+  font-size: 32px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.group-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.meta-chip {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #aaa;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-chip .label { color: #666; }
+.meta-chip .value { color: #ccc; }
+
+.teacher-chip {
+  background: #1a2240;
+  border: 1px solid #2a3560;
+  color: #6c8ef5;
+  font-size: 12px;
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  flex: 1;
+}
+
+.level-card {
+  background: #141414;
+  border: 1px solid #222;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.level-card-header {
+  padding: 10px 16px;
+  border-bottom: 1px solid #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.level-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6c8ef5;
+  letter-spacing: 0.04em;
+}
+
+.level-count {
+  background: #1a2240;
+  color: #6c8ef5;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.student-list {
+  padding: 8px 0;
+}
+
+.student-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.student-row:last-child { border-bottom: none; }
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #1e2a50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 500;
+  color: #6c8ef5;
+  flex-shrink: 0;
+}
+
+.student-name {
+  font-size: 13px;
+  color: #ddd;
+  flex: 1;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-dot.ky { background: #4caf82; }
+.status-dot.yk { background: #e87040; }
+
+.footer {
+  padding: 12px 32px;
+  background: #0d0d0d;
+  border-top: 1px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #666;
+}
+
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.slide-counter {
+  font-size: 12px;
+  color: #444;
+}
+</style>
+
+<div class="screen">
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">American<span>Life</span></div>
+      <div id="group-badge" class="group-badge">MW</div>
+      <div id="days-label" class="days-label">Monday & Wednesday</div>
+    </div>
+    <div class="header-right">
+      <div class="nav-dots" id="nav-dots"></div>
+      <div class="timer-bar-wrap">
+        <div class="timer-bar" id="timer-bar" style="width:100%"></div>
+      </div>
+      <button class="btn-pause" id="btn-pause">⏸ Pause</button>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-content"></div>
+
+  <div class="footer">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#4caf82"></div> Enrolled (KY)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e87040"></div> Not enrolled (YK)</div>
+    </div>
+    <div class="slide-counter" id="slide-counter"></div>
+  </div>
+</div>
+
+<script>
+const data = [
+  {
+    name: "ESLEM POLAT", level: "A1.3", time: "SA", status: "KY"
+  },
+  { name: "MEHMET EMİR AVCI", level: "A2.2", time: "MW-TT", status: "KY" },
+  { name: "AHMET AVCI", level: "A1.3", time: "MW-TT", status: "KY" },
+  { name: "TUNA ŞENTÜRK", level: "A2.3", time: "MW", status: "KY" },
+  { name: "EREN AKDENİZ", level: "A1.3", time: "SA-SU", status: "KY" },
+  { name: "EMİR AKDENİZ", level: "A1.3", time: "SA-SU", status: "KY" },
+  { name: "ELİF RÜYA BİLGİSEVEN", level: "A2.2", time: "MW", status: "KY" },
+  { name: "TOPRAK KARABEKİR", level: "A2.3", time: "SA", status: "KY" },
+  { name: "YAMAN KARATAŞ", level: "BELİRSİZ", time: "MW", status: "YK" },
+  { name: "KEREM GÜNEY AKSAKAL", level: "A1.3", time: "SA", status: "KY" },
+  { name: "DERİN BOYAR", level: "A1.3", time: "TT", status: "KY" },
+  { name: "BARLAS ABAZ", level: "A1.3", time: "TT", status: "KY" },
+  { name: "KAYAHAN SÖNMEZ", level: "A2.3 mini", time: "MW", status: "KY" },
+  { name: "ADA AKIN", level: "A2.2", time: "SS", status: "KY" },
+  { name: "ADA NİDA ÖZDEMİR", level: "A2.1", time: "SA", status: "KY" },
+  { name: "DOĞU POYRAZ ERYILMAZ", level: "A2.3 mini", time: "MW", status: "KY" },
+  { name: "MUHAMMED EMİR BİÇİCİ", level: "A2.1", time: "MW", status: "KY" },
+  { name: "ALİ YAMAN ALTUN", level: "A2.3", time: "SA", status: "KY" },
+  { name: "ECRİN ALTUN", level: "A2.3", time: "SA", status: "KY" },
+  { name: "AZRA MELEK ÖNCEL", level: "A2.1", time: "SA", status: "KY" },
+  { name: "MUSTAFA SAİT GÜLER", level: "A2.1", time: "SA", status: "KY" },
+  { name: "RÜZGAR TUNÇ", level: "A2.3 mini", time: "MW", status: "KY" },
+  { name: "AREL DENİZ EROĞLAN", level: "B1.3", time: "MW", status: "KY" },
+  { name: "MERVE AYDEMİR", level: "B1.2", time: "MW", status: "KY" },
+  { name: "ELİF AYDEMİR", level: "B1.1", time: "MW", status: "KY" },
+  { name: "AYŞE MİNA TUNÇ", level: "A1.3", time: "TT", status: "KY" },
+  { name: "ALİ MERT TUNÇ", level: "A1.3", time: "TT", status: "KY" },
+  { name: "ZEYNEP BEREN GÜNTAY", level: "A2.1", time: "MW", status: "KY" },
+  { name: "BADE GÜRBAŞAK", level: "A1.2", time: "TT", status: "YK" },
+  { name: "HİRA KOÇ", level: "BELİRSİZ", time: "MW", status: "YK" },
+  { name: "ENES ALİM ŞİMAL", level: "A2.1", time: "MW", status: "KY" },
+  { name: "MİRAÇ YİĞİT SEZİCİ", level: "A2.1", time: "SA", status: "YK" },
+  { name: "SELİM YAZICI", level: "A2.2", time: "SA", status: "KY" },
+  { name: "OĞUZ KAAN PINAR", level: "A1.3", time: "TT", status: "KY" },
+  { name: "ADİN YARDIMCI", level: "A1.2", time: "TT", status: "KY" },
+  { name: "TAHA ALP DEMİREZER", level: "A2.1", time: "?", status: "KY" },
+  { name: "CEMRE SAK", level: "A2.1", time: "MW", status: "YK" },
+  { name: "EMİR SAİT ÖZEN", level: "BELİRSİZ", time: "TT", status: "YK" },
+  { name: "EGEMEN AYDIN", level: "A2.3", time: "HİS", status: "KY" },
+  { name: "EYLÜL ADA DEMİREZER", level: "A2.2", time: "SU", status: "KY" },
+  { name: "ÖYKÜ DEMİREZER", level: "BELİRSİZ", time: "SU", status: "YK" },
+  { name: "ELİF GÖKÇE ŞAHİN", level: "A2.1", time: "SA", status: "YK" },
+  { name: "ZEYNEP KATİP", level: "A2.1", time: "SA", status: "YK" },
+  { name: "BUĞLEM ELA ALTIN", level: "A2.1", time: "TT", status: "YK" },
+  { name: "EYMEN TAHA ALTIN", level: "BELİRSİZ", time: "TT", status: "YK" },
+  { name: "DEMİR KENAN CEYLAN", level: "A1.2", time: "SU", status: "YK" },
+  { name: "İLBER EMİR AKGÜN", level: "A1.2", time: "SU", status: "YK" },
+  { name: "DUA MEYRA AKGÜN", level: "A2.2", time: "SU", status: "YK" },
+  { name: "MİRAÇ DEMİR", level: "A2.3", time: "SA", status: "KY" },
+  { name: "DERİN YILMAZ", level: "A1.2", time: "MW", status: "YK" },
+  { name: "AYŞE ELİF DOĞAN", level: "A1.3", time: "TT", status: "" },
+  { name: "HASAN KÜÇÜK", level: "B2.1", time: "MW", status: "KY" },
+  { name: "HATİCE ÖZKULOĞLU", level: "A2.1", time: "FS", status: "KY" },
+  { name: "ASLI YANIK", level: "B1.2", time: "SA", status: "KY" },
+  { name: "AHMET SİNAN CAYLI", level: "A2.1", time: "?", status: "YK" },
+  { name: "ELİF NİL BULUT", level: "A2.1", time: "?", status: "YK" },
+  { name: "DİLEM ÖZBEY", level: "B1.1", time: "TT", status: "YK" },
+  { name: "ALİ YİĞİT SERTEL", level: "BELİRSİZ", time: "SU", status: "YK" },
+  { name: "BEDİRHAN KOPAN", level: "B1.2", time: "MW", status: "KY" },
+  { name: "ELİF DURU USLU", level: "B1.1", time: "SA", status: "KY" },
+  { name: "ATAKAN GÖÇEN", level: "A2.1", time: "SA", status: "YK" },
+];
+
+const groups = [
+  { key: "MW", label: "MW", days: "Monday & Wednesday", color: "#6c8ef5" },
+  { key: "TT", label: "TT", days: "Tuesday & Thursday", color: "#e87040" },
+  { key: "SA", label: "SA", days: "Saturday", color: "#4caf82" },
+  { key: "SU", label: "SU", days: "Sunday", color: "#b06cf5" },
+];
+
+function getInitials(name) {
+  const parts = name.trim().split(" ");
+  return (parts[0][0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
+}
+
+function getStudentsForGroup(groupKey) {
+  return data.filter(s => {
+    const t = s.time.toUpperCase();
+    if (groupKey === "MW") return t.includes("MW");
+    if (groupKey === "TT") return t.includes("TT");
+    if (groupKey === "SA") return t === "SA" || t === "SA-SU";
+    if (groupKey === "SU") return t === "SU" || t === "SA-SU";
+    return false;
+  });
+}
+
+function groupByLevel(students) {
+  const map = {};
+  students.forEach(s => {
+    if (!map[s.level]) map[s.level] = [];
+    map[s.level].push(s);
+  });
+  const order = ["A1.1","A1.2","A1.3","A2.1","A2.2","A2.3","A2.3 mini","B1.1","B1.2","B1.3","B2.1","BELİRSİZ"];
+  return Object.entries(map).sort(([a],[b]) => {
+    const ai = order.indexOf(a); const bi = order.indexOf(b);
+    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+  });
+}
+
+function renderSlide(groupIdx) {
+  const g = groups[groupIdx];
+  const students = getStudentsForGroup(g.key);
+  const byLevel = groupByLevel(students);
+  const badge = document.getElementById("group-badge");
+  const daysLabel = document.getElementById("days-label");
+  badge.textContent = g.label;
+  badge.style.background = g.color;
+  daysLabel.textContent = g.days;
+
+  const content = document.getElementById("slide-content");
+  content.innerHTML = `
+    <div class="slide-header">
+      <div class="group-title">${g.days}</div>
+      <div class="group-meta">
+        <div class="meta-chip"><span class="label">Students</span><span class="value">${students.length}</span></div>
+        <div class="teacher-chip">Teacher: TBD</div>
+      </div>
+    </div>
+    <div class="levels-grid">${byLevel.map(([level, sts]) => `
+      <div class="level-card">
+        <div class="level-card-header">
+          <span class="level-name">${level}</span>
+          <span class="level-count">${sts.length}</span>
+        </div>
+        <div class="student-list">${sts.map(s => `
+          <div class="student-row">
+            <div class="avatar">${getInitials(s.name)}</div>
+            <div class="student-name">${s.name}</div>
+            <div class="status-dot ${s.status === 'KY' ? 'ky' : 'yk'}"></div>
+          </div>
+        `).join("")}</div>
+      </div>
+    `).join("")}</div>
+  `;
+
+  document.getElementById("slide-counter").textContent = `${groupIdx + 1} / ${groups.length}`;
+
+  const dots = document.querySelectorAll(".dot");
+  dots.forEach((d, i) => d.classList.toggle("active", i === groupIdx));
+}
+
+function buildDots() {
+  const wrap = document.getElementById("nav-dots");
+  groups.forEach((g, i) => {
+    const d = document.createElement("div");
+    d.className = "dot" + (i === 0 ? " active" : "");
+    d.title = g.days;
+    d.addEventListener("click", () => { currentSlide = i; resetTimer(); renderSlide(i); });
+    wrap.appendChild(d);
+  });
+}
+
+const SLIDE_DURATION = 15000;
+let currentSlide = 0;
+let paused = false;
+let elapsed = 0;
+let lastTick = null;
+let raf = null;
+
+function resetTimer() {
+  elapsed = 0;
+  lastTick = performance.now();
+}
+
+function tick(now) {
+  if (!paused) {
+    if (lastTick) elapsed += now - lastTick;
+    lastTick = now;
+    const pct = Math.max(0, 100 - (elapsed / SLIDE_DURATION) * 100);
+    document.getElementById("timer-bar").style.width = pct + "%";
+    if (elapsed >= SLIDE_DURATION) {
+      currentSlide = (currentSlide + 1) % groups.length;
+      renderSlide(currentSlide);
+      elapsed = 0;
+    }
+  } else {
+    lastTick = now;
+  }
+  raf = requestAnimationFrame(tick);
+}
+
+document.getElementById("btn-pause").addEventListener("click", () => {
+  paused = !paused;
+  document.getElementById("btn-pause").textContent = paused ? "▶ Resume" : "⏸ Pause";
+});
+
+buildDots();
+renderSlide(0);
+resetTimer();
+raf = requestAnimationFrame(tick);
+</script>
