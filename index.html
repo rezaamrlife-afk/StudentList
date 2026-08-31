@@ -1,25 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>American Life — Student List</title>
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0a0a0a; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f4f6f8;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1a1a1a;
+}
 
 .screen {
-  background: #0d0d0d;
+  background: #f4f6f8;
   min-height: 100vh;
-  font-family: var(--font-sans, sans-serif);
-  color: #fff;
-  padding: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 .header {
-  background: #111;
-  border-bottom: 1px solid #222;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e6ea;
   padding: 18px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .header-left {
@@ -30,27 +48,26 @@ body { background: #0a0a0a; }
 
 .logo {
   font-size: 20px;
-  font-weight: 500;
-  color: #fff;
+  font-weight: 600;
+  color: #171717;
   letter-spacing: 0.02em;
 }
 
 .logo span {
-  color: #6c8ef5;
+  color: #5275d9;
 }
 
 .group-badge {
-  background: #6c8ef5;
-  color: #fff;
+  color: #ffffff;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   padding: 5px 14px;
   border-radius: 20px;
 }
 
 .days-label {
   font-size: 13px;
-  color: #888;
+  color: #777;
   margin-left: 4px;
 }
 
@@ -59,6 +76,10 @@ body { background: #0a0a0a; }
   align-items: center;
   gap: 24px;
 }
+
+/* =========================
+   NAVIGATION
+========================= */
 
 .nav-dots {
   display: flex;
@@ -70,37 +91,61 @@ body { background: #0a0a0a; }
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #333;
+  background: #d4d8dd;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
 }
-.dot.active { background: #6c8ef5; }
+
+.dot:hover {
+  transform: scale(1.25);
+}
+
+.dot.active {
+  background: #5275d9;
+}
+
+/* =========================
+   TIMER
+========================= */
 
 .timer-bar-wrap {
   width: 120px;
-  height: 3px;
-  background: #222;
-  border-radius: 2px;
+  height: 4px;
+  background: #e5e8ec;
+  border-radius: 3px;
   overflow: hidden;
 }
+
 .timer-bar {
   height: 100%;
-  background: #6c8ef5;
-  border-radius: 2px;
+  background: #5275d9;
+  border-radius: 3px;
   transition: width 0.1s linear;
 }
 
+/* =========================
+   PAUSE BUTTON
+========================= */
+
 .btn-pause {
-  background: #222;
-  border: 1px solid #333;
-  color: #aaa;
+  background: #ffffff;
+  border: 1px solid #d9dde2;
+  color: #555;
   font-size: 12px;
-  padding: 6px 14px;
+  padding: 7px 14px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
 }
-.btn-pause:hover { background: #2a2a2a; color: #fff; }
+
+.btn-pause:hover {
+  background: #f1f3f5;
+  color: #222;
+}
+
+/* =========================
+   MAIN SLIDE
+========================= */
 
 .slide {
   flex: 1;
@@ -110,6 +155,10 @@ body { background: #0a0a0a; }
   gap: 20px;
 }
 
+/* =========================
+   SLIDE HEADER
+========================= */
+
 .slide-header {
   display: flex;
   align-items: flex-end;
@@ -118,8 +167,8 @@ body { background: #0a0a0a; }
 
 .group-title {
   font-size: 32px;
-  font-weight: 500;
-  color: #fff;
+  font-weight: 600;
+  color: #171717;
   letter-spacing: 0.01em;
 }
 
@@ -131,46 +180,68 @@ body { background: #0a0a0a; }
 }
 
 .meta-chip {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  color: #aaa;
+  background: #ffffff;
+  border: 1px solid #e0e4e8;
+  color: #555;
   font-size: 12px;
-  padding: 4px 12px;
+  padding: 5px 12px;
   border-radius: 20px;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.meta-chip .label { color: #666; }
-.meta-chip .value { color: #ccc; }
+.meta-chip .label {
+  color: #888;
+}
+
+.meta-chip .value {
+  color: #333;
+  font-weight: 600;
+}
 
 .teacher-chip {
-  background: #1a2240;
-  border: 1px solid #2a3560;
-  color: #6c8ef5;
+  background: #eef2ff;
+  border: 1px solid #d8e0ff;
+  color: #5275d9;
   font-size: 12px;
-  padding: 4px 14px;
+  padding: 5px 14px;
   border-radius: 20px;
 }
+
+/* =========================
+   LEVEL GRID
+========================= */
 
 .levels-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 12px;
   flex: 1;
+  align-content: start;
 }
 
+/* =========================
+   LEVEL CARD
+========================= */
+
 .level-card {
-  background: #141414;
-  border: 1px solid #222;
+  background: #ffffff;
+  border: 1px solid #e1e5e9;
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.035);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.level-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(0,0,0,0.07);
 }
 
 .level-card-header {
   padding: 10px 16px;
-  border-bottom: 1px solid #1e1e1e;
+  border-bottom: 1px solid #edf0f2;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -178,18 +249,23 @@ body { background: #0a0a0a; }
 
 .level-name {
   font-size: 13px;
-  font-weight: 500;
-  color: #6c8ef5;
+  font-weight: 600;
+  color: #5275d9;
   letter-spacing: 0.04em;
 }
 
 .level-count {
-  background: #1a2240;
-  color: #6c8ef5;
+  background: #eef2ff;
+  color: #5275d9;
   font-size: 11px;
-  padding: 2px 8px;
+  font-weight: 600;
+  padding: 3px 8px;
   border-radius: 10px;
 }
+
+/* =========================
+   STUDENT LIST
+========================= */
 
 .student-list {
   padding: 8px 0;
@@ -200,43 +276,68 @@ body { background: #0a0a0a; }
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: 1px solid #f0f1f3;
 }
-.student-row:last-child { border-bottom: none; }
+
+.student-row:last-child {
+  border-bottom: none;
+}
+
+/* =========================
+   AVATAR
+========================= */
 
 .avatar {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #1e2a50;
+  background: #edf1ff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
-  font-weight: 500;
-  color: #6c8ef5;
+  font-weight: 600;
+  color: #5275d9;
   flex-shrink: 0;
 }
+
+/* =========================
+   STUDENT NAME
+========================= */
 
 .student-name {
   font-size: 13px;
-  color: #ddd;
+  color: #333;
   flex: 1;
 }
 
+/* =========================
+   STATUS
+========================= */
+
 .status-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
-.status-dot.ky { background: #4caf82; }
-.status-dot.yk { background: #e87040; }
+
+.status-dot.ky {
+  background: #42a978;
+}
+
+.status-dot.yk {
+  background: #e47745;
+}
+
+/* =========================
+   FOOTER
+========================= */
 
 .footer {
   padding: 12px 32px;
-  background: #0d0d0d;
-  border-top: 1px solid #1a1a1a;
+  background: #ffffff;
+  border-top: 1px solid #e2e6ea;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -253,53 +354,185 @@ body { background: #0a0a0a; }
   align-items: center;
   gap: 6px;
   font-size: 11px;
-  color: #666;
+  color: #777;
 }
 
 .legend-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
 }
 
 .slide-counter {
   font-size: 12px;
-  color: #444;
+  color: #999;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+  .header {
+    padding: 14px 18px;
+  }
+
+  .slide {
+    padding: 20px 18px;
+  }
+
+  .footer {
+    padding: 10px 18px;
+  }
+
+  .group-title {
+    font-size: 24px;
+  }
+
+  .header-right {
+    gap: 12px;
+  }
+
+  .timer-bar-wrap {
+    width: 80px;
+  }
+
+  .days-label {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .slide-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .levels-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-left {
+    gap: 9px;
+  }
+
+  .logo {
+    font-size: 17px;
+  }
+
+  .group-badge {
+    font-size: 11px;
+  }
+
+  .nav-dots {
+    display: none;
+  }
 }
 </style>
+</head>
+
+<body>
 
 <div class="screen">
+
+  <!-- HEADER -->
+
   <div class="header">
+
     <div class="header-left">
-      <div class="logo">American<span>Life</span></div>
-      <div id="group-badge" class="group-badge">MW</div>
-      <div id="days-label" class="days-label">Monday & Wednesday</div>
-    </div>
-    <div class="header-right">
-      <div class="nav-dots" id="nav-dots"></div>
-      <div class="timer-bar-wrap">
-        <div class="timer-bar" id="timer-bar" style="width:100%"></div>
+
+      <div class="logo">
+        American<span>Life</span>
       </div>
-      <button class="btn-pause" id="btn-pause">⏸ Pause</button>
+
+      <div id="group-badge" class="group-badge">
+        MW
+      </div>
+
+      <div id="days-label" class="days-label">
+        Monday & Wednesday
+      </div>
+
     </div>
+
+    <div class="header-right">
+
+      <div class="nav-dots" id="nav-dots"></div>
+
+      <div class="timer-bar-wrap">
+        <div
+          class="timer-bar"
+          id="timer-bar"
+          style="width:100%"
+        ></div>
+      </div>
+
+      <button
+        class="btn-pause"
+        id="btn-pause"
+      >
+        ⏸ Pause
+      </button>
+
+    </div>
+
   </div>
 
-  <div class="slide" id="slide-content"></div>
+
+  <!-- SLIDE -->
+
+  <div
+    class="slide"
+    id="slide-content"
+  ></div>
+
+
+  <!-- FOOTER -->
 
   <div class="footer">
+
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#4caf82"></div> Enrolled (KY)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#e87040"></div> Not enrolled (YK)</div>
+
+      <div class="legend-item">
+        <div
+          class="legend-dot"
+          style="background:#42a978"
+        ></div>
+        Enrolled (KY)
+      </div>
+
+      <div class="legend-item">
+        <div
+          class="legend-dot"
+          style="background:#e47745"
+        ></div>
+        Not enrolled (YK)
+      </div>
+
     </div>
-    <div class="slide-counter" id="slide-counter"></div>
+
+    <div
+      class="slide-counter"
+      id="slide-counter"
+    ></div>
+
   </div>
+
 </div>
 
+
 <script>
+
+/* =========================
+   STUDENT DATA
+========================= */
+
 const data = [
-  {
-    name: "ESLEM POLAT", level: "A1.3", time: "SA", status: "KY"
-  },
+
+  { name: "ESLEM POLAT", level: "A1.3", time: "SA", status: "KY" },
   { name: "MEHMET EMİR AVCI", level: "A2.2", time: "MW-TT", status: "KY" },
   { name: "AHMET AVCI", level: "A1.3", time: "MW-TT", status: "KY" },
   { name: "TUNA ŞENTÜRK", level: "A2.3", time: "MW", status: "KY" },
@@ -359,134 +592,457 @@ const data = [
   { name: "ALİ YİĞİT SERTEL", level: "BELİRSİZ", time: "SU", status: "YK" },
   { name: "BEDİRHAN KOPAN", level: "B1.2", time: "MW", status: "KY" },
   { name: "ELİF DURU USLU", level: "B1.1", time: "SA", status: "KY" },
-  { name: "ATAKAN GÖÇEN", level: "A2.1", time: "SA", status: "YK" },
+  { name: "ATAKAN GÖÇEN", level: "A2.1", time: "SA", status: "YK" }
+
 ];
+
+
+/* =========================
+   GROUPS
+========================= */
 
 const groups = [
-  { key: "MW", label: "MW", days: "Monday & Wednesday", color: "#6c8ef5" },
-  { key: "TT", label: "TT", days: "Tuesday & Thursday", color: "#e87040" },
-  { key: "SA", label: "SA", days: "Saturday", color: "#4caf82" },
-  { key: "SU", label: "SU", days: "Sunday", color: "#b06cf5" },
+
+  {
+    key: "MW",
+    label: "MW",
+    days: "Monday & Wednesday",
+    color: "#5275d9"
+  },
+
+  {
+    key: "TT",
+    label: "TT",
+    days: "Tuesday & Thursday",
+    color: "#e47745"
+  },
+
+  {
+    key: "SA",
+    label: "SA",
+    days: "Saturday",
+    color: "#42a978"
+  },
+
+  {
+    key: "SU",
+    label: "SU",
+    days: "Sunday",
+    color: "#9b63d8"
+  }
+
 ];
 
+
+/* =========================
+   HELPERS
+========================= */
+
 function getInitials(name) {
+
   const parts = name.trim().split(" ");
-  return (parts[0][0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
+
+  return (
+    parts[0][0] +
+    (parts[1] ? parts[1][0] : "")
+  ).toUpperCase();
+
 }
+
 
 function getStudentsForGroup(groupKey) {
+
   return data.filter(s => {
+
     const t = s.time.toUpperCase();
-    if (groupKey === "MW") return t.includes("MW");
-    if (groupKey === "TT") return t.includes("TT");
-    if (groupKey === "SA") return t === "SA" || t === "SA-SU";
-    if (groupKey === "SU") return t === "SU" || t === "SA-SU";
+
+    if (groupKey === "MW") {
+      return t.includes("MW");
+    }
+
+    if (groupKey === "TT") {
+      return t.includes("TT");
+    }
+
+    if (groupKey === "SA") {
+      return t === "SA" || t === "SA-SU";
+    }
+
+    if (groupKey === "SU") {
+      return t === "SU" || t === "SA-SU";
+    }
+
     return false;
+
   });
+
 }
+
 
 function groupByLevel(students) {
+
   const map = {};
+
   students.forEach(s => {
-    if (!map[s.level]) map[s.level] = [];
+
+    if (!map[s.level]) {
+      map[s.level] = [];
+    }
+
     map[s.level].push(s);
+
   });
-  const order = ["A1.1","A1.2","A1.3","A2.1","A2.2","A2.3","A2.3 mini","B1.1","B1.2","B1.3","B2.1","BELİRSİZ"];
-  return Object.entries(map).sort(([a],[b]) => {
-    const ai = order.indexOf(a); const bi = order.indexOf(b);
-    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-  });
+
+
+  const order = [
+    "A1.1",
+    "A1.2",
+    "A1.3",
+    "A2.1",
+    "A2.2",
+    "A2.3",
+    "A2.3 mini",
+    "B1.1",
+    "B1.2",
+    "B1.3",
+    "B2.1",
+    "BELİRSİZ"
+  ];
+
+
+  return Object.entries(map).sort(
+    ([a], [b]) => {
+
+      const ai = order.indexOf(a);
+      const bi = order.indexOf(b);
+
+      return (
+        (ai === -1 ? 99 : ai) -
+        (bi === -1 ? 99 : bi)
+      );
+
+    }
+  );
+
 }
+
+
+/* =========================
+   RENDER
+========================= */
 
 function renderSlide(groupIdx) {
+
   const g = groups[groupIdx];
-  const students = getStudentsForGroup(g.key);
-  const byLevel = groupByLevel(students);
-  const badge = document.getElementById("group-badge");
-  const daysLabel = document.getElementById("days-label");
+
+  const students =
+    getStudentsForGroup(g.key);
+
+  const byLevel =
+    groupByLevel(students);
+
+
+  const badge =
+    document.getElementById("group-badge");
+
+  const daysLabel =
+    document.getElementById("days-label");
+
+
   badge.textContent = g.label;
   badge.style.background = g.color;
+
   daysLabel.textContent = g.days;
 
-  const content = document.getElementById("slide-content");
+
+  const content =
+    document.getElementById("slide-content");
+
+
   content.innerHTML = `
+
     <div class="slide-header">
-      <div class="group-title">${g.days}</div>
+
+      <div class="group-title">
+        ${g.days}
+      </div>
+
       <div class="group-meta">
-        <div class="meta-chip"><span class="label">Students</span><span class="value">${students.length}</span></div>
-        <div class="teacher-chip">Teacher: TBD</div>
-      </div>
-    </div>
-    <div class="levels-grid">${byLevel.map(([level, sts]) => `
-      <div class="level-card">
-        <div class="level-card-header">
-          <span class="level-name">${level}</span>
-          <span class="level-count">${sts.length}</span>
+
+        <div class="meta-chip">
+
+          <span class="label">
+            Students
+          </span>
+
+          <span class="value">
+            ${students.length}
+          </span>
+
         </div>
-        <div class="student-list">${sts.map(s => `
-          <div class="student-row">
-            <div class="avatar">${getInitials(s.name)}</div>
-            <div class="student-name">${s.name}</div>
-            <div class="status-dot ${s.status === 'KY' ? 'ky' : 'yk'}"></div>
-          </div>
-        `).join("")}</div>
+
+        <div class="teacher-chip">
+          Teacher: TBD
+        </div>
+
       </div>
-    `).join("")}</div>
+
+    </div>
+
+
+    <div class="levels-grid">
+
+      ${byLevel.map(([level, sts]) => `
+
+        <div class="level-card">
+
+          <div class="level-card-header">
+
+            <span class="level-name">
+              ${level}
+            </span>
+
+            <span class="level-count">
+              ${sts.length}
+            </span>
+
+          </div>
+
+
+          <div class="student-list">
+
+            ${sts.map(s => `
+
+              <div class="student-row">
+
+                <div class="avatar">
+                  ${getInitials(s.name)}
+                </div>
+
+                <div class="student-name">
+                  ${s.name}
+                </div>
+
+                <div
+                  class="status-dot ${
+                    s.status === "KY"
+                      ? "ky"
+                      : "yk"
+                  }"
+                ></div>
+
+              </div>
+
+            `).join("")}
+
+          </div>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
   `;
 
-  document.getElementById("slide-counter").textContent = `${groupIdx + 1} / ${groups.length}`;
 
-  const dots = document.querySelectorAll(".dot");
-  dots.forEach((d, i) => d.classList.toggle("active", i === groupIdx));
+  document.getElementById(
+    "slide-counter"
+  ).textContent =
+    `${groupIdx + 1} / ${groups.length}`;
+
+
+  const dots =
+    document.querySelectorAll(".dot");
+
+
+  dots.forEach((d, i) => {
+
+    d.classList.toggle(
+      "active",
+      i === groupIdx
+    );
+
+  });
+
 }
+
+
+/* =========================
+   NAVIGATION DOTS
+========================= */
 
 function buildDots() {
-  const wrap = document.getElementById("nav-dots");
+
+  const wrap =
+    document.getElementById("nav-dots");
+
+
   groups.forEach((g, i) => {
-    const d = document.createElement("div");
-    d.className = "dot" + (i === 0 ? " active" : "");
+
+    const d =
+      document.createElement("div");
+
+    d.className =
+      "dot" +
+      (i === 0 ? " active" : "");
+
+
     d.title = g.days;
-    d.addEventListener("click", () => { currentSlide = i; resetTimer(); renderSlide(i); });
+
+
+    d.addEventListener(
+      "click",
+      () => {
+
+        currentSlide = i;
+
+        resetTimer();
+
+        renderSlide(i);
+
+      }
+    );
+
+
     wrap.appendChild(d);
+
   });
+
 }
+
+
+/* =========================
+   TIMER
+========================= */
 
 const SLIDE_DURATION = 15000;
+
 let currentSlide = 0;
+
 let paused = false;
+
 let elapsed = 0;
+
 let lastTick = null;
+
 let raf = null;
 
+
 function resetTimer() {
+
   elapsed = 0;
-  lastTick = performance.now();
+
+  lastTick =
+    performance.now();
+
+  document.getElementById(
+    "timer-bar"
+  ).style.width = "100%";
+
 }
+
 
 function tick(now) {
+
   if (!paused) {
-    if (lastTick) elapsed += now - lastTick;
-    lastTick = now;
-    const pct = Math.max(0, 100 - (elapsed / SLIDE_DURATION) * 100);
-    document.getElementById("timer-bar").style.width = pct + "%";
-    if (elapsed >= SLIDE_DURATION) {
-      currentSlide = (currentSlide + 1) % groups.length;
-      renderSlide(currentSlide);
-      elapsed = 0;
+
+    if (lastTick) {
+
+      elapsed +=
+        now - lastTick;
+
     }
-  } else {
+
     lastTick = now;
+
+
+    const pct =
+      Math.max(
+        0,
+        100 -
+        (elapsed /
+          SLIDE_DURATION) *
+        100
+      );
+
+
+    document.getElementById(
+      "timer-bar"
+    ).style.width =
+      pct + "%";
+
+
+    if (
+      elapsed >=
+      SLIDE_DURATION
+    ) {
+
+      currentSlide =
+        (currentSlide + 1) %
+        groups.length;
+
+
+      renderSlide(
+        currentSlide
+      );
+
+
+      elapsed = 0;
+
+    }
+
+  } else {
+
+    lastTick = now;
+
   }
-  raf = requestAnimationFrame(tick);
+
+
+  raf =
+    requestAnimationFrame(tick);
+
 }
 
-document.getElementById("btn-pause").addEventListener("click", () => {
-  paused = !paused;
-  document.getElementById("btn-pause").textContent = paused ? "▶ Resume" : "⏸ Pause";
-});
+
+/* =========================
+   PAUSE / RESUME
+========================= */
+
+document
+  .getElementById("btn-pause")
+  .addEventListener(
+    "click",
+    () => {
+
+      paused = !paused;
+
+
+      document.getElementById(
+        "btn-pause"
+      ).textContent =
+        paused
+          ? "▶ Resume"
+          : "⏸ Pause";
+
+    }
+  );
+
+
+/* =========================
+   START
+========================= */
 
 buildDots();
+
 renderSlide(0);
+
 resetTimer();
-raf = requestAnimationFrame(tick);
+
+raf =
+  requestAnimationFrame(tick);
+
 </script>
+
+</body>
+</html>
