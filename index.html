@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>AmericanLife Student Groups</title>
 
 <style>
@@ -20,8 +19,8 @@ body {
 }
 
 .screen {
-  min-height: 100vh;
   background: #f5f6f8;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -30,7 +29,7 @@ body {
 
 .header {
   background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e4e6eb;
   padding: 18px 32px;
   display: flex;
   align-items: center;
@@ -44,20 +43,22 @@ body {
 }
 
 .logo {
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 600;
-  color: #111827;
+  color: #222;
+  letter-spacing: .02em;
 }
 
 .logo span {
-  color: #4969d8;
+  color: #6c8ef5;
 }
 
 .group-badge {
-  color: white;
+  background: #6c8ef5;
+  color: #fff;
   font-size: 13px;
   font-weight: 600;
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 20px;
 }
 
@@ -69,7 +70,7 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 
 .nav-dots {
@@ -86,76 +87,77 @@ body {
 }
 
 .dot.active {
-  background: #4969d8;
+  background: #6c8ef5;
 }
 
 .timer-bar-wrap {
   width: 120px;
-  height: 4px;
-  background: #e5e7eb;
-  border-radius: 4px;
+  height: 3px;
+  background: #e3e5e9;
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .timer-bar {
   height: 100%;
-  background: #4969d8;
-  width: 100%;
+  background: #6c8ef5;
+  transition: width .1s linear;
 }
 
 .btn-pause {
-  background: #ffffff;
-  border: 1px solid #d7dbe2;
+  background: #fff;
+  border: 1px solid #dcdfe5;
   color: #555;
   font-size: 12px;
   padding: 7px 14px;
-  border-radius: 7px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .btn-pause:hover {
-  background: #f3f4f6;
+  background: #f1f2f4;
 }
 
-/* MAIN */
+/* CONTENT */
 
 .slide {
   flex: 1;
-  padding: 30px 32px;
+  padding: 28px 32px 24px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
 
 .slide-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
 }
 
 .group-title {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 600;
-  color: #111827;
+  color: #222;
 }
 
 .group-meta {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
+  padding-bottom: 4px;
 }
 
 .meta-chip {
-  background: white;
-  border: 1px solid #e2e5ea;
-  color: #555;
+  background: #fff;
+  border: 1px solid #e0e2e6;
+  color: #777;
   font-size: 12px;
-  padding: 6px 12px;
+  padding: 5px 12px;
   border-radius: 20px;
 }
 
 .meta-chip .label {
-  color: #888;
+  color: #999;
   margin-right: 5px;
 }
 
@@ -166,32 +168,32 @@ body {
 
 .teacher-chip {
   background: #eef2ff;
-  border: 1px solid #dbe3ff;
-  color: #4969d8;
+  border: 1px solid #dce3ff;
+  color: #5875d6;
   font-size: 12px;
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 20px;
 }
 
-/* LEVELS */
+/* LEVEL GRID */
 
 .levels-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 14px;
 }
 
 .level-card {
-  background: white;
-  border: 1px solid #e2e5ea;
+  background: #fff;
+  border: 1px solid #e2e4e8;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  box-shadow: 0 2px 8px rgba(0,0,0,.03);
 }
 
 .level-card-header {
   padding: 11px 16px;
-  border-bottom: 1px solid #edf0f3;
+  border-bottom: 1px solid #eceef1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -200,14 +202,15 @@ body {
 .level-name {
   font-size: 13px;
   font-weight: 600;
-  color: #4969d8;
+  color: #5875d6;
+  letter-spacing: .04em;
 }
 
 .level-count {
   background: #eef2ff;
-  color: #4969d8;
+  color: #5875d6;
   font-size: 11px;
-  padding: 3px 8px;
+  padding: 2px 8px;
   border-radius: 10px;
 }
 
@@ -220,7 +223,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 7px 16px;
-  border-bottom: 1px solid #f1f2f4;
+  border-bottom: 1px solid #f0f1f3;
 }
 
 .student-row:last-child {
@@ -228,16 +231,16 @@ body {
 }
 
 .avatar {
-  width: 29px;
-  height: 29px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: #edf1ff;
+  background: #eef2ff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
   font-weight: 600;
-  color: #4969d8;
+  color: #5875d6;
   flex-shrink: 0;
 }
 
@@ -251,40 +254,48 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .status-dot.ky {
-  background: #35a76f;
+  background: #4caf82;
 }
 
 .status-dot.yk {
-  background: #e07843;
+  background: #e87040;
 }
 
 .status-dot.empty {
-  background: #b8bdc7;
+  background: #bfc3ca;
 }
 
-/* EMPTY */
+/* LOADING */
 
-.empty {
-  background: white;
-  border: 1px solid #e2e5ea;
-  border-radius: 12px;
-  padding: 40px;
+.loading {
+  padding: 60px;
   text-align: center;
   color: #888;
+  font-size: 14px;
+}
+
+.error {
+  background: #fff;
+  border: 1px solid #f0c8c8;
+  color: #c44;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
 }
 
 /* FOOTER */
 
 .footer {
   padding: 12px 32px;
-  background: #ffffff;
+  background: #fff;
   border-top: 1px solid #e5e7eb;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .legend {
@@ -311,54 +322,38 @@ body {
   color: #999;
 }
 
-/* LOADING */
-
-.loading {
-  text-align: center;
-  padding: 80px 20px;
-  color: #777;
-}
-
-/* ERROR */
-
-.error {
-  background: #fff3f3;
-  border: 1px solid #ffd5d5;
-  color: #b42318;
-  padding: 20px;
-  border-radius: 10px;
-  line-height: 1.6;
-}
-
 /* MOBILE */
 
 @media (max-width: 700px) {
 
   .header {
-    padding: 15px 18px;
+    padding: 15px;
+  }
+
+  .header-right {
+    gap: 10px;
+  }
+
+  .timer-bar-wrap {
+    display: none;
   }
 
   .days-label {
     display: none;
   }
 
-  .timer-bar-wrap,
-  .nav-dots {
-    display: none;
-  }
-
   .slide {
-    padding: 22px 18px;
+    padding: 20px 15px;
   }
 
   .slide-header {
-    align-items: flex-start;
     flex-direction: column;
-    gap: 12px;
+    align-items: flex-start;
+    gap: 10px;
   }
 
   .group-title {
-    font-size: 24px;
+    font-size: 25px;
   }
 
   .levels-grid {
@@ -366,7 +361,7 @@ body {
   }
 
   .footer {
-    padding: 12px 18px;
+    padding: 10px 15px;
   }
 }
 </style>
@@ -376,7 +371,7 @@ body {
 
 <div class="screen">
 
-  <header class="header">
+  <div class="header">
 
     <div class="header-left">
 
@@ -396,61 +391,105 @@ body {
 
     <div class="header-right">
 
-      <div id="nav-dots" class="nav-dots"></div>
+      <div class="nav-dots" id="nav-dots"></div>
 
       <div class="timer-bar-wrap">
-        <div id="timer-bar" class="timer-bar"></div>
+        <div
+          class="timer-bar"
+          id="timer-bar"
+          style="width:100%">
+        </div>
       </div>
 
-      <button id="btn-pause" class="btn-pause">
+      <button
+        class="btn-pause"
+        id="btn-pause">
         ⏸ Pause
       </button>
 
     </div>
 
-  </header>
+  </div>
 
 
-  <main id="slide-content" class="slide">
+  <div class="slide" id="slide-content">
 
     <div class="loading">
-      Loading students...
+      Loading students from Google Sheet...
     </div>
 
-  </main>
+  </div>
 
 
-  <footer class="footer">
+  <div class="footer">
 
     <div class="legend">
 
       <div class="legend-item">
-        <div class="legend-dot" style="background:#35a76f"></div>
+        <div
+          class="legend-dot"
+          style="background:#4caf82">
+        </div>
         Enrolled (KY)
       </div>
 
       <div class="legend-item">
-        <div class="legend-dot" style="background:#e07843"></div>
+        <div
+          class="legend-dot"
+          style="background:#e87040">
+        </div>
         Not enrolled (YK)
       </div>
 
       <div class="legend-item">
-        <div class="legend-dot" style="background:#b8bdc7"></div>
+        <div
+          class="legend-dot"
+          style="background:#bfc3ca">
+        </div>
         Status not specified
       </div>
 
     </div>
 
-    <div id="slide-counter" class="slide-counter">
-      1 / 4
+    <div
+      class="slide-counter"
+      id="slide-counter">
     </div>
 
-  </footer>
+  </div>
 
 </div>
 
 
 <script>
+
+/* =========================================================
+   GOOGLE SHEET
+========================================================= */
+
+const SPREADSHEET_ID =
+  "1EP-k7eBQ9w7BUhJ-mdng70EtTPXhDHNMib5lbSXyJBw";
+
+const SHEET_GID =
+  "610591116";
+
+
+/*
+   IMPORTANT:
+
+   We DO NOT use the Google Sheets API here.
+
+   We use Google Visualization API (gviz),
+   which works with a public Google Sheet.
+*/
+
+const SHEET_URL =
+  `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
+
+
+/* =========================================================
+   GROUPS
+========================================================= */
 
 const groups = [
 
@@ -458,34 +497,38 @@ const groups = [
     key: "MW",
     label: "MW",
     days: "Monday & Wednesday",
-    color: "#4969d8"
+    color: "#6c8ef5"
   },
 
   {
     key: "TT",
     label: "TT",
     days: "Tuesday & Thursday",
-    color: "#e07843"
+    color: "#e87040"
   },
 
   {
     key: "SA",
     label: "SA",
     days: "Saturday",
-    color: "#35a76f"
+    color: "#4caf82"
   },
 
   {
     key: "SU",
     label: "SU",
     days: "Sunday",
-    color: "#9a62d6"
+    color: "#b06cf5"
   }
 
 ];
 
 
-let data = [];
+/* =========================================================
+   GLOBAL DATA
+========================================================= */
+
+let students = [];
 
 let currentSlide = 0;
 
@@ -495,62 +538,324 @@ let elapsed = 0;
 
 let lastTick = null;
 
+let raf = null;
+
 const SLIDE_DURATION = 15000;
 
 
-/* INITIALS */
+/* =========================================================
+   GOOGLE GVIZ PARSER
+========================================================= */
+
+async function loadGoogleSheet() {
+
+  try {
+
+    const response = await fetch(SHEET_URL);
+
+    if (!response.ok) {
+
+      throw new Error(
+        `Google Sheet returned HTTP ${response.status}`
+      );
+
+    }
+
+    const text = await response.text();
+
+    /*
+      Google returns:
+
+      google.visualization.Query.setResponse({...});
+
+      We extract the JSON object.
+    */
+
+    const start = text.indexOf("(");
+
+    const end = text.lastIndexOf(")");
+
+    if (start === -1 || end === -1) {
+
+      throw new Error(
+        "Invalid Google Sheet response."
+      );
+
+    }
+
+    const jsonText =
+      text.substring(start + 1, end);
+
+    const json =
+      JSON.parse(jsonText);
+
+    if (
+      !json.table ||
+      !json.table.rows
+    ) {
+
+      throw new Error(
+        "No table data found in Google Sheet."
+      );
+
+    }
+
+    const columns =
+      json.table.cols.map(
+        col => (col.label || "").trim()
+      );
+
+
+    students =
+      json.table.rows.map(row => {
+
+        const obj = {};
+
+        columns.forEach((column, index) => {
+
+          const cell =
+            row.c &&
+            row.c[index];
+
+          obj[column] =
+            cell && cell.v != null
+              ? String(cell.v).trim()
+              : "";
+
+        });
+
+        return obj;
+
+      });
+
+
+    console.log(
+      "Google Sheet loaded:",
+      students
+    );
+
+
+    renderSlide(currentSlide);
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "slide-content"
+    ).innerHTML = `
+
+      <div class="error">
+
+        <strong>Could not load Google Sheet.</strong>
+
+        <br><br>
+
+        ${escapeHtml(error.message)}
+
+        <br><br>
+
+        <small>
+          Make sure the Google Sheet is shared as
+          <b>Anyone with the link → Viewer</b>.
+        </small>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* =========================================================
+   FIND COLUMN
+========================================================= */
+
+function findColumn(obj, possibleNames) {
+
+  const keys =
+    Object.keys(obj);
+
+  for (const wanted of possibleNames) {
+
+    const exact =
+      keys.find(
+        key =>
+          key.trim().toLowerCase() ===
+          wanted.trim().toLowerCase()
+      );
+
+    if (exact) return exact;
+
+  }
+
+  return null;
+
+}
+
+
+/* =========================================================
+   NORMALIZE STUDENT DATA
+========================================================= */
+
+function normalizeStudents() {
+
+  return students.map(s => {
+
+    const nameColumn =
+      findColumn(s, [
+        "İSİM SOYİSİM",
+        "ISIM SOYISIM",
+        "İSİM",
+        "NAME"
+      ]);
+
+    const levelColumn =
+      findColumn(s, [
+        "NORM_SEVIYE",
+        "NORM SEVIYE",
+        "YENI DONEM SEVIYE",
+        "YENİ DÖNEM SEVİYE"
+      ]);
+
+    const timeColumn =
+      findColumn(s, [
+        "ZAMAN",
+        "TIME"
+      ]);
+
+    const statusColumn =
+      findColumn(s, [
+        "Kayıt Durumu (KY/YK)",
+        "KAYIT DURUMU (KY/YK)",
+        "STATUS",
+        "KAYIT DURUMU"
+      ]);
+
+    return {
+
+      name:
+        nameColumn
+          ? s[nameColumn]
+          : "",
+
+      level:
+        levelColumn
+          ? s[levelColumn]
+          : "BELİRSİZ",
+
+      time:
+        timeColumn
+          ? s[timeColumn].toUpperCase()
+          : "",
+
+      status:
+        statusColumn
+          ? s[statusColumn].toUpperCase()
+          : ""
+
+    };
+
+  });
+
+}
+
+
+/* =========================================================
+   INITIALS
+========================================================= */
 
 function getInitials(name) {
 
-  if (!name) return "?";
+  const parts =
+    name
+      .trim()
+      .split(/\s+/);
 
-  const parts = name.trim().split(/\s+/);
+  if (!parts.length)
+    return "?";
 
-  if (parts.length === 1) {
-    return parts[0].substring(0, 2).toUpperCase();
-  }
+  if (parts.length === 1)
+    return parts[0][0].toUpperCase();
 
   return (
     parts[0][0] +
     parts[1][0]
   ).toUpperCase();
-}
-
-
-/* NORMALIZE */
-
-function normalize(value) {
-
-  return String(value || "")
-    .trim()
-    .toUpperCase();
 
 }
 
 
-/* GET GROUP STUDENTS */
+/* =========================================================
+   GROUP FILTER
+========================================================= */
 
 function getStudentsForGroup(groupKey) {
 
-  return data.filter(student => {
+  const normalized =
+    normalizeStudents();
 
-    const time = normalize(student.time);
+  return normalized.filter(student => {
+
+    const t =
+      (student.time || "")
+      .toUpperCase()
+      .trim();
+
 
     if (groupKey === "MW") {
-      return time.includes("MW");
+
+      return t.includes("MW");
+
     }
+
 
     if (groupKey === "TT") {
-      return time.includes("TT");
+
+      return t.includes("TT");
+
     }
+
 
     if (groupKey === "SA") {
-      return time === "SA" || time === "SA-SU";
+
+      return (
+        t === "SA" ||
+        t === "SA-SU"
+      );
+
     }
 
+
     if (groupKey === "SU") {
-      return time === "SU" || time === "SA-SU";
+
+      return (
+        t === "SU" ||
+        t === "SA-SU"
+      );
+
     }
+
 
     return false;
 
@@ -559,9 +864,28 @@ function getStudentsForGroup(groupKey) {
 }
 
 
-/* LEVEL SORT */
+/* =========================================================
+   LEVEL ORDER
+========================================================= */
 
-function levelRank(level) {
+function groupByLevel(studentList) {
+
+  const map = {};
+
+
+  studentList.forEach(student => {
+
+    const level =
+      student.level ||
+      "BELİRSİZ";
+
+    if (!map[level])
+      map[level] = [];
+
+    map[level].push(student);
+
+  });
+
 
   const order = [
 
@@ -572,6 +896,7 @@ function levelRank(level) {
     "A2.2",
     "A2.3",
     "A2.3 MINI",
+    "A2.3 mini",
     "B1.1",
     "B1.2",
     "B1.3",
@@ -581,91 +906,115 @@ function levelRank(level) {
 
   ];
 
-  const index = order.indexOf(normalize(level));
-
-  return index === -1 ? 999 : index;
-
-}
-
-
-/* GROUP BY LEVEL */
-
-function groupByLevel(students) {
-
-  const map = {};
-
-  students.forEach(student => {
-
-    const level =
-      student.level ||
-      "BELİRSİZ";
-
-    if (!map[level]) {
-      map[level] = [];
-    }
-
-    map[level].push(student);
-
-  });
-
 
   return Object.entries(map)
-    .sort((a, b) => {
 
-      return levelRank(a[0]) - levelRank(b[0]);
+    .sort(([a], [b]) => {
+
+      const ai =
+        order.indexOf(a);
+
+      const bi =
+        order.indexOf(b);
+
+      return (
+        (ai === -1 ? 99 : ai) -
+        (bi === -1 ? 99 : bi)
+      );
 
     });
 
 }
 
 
-/* RENDER */
+/* =========================================================
+   STATUS CLASS
+========================================================= */
 
-function renderSlide(groupIndex) {
+function getStatusClass(status) {
 
-  const group = groups[groupIndex];
+  if (status === "KY")
+    return "ky";
 
-  const students =
+  if (status === "YK")
+    return "yk";
+
+  return "empty";
+
+}
+
+
+/* =========================================================
+   RENDER SLIDE
+========================================================= */
+
+function renderSlide(groupIdx) {
+
+  if (!students.length)
+    return;
+
+
+  const group =
+    groups[groupIdx];
+
+  const groupStudents =
     getStudentsForGroup(group.key);
 
   const byLevel =
-    groupByLevel(students);
+    groupByLevel(groupStudents);
 
 
-  document.getElementById(
-    "group-badge"
-  ).textContent = group.label;
+  /* HEADER */
+
+  const badge =
+    document.getElementById(
+      "group-badge"
+    );
+
+  const daysLabel =
+    document.getElementById(
+      "days-label"
+    );
 
 
-  document.getElementById(
-    "group-badge"
-  ).style.background = group.color;
+  badge.textContent =
+    group.label;
+
+  badge.style.background =
+    group.color;
+
+  daysLabel.textContent =
+    group.days;
 
 
-  document.getElementById(
-    "days-label"
-  ).textContent = group.days;
-
+  /* CONTENT */
 
   const content =
-    document.getElementById("slide-content");
+    document.getElementById(
+      "slide-content"
+    );
 
 
-  if (students.length === 0) {
+  if (!groupStudents.length) {
 
     content.innerHTML = `
 
       <div class="slide-header">
 
         <div class="group-title">
-          ${group.days}
+          ${escapeHtml(group.days)}
         </div>
 
         <div class="group-meta">
 
           <div class="meta-chip">
-            <span class="label">Students</span>
-            <span class="value">0</span>
+            <span class="label">
+              Students
+            </span>
+
+            <span class="value">
+              0
+            </span>
           </div>
 
           <div class="teacher-chip">
@@ -676,29 +1025,36 @@ function renderSlide(groupIndex) {
 
       </div>
 
-      <div class="empty">
+      <div class="loading">
         No students in this group.
       </div>
 
     `;
 
-  } else {
+  }
+
+  else {
 
     content.innerHTML = `
 
       <div class="slide-header">
 
         <div class="group-title">
-          ${group.days}
+          ${escapeHtml(group.days)}
         </div>
 
         <div class="group-meta">
 
           <div class="meta-chip">
-            <span class="label">Students</span>
-            <span class="value">
-              ${students.length}
+
+            <span class="label">
+              Students
             </span>
+
+            <span class="value">
+              ${groupStudents.length}
+            </span>
+
           </div>
 
           <div class="teacher-chip">
@@ -712,68 +1068,62 @@ function renderSlide(groupIndex) {
 
       <div class="levels-grid">
 
-        ${byLevel.map(([level, students]) => `
+        ${byLevel.map(
+          ([level, list]) => `
 
-          <div class="level-card">
+            <div class="level-card">
 
-            <div class="level-card-header">
+              <div class="level-card-header">
 
-              <span class="level-name">
-                ${level}
-              </span>
+                <span class="level-name">
+                  ${escapeHtml(level)}
+                </span>
 
-              <span class="level-count">
-                ${students.length}
-              </span>
+                <span class="level-count">
+                  ${list.length}
+                </span>
+
+              </div>
+
+
+              <div class="student-list">
+
+                ${list.map(
+                  student => `
+
+                    <div class="student-row">
+
+                      <div class="avatar">
+                        ${escapeHtml(
+                          getInitials(
+                            student.name
+                          )
+                        )}
+                      </div>
+
+                      <div class="student-name">
+                        ${escapeHtml(
+                          student.name
+                        )}
+                      </div>
+
+                      <div
+                        class="status-dot ${getStatusClass(
+                          student.status
+                        )}">
+                      </div>
+
+                    </div>
+
+                  `
+                ).join("")}
+
+              </div>
 
             </div>
 
-
-            <div class="student-list">
-
-              ${students.map(student => {
-
-                const status =
-                  normalize(student.status);
-
-                let statusClass = "empty";
-
-                if (status === "KY") {
-                  statusClass = "ky";
-                }
-
-                if (status === "YK") {
-                  statusClass = "yk";
-                }
-
-                return `
-
-                  <div class="student-row">
-
-                    <div class="avatar">
-                      ${getInitials(student.name)}
-                    </div>
-
-                    <div class="student-name">
-                      ${student.name}
-                    </div>
-
-                    <div
-                      class="status-dot ${statusClass}"
-                      title="${status || "Status not specified"}"
-                    ></div>
-
-                  </div>
-
-                `;
-
-              }).join("")}
-
-            </div>
-
-          </div>
-
-        `).join("")}
+          `
+        ).join("")}
 
       </div>
 
@@ -781,145 +1131,91 @@ function renderSlide(groupIndex) {
 
   }
 
+
+  /* COUNTER */
 
   document.getElementById(
     "slide-counter"
   ).textContent =
-    `${groupIndex + 1} / ${groups.length}`;
+    `${groupIdx + 1} / ${groups.length}`;
 
+
+  /* DOTS */
 
   document
     .querySelectorAll(".dot")
-    .forEach((dot, index) => {
+    .forEach(
+      (dot, index) => {
 
-      dot.classList.toggle(
-        "active",
-        index === groupIndex
-      );
-
-    });
-
-}
-
-
-/* DOTS */
-
-function buildDots() {
-
-  const container =
-    document.getElementById("nav-dots");
-
-  container.innerHTML = "";
-
-  groups.forEach((group, index) => {
-
-    const dot =
-      document.createElement("div");
-
-    dot.className =
-      "dot" +
-      (index === 0 ? " active" : "");
-
-    dot.title = group.days;
-
-    dot.addEventListener(
-      "click",
-      () => {
-
-        currentSlide = index;
-
-        resetTimer();
-
-        renderSlide(currentSlide);
+        dot.classList.toggle(
+          "active",
+          index === groupIdx
+        );
 
       }
     );
 
-    container.appendChild(dot);
-
-  });
-
 }
 
 
-/* LOAD DATA */
+/* =========================================================
+   NAVIGATION DOTS
+========================================================= */
 
-async function loadStudents() {
+function buildDots() {
 
-  try {
+  const wrap =
+    document.getElementById(
+      "nav-dots"
+    );
 
-    const response =
-      await fetch(
-        "/api/students?ts=" +
-        Date.now(),
-        {
-          cache: "no-store"
+
+  groups.forEach(
+    (group, index) => {
+
+      const dot =
+        document.createElement(
+          "div"
+        );
+
+      dot.className =
+        "dot" +
+        (index === 0
+          ? " active"
+          : "");
+
+      dot.title =
+        group.days;
+
+
+      dot.addEventListener(
+        "click",
+        () => {
+
+          currentSlide =
+            index;
+
+          resetTimer();
+
+          renderSlide(
+            currentSlide
+          );
+
         }
       );
 
 
-    if (!response.ok) {
-
-      throw new Error(
-        "API returned " +
-        response.status
-      );
+      wrap.appendChild(dot);
 
     }
-
-
-    const result =
-      await response.json();
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.error ||
-        "Unable to load students"
-      );
-
-    }
-
-
-    data =
-      Array.isArray(result.students)
-        ? result.students
-        : [];
-
-
-    renderSlide(currentSlide);
-
-
-  } catch (error) {
-
-    console.error(error);
-
-
-    document.getElementById(
-      "slide-content"
-    ).innerHTML = `
-
-      <div class="error">
-
-        <strong>
-          Could not load Google Sheet.
-        </strong>
-
-        <br><br>
-
-        ${error.message}
-
-      </div>
-
-    `;
-
-  }
+  );
 
 }
 
 
-/* TIMER */
+/* =========================================================
+   TIMER
+========================================================= */
 
 function resetTimer() {
 
@@ -928,10 +1224,6 @@ function resetTimer() {
   lastTick =
     performance.now();
 
-  document.getElementById(
-    "timer-bar"
-  ).style.width = "100%";
-
 }
 
 
@@ -939,7 +1231,7 @@ function tick(now) {
 
   if (!paused) {
 
-    if (lastTick !== null) {
+    if (lastTick) {
 
       elapsed +=
         now - lastTick;
@@ -949,20 +1241,21 @@ function tick(now) {
     lastTick = now;
 
 
-    const percentage =
+    const pct =
       Math.max(
         0,
         100 -
-        (elapsed /
-          SLIDE_DURATION) *
-        100
+        (
+          elapsed /
+          SLIDE_DURATION
+        ) * 100
       );
 
 
     document.getElementById(
       "timer-bar"
     ).style.width =
-      percentage + "%";
+      pct + "%";
 
 
     if (
@@ -971,38 +1264,50 @@ function tick(now) {
     ) {
 
       currentSlide =
-        (currentSlide + 1) %
+        (
+          currentSlide + 1
+        ) %
         groups.length;
 
       renderSlide(
         currentSlide
       );
 
-      resetTimer();
+      elapsed = 0;
 
     }
 
-  } else {
+  }
+
+  else {
 
     lastTick = now;
 
   }
 
 
-  requestAnimationFrame(tick);
+  raf =
+    requestAnimationFrame(
+      tick
+    );
 
 }
 
 
-/* PAUSE */
+/* =========================================================
+   PAUSE
+========================================================= */
 
 document
-  .getElementById("btn-pause")
+  .getElementById(
+    "btn-pause"
+  )
   .addEventListener(
     "click",
     () => {
 
-      paused = !paused;
+      paused =
+        !paused;
 
       document.getElementById(
         "btn-pause"
@@ -1015,24 +1320,33 @@ document
   );
 
 
-/* START */
+/* =========================================================
+   START
+========================================================= */
 
 buildDots();
 
-loadStudents();
+loadGoogleSheet();
 
 resetTimer();
 
-requestAnimationFrame(tick);
+raf =
+  requestAnimationFrame(
+    tick
+  );
 
 
-/*
-   Refresh Google Sheet data
-   every 60 seconds.
-*/
+/* =========================================================
+   AUTO REFRESH GOOGLE SHEET
+   Every 60 seconds
+========================================================= */
 
 setInterval(
-  loadStudents,
+  () => {
+
+    loadGoogleSheet();
+
+  },
   60000
 );
 
