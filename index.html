@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AmericanLife – Groups & Teachers</title>
+<title>AmericanLife — Student Groups</title>
 
 <style>
 * {
@@ -16,24 +15,28 @@
 body {
   background: #f5f6f8;
   font-family: Arial, Helvetica, sans-serif;
-  color: #1a1a1a;
+  color: #222;
 }
 
 .screen {
-  min-height: 100vh;
   background: #f5f6f8;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 .header {
   background: #ffffff;
-  border-bottom: 1px solid #e3e5e8;
+  border-bottom: 1px solid #e4e6ea;
   padding: 18px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .header-left {
@@ -43,21 +46,21 @@ body {
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 600;
   color: #111;
+  letter-spacing: 0.01em;
 }
 
 .logo span {
-  color: #6c8ef5;
+  color: #5274e8;
 }
 
 .group-badge {
-  background: #6c8ef5;
-  color: white;
+  color: #fff;
   font-size: 13px;
   font-weight: 600;
-  padding: 5px 14px;
+  padding: 6px 14px;
   border-radius: 20px;
 }
 
@@ -75,142 +78,190 @@ body {
 .nav-dots {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d4d7dc;
+  background: #d2d5da;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .dot.active {
-  background: #6c8ef5;
+  background: #5274e8;
+  transform: scale(1.25);
+}
+
+.timer-bar-wrap {
+  width: 120px;
+  height: 3px;
+  background: #e1e3e7;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.timer-bar {
+  height: 100%;
+  background: #5274e8;
+  border-radius: 2px;
+  transition: width 0.1s linear;
 }
 
 .btn-pause {
-  background: #fff;
-  border: 1px solid #d8dadd;
+  background: #ffffff;
+  border: 1px solid #d9dce1;
   color: #555;
   font-size: 12px;
   padding: 7px 14px;
-  border-radius: 6px;
+  border-radius: 7px;
   cursor: pointer;
 }
 
-/* TABS */
-.tabs {
-  background: #fff;
-  border-bottom: 1px solid #e3e5e8;
-  padding: 0 32px;
-  display: flex;
-  gap: 28px;
+.btn-pause:hover {
+  background: #f1f2f4;
 }
 
-.tab {
-  padding: 15px 4px;
-  font-size: 13px;
-  color: #777;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-}
+/* ================= SLIDE ================= */
 
-.tab.active {
-  color: #111;
-  font-weight: 600;
-  border-bottom-color: #6c8ef5;
-}
-
-/* MAIN */
 .slide {
   flex: 1;
   padding: 28px 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .slide-header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 22px;
+  gap: 20px;
+}
+
+.slide-header-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
 }
 
 .group-title {
-  font-size: 30px;
+  font-size: 31px;
   font-weight: 600;
+  color: #171717;
 }
 
 .group-meta {
   display: flex;
   gap: 10px;
+  align-items: center;
+  padding-bottom: 4px;
 }
 
-.meta-chip,
-.teacher-chip {
-  background: #fff;
-  border: 1px solid #e0e2e5;
-  border-radius: 20px;
-  padding: 6px 13px;
+.meta-chip {
+  background: #ffffff;
+  border: 1px solid #e1e3e7;
+  color: #777;
   font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .meta-chip .label {
-  color: #888;
-  margin-right: 5px;
+  color: #999;
 }
 
 .meta-chip .value {
-  color: #222;
+  color: #333;
   font-weight: 600;
 }
 
-.teacher-chip {
-  color: #6c8ef5;
-  background: #f1f4ff;
-  border-color: #d9e0ff;
+.refresh-info {
+  font-size: 11px;
+  color: #999;
 }
 
-/* STUDENTS */
+/* ================= LEVEL GRID ================= */
+
 .levels-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 14px;
+  align-items: start;
 }
 
 .level-card {
-  background: #fff;
-  border: 1px solid #e1e3e6;
+  background: #ffffff;
+  border: 1px solid #e1e3e7;
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .level-card-header {
   padding: 11px 16px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #eceef1;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 10px;
+}
+
+.level-header-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
 }
 
 .level-name {
-  color: #526fd1;
   font-size: 13px;
   font-weight: 600;
+  color: #5274e8;
+  letter-spacing: 0.03em;
 }
 
 .level-count {
-  background: #eef2ff;
-  color: #526fd1;
-  padding: 2px 8px;
-  border-radius: 10px;
+  background: #edf1ff;
+  color: #5274e8;
   font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.teacher-name {
+  font-size: 11px;
+  color: #666;
+  background: #f4f5f7;
+  border: 1px solid #e5e7ea;
+  padding: 4px 9px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.teacher-name.assigned {
+  color: #3156c9;
+  background: #edf1ff;
+  border-color: #d8e0ff;
+}
+
+/* ================= STUDENTS ================= */
+
+.student-list {
+  padding: 8px 0;
 }
 
 .student-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 16px;
-  border-bottom: 1px solid #f1f1f1;
+  padding: 6px 16px;
+  border-bottom: 1px solid #f0f1f3;
 }
 
 .student-row:last-child {
@@ -218,111 +269,84 @@ body {
 }
 
 .avatar {
-  width: 28px;
-  height: 28px;
+  width: 29px;
+  height: 29px;
   border-radius: 50%;
   background: #edf1ff;
-  color: #526fd1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
   font-weight: 600;
+  color: #5274e8;
+  flex-shrink: 0;
 }
 
 .student-name {
-  flex: 1;
   font-size: 13px;
+  color: #333;
+  flex: 1;
 }
 
 .status-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .status-dot.ky {
-  background: #4caf82;
+  background: #42a878;
 }
 
 .status-dot.yk {
-  background: #e87040;
+  background: #e47743;
 }
 
 .status-dot.empty {
-  background: #aaa;
+  background: #bfc3c8;
 }
 
-/* TEACHERS */
-.teachers-container {
+/* ================= EMPTY ================= */
+
+.empty {
+  padding: 30px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+
+.loading {
+  padding: 40px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+.error {
+  padding: 30px;
+  text-align: center;
+  color: #c44;
   background: #fff;
-  border: 1px solid #e1e3e6;
-  border-radius: 12px;
-  overflow: hidden;
+  border: 1px solid #ead3d3;
+  border-radius: 10px;
 }
 
-.teachers-title {
-  padding: 20px 22px;
-  font-size: 20px;
-  font-weight: 600;
-  border-bottom: 1px solid #eee;
-}
+/* ================= FOOTER ================= */
 
-.teacher-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.teacher-table th {
-  text-align: left;
-  padding: 13px 18px;
-  background: #f8f9fb;
-  color: #666;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.teacher-table td {
-  padding: 12px 18px;
-  border-top: 1px solid #eee;
-  font-size: 13px;
-}
-
-.group-code {
-  font-weight: 600;
-  color: #526fd1;
-}
-
-.teacher-name {
-  color: #222;
-}
-
-.no-teacher {
-  color: #aaa;
-  font-style: italic;
-}
-
-.teacher-input {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 7px 10px;
-  width: 220px;
-  font-size: 13px;
-}
-
-/* FOOTER */
 .footer {
   padding: 12px 32px;
-  background: #fff;
-  border-top: 1px solid #e5e5e5;
+  background: #ffffff;
+  border-top: 1px solid #e4e6ea;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .legend {
   display: flex;
   gap: 18px;
+  align-items: center;
 }
 
 .legend-item {
@@ -334,8 +358,8 @@ body {
 }
 
 .legend-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
 }
 
@@ -344,15 +368,52 @@ body {
   color: #999;
 }
 
-.loading,
-.error {
-  padding: 40px;
-  text-align: center;
-  color: #777;
-}
+/* ================= RESPONSIVE ================= */
 
-.error {
-  color: #c44;
+@media (max-width: 700px) {
+
+  .header {
+    padding: 14px 18px;
+  }
+
+  .header-right {
+    gap: 10px;
+  }
+
+  .days-label {
+    display: none;
+  }
+
+  .timer-bar-wrap {
+    width: 70px;
+  }
+
+  .slide {
+    padding: 20px 16px;
+  }
+
+  .slide-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .slide-header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .group-title {
+    font-size: 25px;
+  }
+
+  .levels-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    padding: 10px 16px;
+  }
 }
 </style>
 </head>
@@ -384,7 +445,17 @@ body {
 
       <div class="nav-dots" id="nav-dots"></div>
 
-      <button class="btn-pause" id="btn-pause">
+      <div class="timer-bar-wrap">
+        <div
+          class="timer-bar"
+          id="timer-bar"
+          style="width:100%">
+        </div>
+      </div>
+
+      <button
+        class="btn-pause"
+        id="btn-pause">
         ⏸ Pause
       </button>
 
@@ -392,21 +463,16 @@ body {
 
   </div>
 
-  <!-- TABS -->
-  <div class="tabs">
 
-    <div class="tab active" id="students-tab">
-      Students
-    </div>
+  <!-- MAIN -->
+  <div class="slide" id="slide-content">
 
-    <div class="tab" id="teachers-tab">
-      Teachers
+    <div class="loading">
+      Loading Google Sheet...
     </div>
 
   </div>
 
-  <!-- MAIN -->
-  <div class="slide" id="slide-content"></div>
 
   <!-- FOOTER -->
   <div class="footer">
@@ -414,88 +480,114 @@ body {
     <div class="legend">
 
       <div class="legend-item">
-        <div class="legend-dot" style="background:#4caf82"></div>
+        <div
+          class="legend-dot"
+          style="background:#42a878">
+        </div>
         Enrolled (KY)
       </div>
 
       <div class="legend-item">
-        <div class="legend-dot" style="background:#e87040"></div>
+        <div
+          class="legend-dot"
+          style="background:#e47743">
+        </div>
         Not enrolled (YK)
       </div>
 
       <div class="legend-item">
-        <div class="legend-dot" style="background:#aaa"></div>
+        <div
+          class="legend-dot"
+          style="background:#bfc3c8">
+        </div>
         Status not specified
       </div>
 
     </div>
 
-    <div class="slide-counter" id="slide-counter"></div>
+    <div
+      class="slide-counter"
+      id="slide-counter">
+      1 / 4
+    </div>
 
   </div>
 
 </div>
 
+
 <script>
 
 /* =========================================================
    GOOGLE SHEET
-========================================================= */
+   ========================================================= */
 
-const SHEET_ID =
-"1EP-k7eBQ9w7BUhJ-mdng70EtTPXhDHNMib5lbSXyJBw";
-
-const STUDENT_GID =
-"610591116";
-
-const TEACHER_GID =
-"0";
+const SPREADSHEET_ID =
+  "1EP-k7eBQ9w7BUhJ-mdng70EtTPXhDHNMib5lbSXyJBw";
 
 /*
-  IMPORTANT:
-  If your Teachers tab has another gid,
-  replace TEACHER_GID above.
+   IMPORTANT
+
+   Your second tab is called:
+
+   Teachers
+
+   It must contain:
+
+   GROUP | LEVEL | TEACHER
+
+   Example:
+
+   MW | A1.2 | TEST
+   MW | A2.3 | John
+   TT | A1.3 | Sarah
 */
+
+const TEACHERS_SHEET_NAME = "Teachers";
 
 
 /* =========================================================
    GROUPS
-========================================================= */
+   ========================================================= */
 
 const groups = [
 
   {
     key: "MW",
     label: "MW",
-    days: "Monday & Wednesday"
+    days: "Monday & Wednesday",
+    color: "#5274e8"
   },
 
   {
     key: "TT",
     label: "TT",
-    days: "Tuesday & Thursday"
+    days: "Tuesday & Thursday",
+    color: "#e47743"
   },
 
   {
     key: "SA",
     label: "SA",
-    days: "Saturday"
+    days: "Saturday",
+    color: "#42a878"
   },
 
   {
     key: "SU",
     label: "SU",
-    days: "Sunday"
+    days: "Sunday",
+    color: "#9b68d7"
   }
 
 ];
 
 
 /* =========================================================
-   LEVELS
-========================================================= */
+   LEVEL ORDER
+   ========================================================= */
 
-const levels = [
+const LEVEL_ORDER = [
 
   "A1.1",
   "A1.2",
@@ -504,6 +596,7 @@ const levels = [
   "A2.1",
   "A2.2",
   "A2.3",
+  "A2.3 mini",
 
   "B1.1",
   "B1.2",
@@ -511,233 +604,636 @@ const levels = [
 
   "B2.1",
   "B2.2",
-  "B2.3"
+  "B2.3",
+
+  "BELİRSİZ"
 
 ];
 
 
 /* =========================================================
-   STATE
-========================================================= */
+   STUDENT DATA
+   ========================================================= */
 
-let students = [];
+let data = [
 
-let teachers = [];
+  {
+    name: "ESLEM POLAT",
+    level: "A1.3",
+    time: "SA",
+    status: "KY"
+  },
 
-let currentSlide = 0;
+  {
+    name: "MEHMET EMİR AVCI",
+    level: "A2.2",
+    time: "MW-TT",
+    status: "KY"
+  },
 
-let currentTab = "students";
+  {
+    name: "AHMET AVCI",
+    level: "A1.3",
+    time: "MW-TT",
+    status: "KY"
+  },
 
-let paused = false;
+  {
+    name: "TUNA ŞENTÜRK",
+    level: "A2.3",
+    time: "MW",
+    status: "KY"
+  },
 
-let timer = 0;
+  {
+    name: "EREN AKDENİZ",
+    level: "A1.3",
+    time: "SA-SU",
+    status: "KY"
+  },
 
-const SLIDE_DURATION = 15000;
+  {
+    name: "EMİR AKDENİZ",
+    level: "A1.3",
+    time: "SA-SU",
+    status: "KY"
+  },
+
+  {
+    name: "ELİF RÜYA BİLGİSEVEN",
+    level: "A2.2",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "TOPRAK KARABEKİR",
+    level: "A2.3",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "YAMAN KARATAŞ",
+    level: "BELİRSİZ",
+    time: "MW",
+    status: "YK"
+  },
+
+  {
+    name: "KEREM GÜNEY AKSAKAL",
+    level: "A1.3",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "DERİN BOYAR",
+    level: "A1.3",
+    time: "TT",
+    status: "KY"
+  },
+
+  {
+    name: "BARLAS ABAZ",
+    level: "A1.3",
+    time: "TT",
+    status: "KY"
+  },
+
+  {
+    name: "KAYAHAN SÖNMEZ",
+    level: "A2.3 mini",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "ADA AKIN",
+    level: "A2.2",
+    time: "SS",
+    status: "KY"
+  },
+
+  {
+    name: "ADA NİDA ÖZDEMİR",
+    level: "A2.1",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "DOĞU POYRAZ ERYILMAZ",
+    level: "A2.3 mini",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "MUHAMMED EMİR BİÇİCİ",
+    level: "A2.1",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "ALİ YAMAN ALTUN",
+    level: "A2.3",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "ECRİN ALTUN",
+    level: "A2.3",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "AZRA MELEK ÖNCEL",
+    level: "A2.1",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "MUSTAFA SAİT GÜLER",
+    level: "A2.1",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "RÜZGAR TUNÇ",
+    level: "A2.3 mini",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "AREL DENİZ EROĞLAN",
+    level: "B1.3",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "MERVE AYDEMİR",
+    level: "B1.2",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "ELİF AYDEMİR",
+    level: "B1.1",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "AYŞE MİNA TUNÇ",
+    level: "A1.3",
+    time: "TT",
+    status: "KY"
+  },
+
+  {
+    name: "ALİ MERT TUNÇ",
+    level: "A1.3",
+    time: "TT",
+    status: "KY"
+  },
+
+  {
+    name: "ZEYNEP BEREN GÜNTAY",
+    level: "A2.1",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "BADE GÜRBAŞAK",
+    level: "A1.2",
+    time: "TT",
+    status: "YK"
+  },
+
+  {
+    name: "HİRA KOÇ",
+    level: "BELİRSİZ",
+    time: "MW",
+    status: "YK"
+  },
+
+  {
+    name: "ENES ALİM ŞİMAL",
+    level: "A2.1",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "MİRAÇ YİĞİT SEZİCİ",
+    level: "A2.1",
+    time: "SA",
+    status: "YK"
+  },
+
+  {
+    name: "SELİM YAZICI",
+    level: "A2.2",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "OĞUZ KAAN PINAR",
+    level: "A1.3",
+    time: "TT",
+    status: "KY"
+  },
+
+  {
+    name: "ADİN YARDIMCI",
+    level: "A1.2",
+    time: "TT",
+    status: "KY"
+  },
+
+  {
+    name: "TAHA ALP DEMİREZER",
+    level: "A2.1",
+    time: "?",
+    status: "KY"
+  },
+
+  {
+    name: "CEMRE SAK",
+    level: "A2.1",
+    time: "MW",
+    status: "YK"
+  },
+
+  {
+    name: "EMİR SAİT ÖZEN",
+    level: "BELİRSİZ",
+    time: "TT",
+    status: "YK"
+  },
+
+  {
+    name: "EGEMEN AYDIN",
+    level: "A2.3",
+    time: "HİS",
+    status: "KY"
+  },
+
+  {
+    name: "EYLÜL ADA DEMİREZER",
+    level: "A2.2",
+    time: "SU",
+    status: "KY"
+  },
+
+  {
+    name: "ÖYKÜ DEMİREZER",
+    level: "BELİRSİZ",
+    time: "SU",
+    status: "YK"
+  },
+
+  {
+    name: "ELİF GÖKÇE ŞAHİN",
+    level: "A2.1",
+    time: "SA",
+    status: "YK"
+  },
+
+  {
+    name: "ZEYNEP KATİP",
+    level: "A2.1",
+    time: "SA",
+    status: "YK"
+  },
+
+  {
+    name: "BUĞLEM ELA ALTIN",
+    level: "A2.1",
+    time: "TT",
+    status: "YK"
+  },
+
+  {
+    name: "EYMEN TAHA ALTIN",
+    level: "BELİRSİZ",
+    time: "TT",
+    status: "YK"
+  },
+
+  {
+    name: "DEMİR KENAN CEYLAN",
+    level: "A1.2",
+    time: "SU",
+    status: "YK"
+  },
+
+  {
+    name: "İLBER EMİR AKGÜN",
+    level: "A1.2",
+    time: "SU",
+    status: "YK"
+  },
+
+  {
+    name: "DUA MEYRA AKGÜN",
+    level: "A2.2",
+    time: "SU",
+    status: "YK"
+  },
+
+  {
+    name: "MİRAÇ DEMİR",
+    level: "A2.3",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "DERİN YILMAZ",
+    level: "A1.2",
+    time: "MW",
+    status: "YK"
+  },
+
+  {
+    name: "AYŞE ELİF DOĞAN",
+    level: "A1.3",
+    time: "TT",
+    status: ""
+  },
+
+  {
+    name: "HASAN KÜÇÜK",
+    level: "B2.1",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "HATİCE ÖZKULOĞLU",
+    level: "A2.1",
+    time: "FS",
+    status: "KY"
+  },
+
+  {
+    name: "ASLI YANIK",
+    level: "B1.2",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "AHMET SİNAN CAYLI",
+    level: "A2.1",
+    time: "?",
+    status: "YK"
+  },
+
+  {
+    name: "ELİF NİL BULUT",
+    level: "A2.1",
+    time: "?",
+    status: "YK"
+  },
+
+  {
+    name: "DİLEM ÖZBEY",
+    level: "B1.1",
+    time: "TT",
+    status: "YK"
+  },
+
+  {
+    name: "ALİ YİĞİT SERTEL",
+    level: "BELİRSİZ",
+    time: "SU",
+    status: "YK"
+  },
+
+  {
+    name: "BEDİRHAN KOPAN",
+    level: "B1.2",
+    time: "MW",
+    status: "KY"
+  },
+
+  {
+    name: "ELİF DURU USLU",
+    level: "B1.1",
+    time: "SA",
+    status: "KY"
+  },
+
+  {
+    name: "ATAKAN GÖÇEN",
+    level: "A2.1",
+    time: "SA",
+    status: "YK"
+  }
+
+];
 
 
 /* =========================================================
-   GOOGLE SHEET CSV
-========================================================= */
+   TEACHERS MAP
+   ========================================================= */
 
-async function loadSheet(gid) {
-
-  const url =
-    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-
-    throw new Error(
-      "Google Sheet API returned " + response.status
-    );
-
-  }
-
-  const text = await response.text();
-
-  return parseCSV(text);
-}
+let teachers = {};
 
 
-/* =========================================================
-   CSV PARSER
-========================================================= */
+/*
+   Normalize text so:
 
-function parseCSV(text) {
+   "MW"
+   " mw "
+   "Mw"
 
-  const rows = [];
+   all become:
 
-  let row = [];
-
-  let value = "";
-
-  let insideQuotes = false;
-
-  for (let i = 0; i < text.length; i++) {
-
-    const char = text[i];
-
-    const next = text[i + 1];
-
-    if (char === '"' && insideQuotes && next === '"') {
-
-      value += '"';
-
-      i++;
-
-    }
-
-    else if (char === '"') {
-
-      insideQuotes = !insideQuotes;
-
-    }
-
-    else if (char === "," && !insideQuotes) {
-
-      row.push(value.trim());
-
-      value = "";
-
-    }
-
-    else if (
-      (char === "\n" || char === "\r") &&
-      !insideQuotes
-    ) {
-
-      if (value !== "" || row.length > 0) {
-
-        row.push(value.trim());
-
-        rows.push(row);
-
-        row = [];
-
-        value = "";
-
-      }
-
-    }
-
-    else {
-
-      value += char;
-
-    }
-
-  }
-
-  if (value !== "" || row.length > 0) {
-
-    row.push(value.trim());
-
-    rows.push(row);
-
-  }
-
-  if (!rows.length) return [];
-
-  const headers = rows[0].map(h =>
-    h.trim().toUpperCase()
-  );
-
-  return rows.slice(1).map(r => {
-
-    const obj = {};
-
-    headers.forEach((h, i) => {
-
-      obj[h] = (r[i] || "").trim();
-
-    });
-
-    return obj;
-
-  });
-
-}
-
-
-/* =========================================================
-   NORMALIZE
-========================================================= */
+   MW
+*/
 
 function normalize(value) {
 
   return String(value || "")
     .trim()
+    .replace(/\s+/g, " ")
     .toUpperCase();
 
 }
 
 
-/* =========================================================
-   LOAD STUDENTS
-========================================================= */
+/*
+   Create unique key:
 
-async function loadStudents() {
+   MW + A1.2
 
-  students = await loadSheet(STUDENT_GID);
+   becomes:
 
-  students = students
-    .map(s => {
+   MW|A1.2
+*/
 
-      return {
+function teacherKey(group, level) {
 
-        name:
-          s["İSİM SOYİSİM"] ||
-          s["ISIM SOYISIM"] ||
-          s["NAME"] ||
-          "",
-
-        level:
-          s["NORM_SEVIYE"] ||
-          s["NORM SEVIYE"] ||
-          s["YENI DONEM SEVIYE"] ||
-          "",
-
-        time:
-          s["ZAMAN"] ||
-          s["TIME"] ||
-          "",
-
-        status:
-          s["KAYIT DURUMU (KY/YK)"] ||
-          s["KAYIT DURUMU"] ||
-          s["STATUS"] ||
-          ""
-
-      };
-
-    })
-
-    .filter(s => s.name);
+  return (
+    normalize(group) +
+    "|" +
+    normalize(level)
+  );
 
 }
 
 
 /* =========================================================
-   LOAD TEACHERS
-========================================================= */
+   GOOGLE GVIZ FETCH
+   ========================================================= */
 
 async function loadTeachers() {
 
+  const url =
+    "https://docs.google.com/spreadsheets/d/" +
+    SPREADSHEET_ID +
+    "/gviz/tq?tqx=out:json&sheet=" +
+    encodeURIComponent(TEACHERS_SHEET_NAME) +
+    "&_=" +
+    Date.now();
+
   try {
 
-    teachers = await loadSheet(TEACHER_GID);
+    const response = await fetch(url, {
+      cache: "no-store"
+    });
 
-  }
+    if (!response.ok) {
+      throw new Error(
+        "Google Sheet returned HTTP " +
+        response.status
+      );
+    }
 
-  catch (error) {
+    const text = await response.text();
 
-    console.warn(
-      "Teachers sheet could not be loaded:",
+    /*
+       Google GViz returns:
+
+       google.visualization.Query.setResponse({...})
+
+       We remove the wrapper.
+    */
+
+    const jsonText = text
+      .replace(
+        /^\s*google\.visualization\.Query\.setResponse\(/,
+        ""
+      )
+      .replace(/\);\s*$/, "");
+
+    const json = JSON.parse(jsonText);
+
+    if (
+      !json.table ||
+      !json.table.cols ||
+      !json.table.rows
+    ) {
+      throw new Error("Invalid Google Sheet response.");
+    }
+
+    const columns =
+      json.table.cols.map(
+        col =>
+          normalize(col.label || col.id)
+      );
+
+    const groupIndex =
+      columns.findIndex(
+        c => c === "GROUP"
+      );
+
+    const levelIndex =
+      columns.findIndex(
+        c => c === "LEVEL"
+      );
+
+    const teacherIndex =
+      columns.findIndex(
+        c => c === "TEACHER"
+      );
+
+    if (
+      groupIndex === -1 ||
+      levelIndex === -1 ||
+      teacherIndex === -1
+    ) {
+
+      throw new Error(
+        "Teachers sheet must have GROUP, LEVEL and TEACHER columns."
+      );
+
+    }
+
+    teachers = {};
+
+    json.table.rows.forEach(row => {
+
+      const cells = row.c || [];
+
+      const group =
+        cells[groupIndex]?.v ?? "";
+
+      const level =
+        cells[levelIndex]?.v ?? "";
+
+      const teacher =
+        cells[teacherIndex]?.v ?? "";
+
+      if (
+        normalize(group) &&
+        normalize(level)
+      ) {
+
+        teachers[
+          teacherKey(group, level)
+        ] = String(teacher).trim();
+
+      }
+
+    });
+
+    console.log(
+      "Teachers loaded:",
+      teachers
+    );
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Teacher loading error:",
       error
     );
 
-    teachers = [];
+    /*
+       We do NOT destroy the student interface
+       if Teachers sheet fails.
+    */
+
+    teachers = {};
+
+    return false;
 
   }
 
@@ -745,26 +1241,91 @@ async function loadTeachers() {
 
 
 /* =========================================================
-   GET STUDENTS
-========================================================= */
+   GET TEACHER
+   ========================================================= */
+
+function getTeacher(group, level) {
+
+  const key =
+    teacherKey(group, level);
+
+  const teacher =
+    teachers[key];
+
+  if (
+    teacher &&
+    String(teacher).trim()
+  ) {
+
+    return String(teacher).trim();
+
+  }
+
+  return "TBD";
+
+}
+
+
+/* =========================================================
+   INITIALS
+   ========================================================= */
+
+function getInitials(name) {
+
+  const parts =
+    name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+  if (!parts.length) {
+    return "?";
+  }
+
+  if (parts.length === 1) {
+    return parts[0][0].toUpperCase();
+  }
+
+  return (
+    parts[0][0] +
+    parts[1][0]
+  ).toUpperCase();
+
+}
+
+
+/* =========================================================
+   STUDENTS FOR GROUP
+   ========================================================= */
 
 function getStudentsForGroup(groupKey) {
 
-  return students.filter(s => {
+  return data.filter(student => {
 
-    const t = normalize(s.time);
+    const t =
+      normalize(student.time);
 
-    if (groupKey === "MW")
+    if (groupKey === "MW") {
       return t.includes("MW");
+    }
 
-    if (groupKey === "TT")
+    if (groupKey === "TT") {
       return t.includes("TT");
+    }
 
-    if (groupKey === "SA")
-      return t === "SA" || t === "SA-SU";
+    if (groupKey === "SA") {
+      return (
+        t === "SA" ||
+        t === "SA-SU"
+      );
+    }
 
-    if (groupKey === "SU")
-      return t === "SU" || t === "SA-SU";
+    if (groupKey === "SU") {
+      return (
+        t === "SU" ||
+        t === "SA-SU"
+      );
+    }
 
     return false;
 
@@ -774,451 +1335,350 @@ function getStudentsForGroup(groupKey) {
 
 
 /* =========================================================
-   INITIALS
-========================================================= */
+   GROUP BY LEVEL
+   ========================================================= */
 
-function getInitials(name) {
+function groupByLevel(students) {
 
-  const parts =
-    name.trim().split(/\s+/);
+  const map = {};
 
-  return (
-    (parts[0]?.[0] || "") +
-    (parts[1]?.[0] || "")
-  ).toUpperCase();
+  students.forEach(student => {
 
-}
+    const level =
+      student.level ||
+      "BELİRSİZ";
 
+    if (!map[level]) {
+      map[level] = [];
+    }
 
-/* =========================================================
-   LEVEL SORT
-========================================================= */
+    map[level].push(student);
 
-function levelSort(a, b) {
+  });
 
-  const order = [
+  return Object.entries(map).sort(
+    ([a], [b]) => {
 
-    "A1.1",
-    "A1.2",
-    "A1.3",
+      const ai =
+        LEVEL_ORDER.indexOf(a);
 
-    "A2.1",
-    "A2.2",
-    "A2.3",
+      const bi =
+        LEVEL_ORDER.indexOf(b);
 
-    "B1.1",
-    "B1.2",
-    "B1.3",
+      return (
+        (ai === -1 ? 999 : ai) -
+        (bi === -1 ? 999 : bi)
+      );
 
-    "B2.1",
-    "B2.2",
-    "B2.3",
-
-    "BELİRSİZ"
-
-  ];
-
-  return (
-    order.indexOf(a) -
-    order.indexOf(b)
+    }
   );
 
 }
 
 
 /* =========================================================
-   GET TEACHER
-========================================================= */
+   RENDER SLIDE
+   ========================================================= */
 
-function getTeacher(group, level) {
-
-  const result = teachers.find(t => {
-
-    const g =
-      normalize(
-        t["GROUP"] ||
-        t["GRUP"]
-      );
-
-    const l =
-      normalize(
-        t["LEVEL"] ||
-        t["SEVİYE"] ||
-        t["SEVIYE"]
-      );
-
-    return (
-      g === normalize(group) &&
-      l === normalize(level)
-    );
-
-  });
-
-  if (!result) return "";
-
-  return (
-    result["TEACHER"] ||
-    result["TEACHER NAME"] ||
-    result["MODERATOR"] ||
-    ""
-  ).trim();
-
-}
-
-
-/* =========================================================
-   GROUP STUDENTS BY LEVEL
-========================================================= */
-
-function groupByLevel(list) {
-
-  const map = {};
-
-  list.forEach(student => {
-
-    const level =
-      student.level ||
-      "BELİRSİZ";
-
-    if (!map[level])
-      map[level] = [];
-
-    map[level].push(student);
-
-  });
-
-  return Object.entries(map)
-    .sort(([a], [b]) =>
-      levelSort(a, b)
-    );
-
-}
-
-
-/* =========================================================
-   RENDER STUDENTS
-========================================================= */
-
-function renderStudents(groupIndex) {
+function renderSlide(groupIdx) {
 
   const group =
-    groups[groupIndex];
+    groups[groupIdx];
 
-  const list =
+  const students =
     getStudentsForGroup(group.key);
 
-  const grouped =
-    groupByLevel(list);
+  const byLevel =
+    groupByLevel(students);
 
-  document.getElementById(
-    "group-badge"
-  ).textContent = group.label;
+  /* HEADER */
 
-  document.getElementById(
-    "days-label"
-  ).textContent = group.days;
+  const badge =
+    document.getElementById(
+      "group-badge"
+    );
 
-  const teacherText =
-    "Teacher: TBD";
+  badge.textContent =
+    group.label;
 
-  document.getElementById(
-    "slide-content"
-  ).innerHTML = `
+  badge.style.background =
+    group.color;
 
-    <div class="slide-header">
+  const daysLabel =
+    document.getElementById(
+      "days-label"
+    );
 
-      <div class="group-title">
-        ${group.days}
-      </div>
+  daysLabel.textContent =
+    group.days;
 
-      <div class="group-meta">
 
-        <div class="meta-chip">
-          <span class="label">
-            Students
-          </span>
+  /* CONTENT */
 
-          <span class="value">
-            ${list.length}
-          </span>
-        </div>
+  const content =
+    document.getElementById(
+      "slide-content"
+    );
 
-        <div class="teacher-chip">
-          ${teacherText}
-        </div>
 
-      </div>
+  if (!students.length) {
 
-    </div>
+    content.innerHTML = `
 
-    ${
-      grouped.length
-      ?
-      `<div class="levels-grid">
+      <div class="slide-header">
 
-        ${grouped.map(
-          ([level, list]) => `
+        <div class="slide-header-left">
 
-          <div class="level-card">
+          <div class="group-title">
+            ${group.days}
+          </div>
 
-            <div class="level-card-header">
+          <div class="group-meta">
 
-              <span class="level-name">
-                ${level}
+            <div class="meta-chip">
+
+              <span class="label">
+                Students
               </span>
 
-              <span class="level-count">
-                ${list.length}
+              <span class="value">
+                0
               </span>
 
             </div>
 
-            ${list.map(
-              student => `
+          </div>
 
-              <div class="student-row">
+        </div>
 
-                <div class="avatar">
-                  ${getInitials(student.name)}
-                </div>
+      </div>
 
-                <div class="student-name">
-                  ${student.name}
-                </div>
+      <div class="empty">
+        No students in this group.
+      </div>
 
-                <div
-                  class="status-dot ${
-                    normalize(student.status) === "KY"
-                      ? "ky"
-                      :
-                    normalize(student.status) === "YK"
-                      ? "yk"
-                      :
-                        "empty"
-                  }">
-                </div>
+    `;
 
-              </div>
+    updateCounter(groupIdx);
 
-            `).join("")}
+    return;
+
+  }
+
+
+  content.innerHTML = `
+
+    <div class="slide-header">
+
+      <div class="slide-header-left">
+
+        <div class="group-title">
+          ${group.days}
+        </div>
+
+        <div class="group-meta">
+
+          <div class="meta-chip">
+
+            <span class="label">
+              Students
+            </span>
+
+            <span class="value">
+              ${students.length}
+            </span>
 
           </div>
 
-        `
-        ).join("")}
+        </div>
 
-      </div>`
-      :
-      `<div class="loading">
-        No students in this group.
-      </div>`
-    }
-
-  `;
-
-  updateDots();
-
-  document.getElementById(
-    "slide-counter"
-  ).textContent =
-    `${groupIndex + 1} / ${groups.length}`;
-
-}
-
-
-/* =========================================================
-   RENDER TEACHERS
-========================================================= */
-
-function renderTeachers() {
-
-  document.getElementById(
-    "group-badge"
-  ).textContent = "Teachers";
-
-  document.getElementById(
-    "days-label"
-  ).textContent =
-    "Group & Level Assignments";
-
-  let rows = "";
-
-  groups.forEach(group => {
-
-    levels.forEach(level => {
-
-      const teacher =
-        getTeacher(
-          group.key,
-          level
-        );
-
-      rows += `
-
-        <tr>
-
-          <td>
-            <span class="group-code">
-              ${group.key}
-            </span>
-          </td>
-
-          <td>
-            ${level}
-          </td>
-
-          <td>
-
-            ${
-              teacher
-              ?
-              `<span class="teacher-name">
-                ${teacher}
-              </span>`
-              :
-              `<span class="no-teacher">
-                Not assigned
-              </span>`
-            }
-
-          </td>
-
-        </tr>
-
-      `;
-
-    });
-
-  });
-
-  document.getElementById(
-    "slide-content"
-  ).innerHTML = `
-
-    <div class="teachers-container">
-
-      <div class="teachers-title">
-        Teachers
       </div>
 
-      <table class="teacher-table">
+      <div class="refresh-info">
+        Teachers loaded from Google Sheet
+      </div>
 
-        <thead>
+    </div>
 
-          <tr>
-            <th>GROUP</th>
-            <th>LEVEL</th>
-            <th>TEACHER</th>
-          </tr>
 
-        </thead>
+    <div class="levels-grid">
 
-        <tbody>
+      ${byLevel.map(
+        ([level, levelStudents]) => {
 
-          ${rows}
+          const teacher =
+            getTeacher(
+              group.key,
+              level
+            );
 
-        </tbody>
+          const assigned =
+            teacher !== "TBD";
 
-      </table>
+          return `
+
+            <div class="level-card">
+
+              <div class="level-card-header">
+
+                <div class="level-header-left">
+
+                  <span class="level-name">
+                    ${escapeHtml(level)}
+                  </span>
+
+                  <span class="level-count">
+                    ${levelStudents.length}
+                  </span>
+
+                </div>
+
+                <span
+                  class="teacher-name ${
+                    assigned
+                      ? "assigned"
+                      : ""
+                  }"
+                >
+                  ${escapeHtml(teacher)}
+                </span>
+
+              </div>
+
+
+              <div class="student-list">
+
+                ${levelStudents.map(
+                  student => {
+
+                    let statusClass =
+                      "empty";
+
+                    if (
+                      student.status === "KY"
+                    ) {
+                      statusClass = "ky";
+                    }
+
+                    if (
+                      student.status === "YK"
+                    ) {
+                      statusClass = "yk";
+                    }
+
+                    return `
+
+                      <div class="student-row">
+
+                        <div class="avatar">
+                          ${escapeHtml(
+                            getInitials(
+                              student.name
+                            )
+                          )}
+                        </div>
+
+                        <div class="student-name">
+                          ${escapeHtml(
+                            student.name
+                          )}
+                        </div>
+
+                        <div
+                          class="status-dot ${statusClass}"
+                        ></div>
+
+                      </div>
+
+                    `;
+
+                  }
+                ).join("")}
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      ).join("")}
 
     </div>
 
   `;
 
+
+  updateCounter(groupIdx);
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   COUNTER
+   ========================================================= */
+
+function updateCounter(groupIdx) {
+
   document.getElementById(
     "slide-counter"
-  ).textContent = "Teachers";
+  ).textContent =
+    `${groupIdx + 1} / ${groups.length}`;
+
+
+  document
+    .querySelectorAll(".dot")
+    .forEach((dot, i) => {
+
+      dot.classList.toggle(
+        "active",
+        i === groupIdx
+      );
+
+    });
 
 }
-
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function render() {
-
-  if (currentTab === "students") {
-
-    renderStudents(currentSlide);
-
-  }
-
-  else {
-
-    renderTeachers();
-
-  }
-
-}
-
-
-/* =========================================================
-   TABS
-========================================================= */
-
-document
-  .getElementById("students-tab")
-  .addEventListener("click", () => {
-
-    currentTab = "students";
-
-    document
-      .getElementById("students-tab")
-      .classList.add("active");
-
-    document
-      .getElementById("teachers-tab")
-      .classList.remove("active");
-
-    render();
-
-  });
-
-
-document
-  .getElementById("teachers-tab")
-  .addEventListener("click", () => {
-
-    currentTab = "teachers";
-
-    document
-      .getElementById("teachers-tab")
-      .classList.add("active");
-
-    document
-      .getElementById("students-tab")
-      .classList.remove("active");
-
-    render();
-
-  });
 
 
 /* =========================================================
    DOTS
-========================================================= */
+   ========================================================= */
 
 function buildDots() {
 
-  const container =
+  const wrap =
     document.getElementById(
       "nav-dots"
     );
 
-  container.innerHTML = "";
+  wrap.innerHTML = "";
 
   groups.forEach(
     (group, index) => {
 
       const dot =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       dot.className =
-        "dot" +
-        (index === 0
-          ? " active"
-          : "");
+        "dot";
 
       dot.title =
         group.days;
@@ -1230,14 +1690,16 @@ function buildDots() {
           currentSlide =
             index;
 
-          timer = 0;
+          resetTimer();
 
-          render();
+          renderSlide(
+            currentSlide
+          );
 
         }
       );
 
-      container.appendChild(dot);
+      wrap.appendChild(dot);
 
     }
   );
@@ -1246,22 +1708,91 @@ function buildDots() {
 
 
 /* =========================================================
-   UPDATE DOTS
-========================================================= */
+   TIMER
+   ========================================================= */
 
-function updateDots() {
+const SLIDE_DURATION =
+  15000;
 
-  document
-    .querySelectorAll(".dot")
-    .forEach(
-      (dot, index) => {
+let currentSlide = 0;
 
-        dot.classList.toggle(
-          "active",
-          index === currentSlide
-        );
+let paused = false;
 
-      }
+let elapsed = 0;
+
+let lastTick = null;
+
+let raf = null;
+
+
+function resetTimer() {
+
+  elapsed = 0;
+
+  lastTick =
+    performance.now();
+
+  document.getElementById(
+    "timer-bar"
+  ).style.width = "100%";
+
+}
+
+
+function tick(now) {
+
+  if (!paused) {
+
+    if (lastTick !== null) {
+
+      elapsed +=
+        now - lastTick;
+
+    }
+
+    lastTick = now;
+
+    const pct =
+      Math.max(
+        0,
+        100 -
+        (elapsed /
+          SLIDE_DURATION) *
+        100
+      );
+
+    document.getElementById(
+      "timer-bar"
+    ).style.width =
+      pct + "%";
+
+
+    if (
+      elapsed >=
+      SLIDE_DURATION
+    ) {
+
+      currentSlide =
+        (currentSlide + 1) %
+        groups.length;
+
+      renderSlide(
+        currentSlide
+      );
+
+      elapsed = 0;
+
+    }
+
+  } else {
+
+    lastTick = now;
+
+  }
+
+  raf =
+    requestAnimationFrame(
+      tick
     );
 
 }
@@ -1269,124 +1800,89 @@ function updateDots() {
 
 /* =========================================================
    PAUSE
-========================================================= */
+   ========================================================= */
 
 document
-  .getElementById("btn-pause")
+  .getElementById(
+    "btn-pause"
+  )
   .addEventListener(
     "click",
     () => {
 
-      paused = !paused;
+      paused =
+        !paused;
 
-      document
-        .getElementById(
-          "btn-pause"
-        )
-        .textContent =
+      document.getElementById(
+        "btn-pause"
+      ).textContent =
         paused
-        ? "▶ Resume"
-        : "⏸ Pause";
+          ? "▶ Resume"
+          : "⏸ Pause";
 
     }
   );
 
 
 /* =========================================================
-   AUTO SLIDES
-========================================================= */
+   INITIALIZE
+   ========================================================= */
 
-setInterval(
-  () => {
+async function initialize() {
 
-    if (
-      paused ||
-      currentTab !== "students"
-    ) return;
+  buildDots();
 
-    timer += 1000;
+  /*
+     Load teachers FIRST.
+     Then render.
+  */
 
-    if (
-      timer >=
-      SLIDE_DURATION
-    ) {
+  await loadTeachers();
 
-      timer = 0;
+  renderSlide(0);
 
-      currentSlide =
-        (currentSlide + 1) %
-        groups.length;
+  resetTimer();
 
-      render();
-
-    }
-
-  },
-  1000
-);
-
-
-/* =========================================================
-   START
-========================================================= */
-
-async function start() {
-
-  document.getElementById(
-    "slide-content"
-  ).innerHTML = `
-    <div class="loading">
-      Loading Google Sheet...
-    </div>
-  `;
-
-  try {
-
-    await loadStudents();
-
-    await loadTeachers();
-
-    buildDots();
-
-    render();
-
-  }
-
-  catch (error) {
-
-    console.error(error);
-
-    document.getElementById(
-      "slide-content"
-    ).innerHTML = `
-
-      <div class="error">
-
-        <strong>
-          Could not load Google Sheet.
-        </strong>
-
-        <br><br>
-
-        ${error.message}
-
-        <br><br>
-
-        Make sure the Google Sheet
-        is publicly accessible.
-
-      </div>
-
-    `;
-
-  }
+  raf =
+    requestAnimationFrame(
+      tick
+    );
 
 }
 
-start();
+
+/* START */
+
+initialize();
+
+
+/* =========================================================
+   OPTIONAL AUTO REFRESH
+   =========================================================
+
+   Every 60 seconds:
+
+   Google Sheet → Teachers map → screen
+
+   So if you change a teacher in Google Sheet,
+   the page will update automatically.
+
+========================================================= */
+
+setInterval(
+  async () => {
+
+    await loadTeachers();
+
+    renderSlide(
+      currentSlide
+    );
+
+  },
+  60000
+);
 
 </script>
 
 </body>
 </html>
-```
