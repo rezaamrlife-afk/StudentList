@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AmericanLife Student Groups</title>
+<title>AmericanLife – Groups & Teachers</title>
 
 <style>
 * {
@@ -15,21 +16,20 @@
 body {
   background: #f5f6f8;
   font-family: Arial, Helvetica, sans-serif;
-  color: #222;
+  color: #1a1a1a;
 }
 
 .screen {
-  background: #f5f6f8;
   min-height: 100vh;
+  background: #f5f6f8;
   display: flex;
   flex-direction: column;
 }
 
 /* HEADER */
-
 .header {
   background: #ffffff;
-  border-bottom: 1px solid #e4e6eb;
+  border-bottom: 1px solid #e3e5e8;
   padding: 18px 32px;
   display: flex;
   align-items: center;
@@ -45,8 +45,7 @@ body {
 .logo {
   font-size: 20px;
   font-weight: 600;
-  color: #222;
-  letter-spacing: .02em;
+  color: #111;
 }
 
 .logo span {
@@ -55,7 +54,7 @@ body {
 
 .group-badge {
   background: #6c8ef5;
-  color: #fff;
+  color: white;
   font-size: 13px;
   font-weight: 600;
   padding: 5px 14px;
@@ -70,7 +69,7 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 
 .nav-dots {
@@ -82,7 +81,7 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d5d8df;
+  background: #d4d7dc;
   cursor: pointer;
 }
 
@@ -90,23 +89,9 @@ body {
   background: #6c8ef5;
 }
 
-.timer-bar-wrap {
-  width: 120px;
-  height: 3px;
-  background: #e3e5e9;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.timer-bar {
-  height: 100%;
-  background: #6c8ef5;
-  transition: width .1s linear;
-}
-
 .btn-pause {
   background: #fff;
-  border: 1px solid #dcdfe5;
+  border: 1px solid #d8dadd;
   color: #555;
   font-size: 12px;
   padding: 7px 14px;
@@ -114,50 +99,63 @@ body {
   cursor: pointer;
 }
 
-.btn-pause:hover {
-  background: #f1f2f4;
+/* TABS */
+.tabs {
+  background: #fff;
+  border-bottom: 1px solid #e3e5e8;
+  padding: 0 32px;
+  display: flex;
+  gap: 28px;
 }
 
-/* CONTENT */
+.tab {
+  padding: 15px 4px;
+  font-size: 13px;
+  color: #777;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
 
+.tab.active {
+  color: #111;
+  font-weight: 600;
+  border-bottom-color: #6c8ef5;
+}
+
+/* MAIN */
 .slide {
   flex: 1;
   padding: 28px 32px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
 .slide-header {
   display: flex;
-  align-items: flex-end;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
 }
 
 .group-title {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 600;
-  color: #222;
 }
 
 .group-meta {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  padding-bottom: 4px;
+  gap: 10px;
 }
 
-.meta-chip {
+.meta-chip,
+.teacher-chip {
   background: #fff;
-  border: 1px solid #e0e2e6;
-  color: #777;
-  font-size: 12px;
-  padding: 5px 12px;
+  border: 1px solid #e0e2e5;
   border-radius: 20px;
+  padding: 6px 13px;
+  font-size: 12px;
 }
 
 .meta-chip .label {
-  color: #999;
+  color: #888;
   margin-right: 5px;
 }
 
@@ -167,16 +165,12 @@ body {
 }
 
 .teacher-chip {
-  background: #eef2ff;
-  border: 1px solid #dce3ff;
-  color: #5875d6;
-  font-size: 12px;
-  padding: 5px 14px;
-  border-radius: 20px;
+  color: #6c8ef5;
+  background: #f1f4ff;
+  border-color: #d9e0ff;
 }
 
-/* LEVEL GRID */
-
+/* STUDENTS */
 .levels-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -185,37 +179,30 @@ body {
 
 .level-card {
   background: #fff;
-  border: 1px solid #e2e4e8;
+  border: 1px solid #e1e3e6;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,.03);
 }
 
 .level-card-header {
   padding: 11px 16px;
-  border-bottom: 1px solid #eceef1;
+  border-bottom: 1px solid #eeeeee;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 
 .level-name {
+  color: #526fd1;
   font-size: 13px;
   font-weight: 600;
-  color: #5875d6;
-  letter-spacing: .04em;
 }
 
 .level-count {
   background: #eef2ff;
-  color: #5875d6;
-  font-size: 11px;
+  color: #526fd1;
   padding: 2px 8px;
   border-radius: 10px;
-}
-
-.student-list {
-  padding: 7px 0;
+  font-size: 11px;
 }
 
 .student-row {
@@ -223,7 +210,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 7px 16px;
-  border-bottom: 1px solid #f0f1f3;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .student-row:last-child {
@@ -231,30 +218,27 @@ body {
 }
 
 .avatar {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: #eef2ff;
+  background: #edf1ff;
+  color: #526fd1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
   font-weight: 600;
-  color: #5875d6;
-  flex-shrink: 0;
 }
 
 .student-name {
-  font-size: 13px;
-  color: #333;
   flex: 1;
+  font-size: 13px;
 }
 
 .status-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  flex-shrink: 0;
 }
 
 .status-dot.ky {
@@ -266,36 +250,74 @@ body {
 }
 
 .status-dot.empty {
-  background: #bfc3ca;
+  background: #aaa;
 }
 
-/* LOADING */
-
-.loading {
-  padding: 60px;
-  text-align: center;
-  color: #888;
-  font-size: 14px;
-}
-
-.error {
+/* TEACHERS */
+.teachers-container {
   background: #fff;
-  border: 1px solid #f0c8c8;
-  color: #c44;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
+  border: 1px solid #e1e3e6;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.teachers-title {
+  padding: 20px 22px;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
+
+.teacher-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.teacher-table th {
+  text-align: left;
+  padding: 13px 18px;
+  background: #f8f9fb;
+  color: #666;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.teacher-table td {
+  padding: 12px 18px;
+  border-top: 1px solid #eee;
+  font-size: 13px;
+}
+
+.group-code {
+  font-weight: 600;
+  color: #526fd1;
+}
+
+.teacher-name {
+  color: #222;
+}
+
+.no-teacher {
+  color: #aaa;
+  font-style: italic;
+}
+
+.teacher-input {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 7px 10px;
+  width: 220px;
+  font-size: 13px;
 }
 
 /* FOOTER */
-
 .footer {
   padding: 12px 32px;
   background: #fff;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #e5e5e5;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .legend {
@@ -312,8 +334,8 @@ body {
 }
 
 .legend-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
 }
 
@@ -322,47 +344,15 @@ body {
   color: #999;
 }
 
-/* MOBILE */
+.loading,
+.error {
+  padding: 40px;
+  text-align: center;
+  color: #777;
+}
 
-@media (max-width: 700px) {
-
-  .header {
-    padding: 15px;
-  }
-
-  .header-right {
-    gap: 10px;
-  }
-
-  .timer-bar-wrap {
-    display: none;
-  }
-
-  .days-label {
-    display: none;
-  }
-
-  .slide {
-    padding: 20px 15px;
-  }
-
-  .slide-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .group-title {
-    font-size: 25px;
-  }
-
-  .levels-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .footer {
-    padding: 10px 15px;
-  }
+.error {
+  color: #c44;
 }
 </style>
 </head>
@@ -371,6 +361,7 @@ body {
 
 <div class="screen">
 
+  <!-- HEADER -->
   <div class="header">
 
     <div class="header-left">
@@ -393,17 +384,7 @@ body {
 
       <div class="nav-dots" id="nav-dots"></div>
 
-      <div class="timer-bar-wrap">
-        <div
-          class="timer-bar"
-          id="timer-bar"
-          style="width:100%">
-        </div>
-      </div>
-
-      <button
-        class="btn-pause"
-        id="btn-pause">
+      <button class="btn-pause" id="btn-pause">
         ⏸ Pause
       </button>
 
@@ -411,55 +392,49 @@ body {
 
   </div>
 
+  <!-- TABS -->
+  <div class="tabs">
 
-  <div class="slide" id="slide-content">
+    <div class="tab active" id="students-tab">
+      Students
+    </div>
 
-    <div class="loading">
-      Loading students from Google Sheet...
+    <div class="tab" id="teachers-tab">
+      Teachers
     </div>
 
   </div>
 
+  <!-- MAIN -->
+  <div class="slide" id="slide-content"></div>
 
+  <!-- FOOTER -->
   <div class="footer">
 
     <div class="legend">
 
       <div class="legend-item">
-        <div
-          class="legend-dot"
-          style="background:#4caf82">
-        </div>
+        <div class="legend-dot" style="background:#4caf82"></div>
         Enrolled (KY)
       </div>
 
       <div class="legend-item">
-        <div
-          class="legend-dot"
-          style="background:#e87040">
-        </div>
+        <div class="legend-dot" style="background:#e87040"></div>
         Not enrolled (YK)
       </div>
 
       <div class="legend-item">
-        <div
-          class="legend-dot"
-          style="background:#bfc3ca">
-        </div>
+        <div class="legend-dot" style="background:#aaa"></div>
         Status not specified
       </div>
 
     </div>
 
-    <div
-      class="slide-counter"
-      id="slide-counter">
-    </div>
+    <div class="slide-counter" id="slide-counter"></div>
 
   </div>
 
 </div>
-
 
 <script>
 
@@ -467,24 +442,20 @@ body {
    GOOGLE SHEET
 ========================================================= */
 
-const SPREADSHEET_ID =
-  "1EP-k7eBQ9w7BUhJ-mdng70EtTPXhDHNMib5lbSXyJBw";
+const SHEET_ID =
+"1EP-k7eBQ9w7BUhJ-mdng70EtTPXhDHNMib5lbSXyJBw";
 
-const SHEET_GID =
-  "610591116";
+const STUDENT_GID =
+"610591116";
 
+const TEACHER_GID =
+"0";
 
 /*
-   IMPORTANT:
-
-   We DO NOT use the Google Sheets API here.
-
-   We use Google Visualization API (gviz),
-   which works with a public Google Sheet.
+  IMPORTANT:
+  If your Teachers tab has another gid,
+  replace TEACHER_GID above.
 */
-
-const SHEET_URL =
-  `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
 
 
 /* =========================================================
@@ -496,175 +467,277 @@ const groups = [
   {
     key: "MW",
     label: "MW",
-    days: "Monday & Wednesday",
-    color: "#6c8ef5"
+    days: "Monday & Wednesday"
   },
 
   {
     key: "TT",
     label: "TT",
-    days: "Tuesday & Thursday",
-    color: "#e87040"
+    days: "Tuesday & Thursday"
   },
 
   {
     key: "SA",
     label: "SA",
-    days: "Saturday",
-    color: "#4caf82"
+    days: "Saturday"
   },
 
   {
     key: "SU",
     label: "SU",
-    days: "Sunday",
-    color: "#b06cf5"
+    days: "Sunday"
   }
 
 ];
 
 
 /* =========================================================
-   GLOBAL DATA
+   LEVELS
+========================================================= */
+
+const levels = [
+
+  "A1.1",
+  "A1.2",
+  "A1.3",
+
+  "A2.1",
+  "A2.2",
+  "A2.3",
+
+  "B1.1",
+  "B1.2",
+  "B1.3",
+
+  "B2.1",
+  "B2.2",
+  "B2.3"
+
+];
+
+
+/* =========================================================
+   STATE
 ========================================================= */
 
 let students = [];
 
+let teachers = [];
+
 let currentSlide = 0;
+
+let currentTab = "students";
 
 let paused = false;
 
-let elapsed = 0;
-
-let lastTick = null;
-
-let raf = null;
+let timer = 0;
 
 const SLIDE_DURATION = 15000;
 
 
 /* =========================================================
-   GOOGLE GVIZ PARSER
+   GOOGLE SHEET CSV
 ========================================================= */
 
-async function loadGoogleSheet() {
+async function loadSheet(gid) {
+
+  const url =
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+
+    throw new Error(
+      "Google Sheet API returned " + response.status
+    );
+
+  }
+
+  const text = await response.text();
+
+  return parseCSV(text);
+}
+
+
+/* =========================================================
+   CSV PARSER
+========================================================= */
+
+function parseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+
+  let value = "";
+
+  let insideQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+
+    const char = text[i];
+
+    const next = text[i + 1];
+
+    if (char === '"' && insideQuotes && next === '"') {
+
+      value += '"';
+
+      i++;
+
+    }
+
+    else if (char === '"') {
+
+      insideQuotes = !insideQuotes;
+
+    }
+
+    else if (char === "," && !insideQuotes) {
+
+      row.push(value.trim());
+
+      value = "";
+
+    }
+
+    else if (
+      (char === "\n" || char === "\r") &&
+      !insideQuotes
+    ) {
+
+      if (value !== "" || row.length > 0) {
+
+        row.push(value.trim());
+
+        rows.push(row);
+
+        row = [];
+
+        value = "";
+
+      }
+
+    }
+
+    else {
+
+      value += char;
+
+    }
+
+  }
+
+  if (value !== "" || row.length > 0) {
+
+    row.push(value.trim());
+
+    rows.push(row);
+
+  }
+
+  if (!rows.length) return [];
+
+  const headers = rows[0].map(h =>
+    h.trim().toUpperCase()
+  );
+
+  return rows.slice(1).map(r => {
+
+    const obj = {};
+
+    headers.forEach((h, i) => {
+
+      obj[h] = (r[i] || "").trim();
+
+    });
+
+    return obj;
+
+  });
+
+}
+
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
+
+function normalize(value) {
+
+  return String(value || "")
+    .trim()
+    .toUpperCase();
+
+}
+
+
+/* =========================================================
+   LOAD STUDENTS
+========================================================= */
+
+async function loadStudents() {
+
+  students = await loadSheet(STUDENT_GID);
+
+  students = students
+    .map(s => {
+
+      return {
+
+        name:
+          s["İSİM SOYİSİM"] ||
+          s["ISIM SOYISIM"] ||
+          s["NAME"] ||
+          "",
+
+        level:
+          s["NORM_SEVIYE"] ||
+          s["NORM SEVIYE"] ||
+          s["YENI DONEM SEVIYE"] ||
+          "",
+
+        time:
+          s["ZAMAN"] ||
+          s["TIME"] ||
+          "",
+
+        status:
+          s["KAYIT DURUMU (KY/YK)"] ||
+          s["KAYIT DURUMU"] ||
+          s["STATUS"] ||
+          ""
+
+      };
+
+    })
+
+    .filter(s => s.name);
+
+}
+
+
+/* =========================================================
+   LOAD TEACHERS
+========================================================= */
+
+async function loadTeachers() {
 
   try {
 
-    const response = await fetch(SHEET_URL);
-
-    if (!response.ok) {
-
-      throw new Error(
-        `Google Sheet returned HTTP ${response.status}`
-      );
-
-    }
-
-    const text = await response.text();
-
-    /*
-      Google returns:
-
-      google.visualization.Query.setResponse({...});
-
-      We extract the JSON object.
-    */
-
-    const start = text.indexOf("(");
-
-    const end = text.lastIndexOf(")");
-
-    if (start === -1 || end === -1) {
-
-      throw new Error(
-        "Invalid Google Sheet response."
-      );
-
-    }
-
-    const jsonText =
-      text.substring(start + 1, end);
-
-    const json =
-      JSON.parse(jsonText);
-
-    if (
-      !json.table ||
-      !json.table.rows
-    ) {
-
-      throw new Error(
-        "No table data found in Google Sheet."
-      );
-
-    }
-
-    const columns =
-      json.table.cols.map(
-        col => (col.label || "").trim()
-      );
-
-
-    students =
-      json.table.rows.map(row => {
-
-        const obj = {};
-
-        columns.forEach((column, index) => {
-
-          const cell =
-            row.c &&
-            row.c[index];
-
-          obj[column] =
-            cell && cell.v != null
-              ? String(cell.v).trim()
-              : "";
-
-        });
-
-        return obj;
-
-      });
-
-
-    console.log(
-      "Google Sheet loaded:",
-      students
-    );
-
-
-    renderSlide(currentSlide);
+    teachers = await loadSheet(TEACHER_GID);
 
   }
 
   catch (error) {
 
-    console.error(error);
+    console.warn(
+      "Teachers sheet could not be loaded:",
+      error
+    );
 
-    document.getElementById(
-      "slide-content"
-    ).innerHTML = `
-
-      <div class="error">
-
-        <strong>Could not load Google Sheet.</strong>
-
-        <br><br>
-
-        ${escapeHtml(error.message)}
-
-        <br><br>
-
-        <small>
-          Make sure the Google Sheet is shared as
-          <b>Anyone with the link → Viewer</b>.
-        </small>
-
-      </div>
-
-    `;
+    teachers = [];
 
   }
 
@@ -672,109 +745,28 @@ async function loadGoogleSheet() {
 
 
 /* =========================================================
-   ESCAPE HTML
+   GET STUDENTS
 ========================================================= */
 
-function escapeHtml(value) {
+function getStudentsForGroup(groupKey) {
 
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return students.filter(s => {
 
-}
+    const t = normalize(s.time);
 
+    if (groupKey === "MW")
+      return t.includes("MW");
 
-/* =========================================================
-   FIND COLUMN
-========================================================= */
+    if (groupKey === "TT")
+      return t.includes("TT");
 
-function findColumn(obj, possibleNames) {
+    if (groupKey === "SA")
+      return t === "SA" || t === "SA-SU";
 
-  const keys =
-    Object.keys(obj);
+    if (groupKey === "SU")
+      return t === "SU" || t === "SA-SU";
 
-  for (const wanted of possibleNames) {
-
-    const exact =
-      keys.find(
-        key =>
-          key.trim().toLowerCase() ===
-          wanted.trim().toLowerCase()
-      );
-
-    if (exact) return exact;
-
-  }
-
-  return null;
-
-}
-
-
-/* =========================================================
-   NORMALIZE STUDENT DATA
-========================================================= */
-
-function normalizeStudents() {
-
-  return students.map(s => {
-
-    const nameColumn =
-      findColumn(s, [
-        "İSİM SOYİSİM",
-        "ISIM SOYISIM",
-        "İSİM",
-        "NAME"
-      ]);
-
-    const levelColumn =
-      findColumn(s, [
-        "NORM_SEVIYE",
-        "NORM SEVIYE",
-        "YENI DONEM SEVIYE",
-        "YENİ DÖNEM SEVİYE"
-      ]);
-
-    const timeColumn =
-      findColumn(s, [
-        "ZAMAN",
-        "TIME"
-      ]);
-
-    const statusColumn =
-      findColumn(s, [
-        "Kayıt Durumu (KY/YK)",
-        "KAYIT DURUMU (KY/YK)",
-        "STATUS",
-        "KAYIT DURUMU"
-      ]);
-
-    return {
-
-      name:
-        nameColumn
-          ? s[nameColumn]
-          : "",
-
-      level:
-        levelColumn
-          ? s[levelColumn]
-          : "BELİRSİZ",
-
-      time:
-        timeColumn
-          ? s[timeColumn].toUpperCase()
-          : "",
-
-      status:
-        statusColumn
-          ? s[statusColumn].toUpperCase()
-          : ""
-
-    };
+    return false;
 
   });
 
@@ -788,92 +780,101 @@ function normalizeStudents() {
 function getInitials(name) {
 
   const parts =
-    name
-      .trim()
-      .split(/\s+/);
-
-  if (!parts.length)
-    return "?";
-
-  if (parts.length === 1)
-    return parts[0][0].toUpperCase();
+    name.trim().split(/\s+/);
 
   return (
-    parts[0][0] +
-    parts[1][0]
+    (parts[0]?.[0] || "") +
+    (parts[1]?.[0] || "")
   ).toUpperCase();
 
 }
 
 
 /* =========================================================
-   GROUP FILTER
+   LEVEL SORT
 ========================================================= */
 
-function getStudentsForGroup(groupKey) {
+function levelSort(a, b) {
 
-  const normalized =
-    normalizeStudents();
+  const order = [
 
-  return normalized.filter(student => {
+    "A1.1",
+    "A1.2",
+    "A1.3",
 
-    const t =
-      (student.time || "")
-      .toUpperCase()
-      .trim();
+    "A2.1",
+    "A2.2",
+    "A2.3",
 
+    "B1.1",
+    "B1.2",
+    "B1.3",
 
-    if (groupKey === "MW") {
+    "B2.1",
+    "B2.2",
+    "B2.3",
 
-      return t.includes("MW");
+    "BELİRSİZ"
 
-    }
+  ];
 
-
-    if (groupKey === "TT") {
-
-      return t.includes("TT");
-
-    }
-
-
-    if (groupKey === "SA") {
-
-      return (
-        t === "SA" ||
-        t === "SA-SU"
-      );
-
-    }
-
-
-    if (groupKey === "SU") {
-
-      return (
-        t === "SU" ||
-        t === "SA-SU"
-      );
-
-    }
-
-
-    return false;
-
-  });
+  return (
+    order.indexOf(a) -
+    order.indexOf(b)
+  );
 
 }
 
 
 /* =========================================================
-   LEVEL ORDER
+   GET TEACHER
 ========================================================= */
 
-function groupByLevel(studentList) {
+function getTeacher(group, level) {
+
+  const result = teachers.find(t => {
+
+    const g =
+      normalize(
+        t["GROUP"] ||
+        t["GRUP"]
+      );
+
+    const l =
+      normalize(
+        t["LEVEL"] ||
+        t["SEVİYE"] ||
+        t["SEVIYE"]
+      );
+
+    return (
+      g === normalize(group) &&
+      l === normalize(level)
+    );
+
+  });
+
+  if (!result) return "";
+
+  return (
+    result["TEACHER"] ||
+    result["TEACHER NAME"] ||
+    result["MODERATOR"] ||
+    ""
+  ).trim();
+
+}
+
+
+/* =========================================================
+   GROUP STUDENTS BY LEVEL
+========================================================= */
+
+function groupByLevel(list) {
 
   const map = {};
 
-
-  studentList.forEach(student => {
+  list.forEach(student => {
 
     const level =
       student.level ||
@@ -886,297 +887,332 @@ function groupByLevel(studentList) {
 
   });
 
-
-  const order = [
-
-    "A1.1",
-    "A1.2",
-    "A1.3",
-    "A2.1",
-    "A2.2",
-    "A2.3",
-    "A2.3 MINI",
-    "A2.3 mini",
-    "B1.1",
-    "B1.2",
-    "B1.3",
-    "B2.1",
-    "B2.2",
-    "BELİRSİZ"
-
-  ];
-
-
   return Object.entries(map)
+    .sort(([a], [b]) =>
+      levelSort(a, b)
+    );
 
-    .sort(([a], [b]) => {
+}
 
-      const ai =
-        order.indexOf(a);
 
-      const bi =
-        order.indexOf(b);
+/* =========================================================
+   RENDER STUDENTS
+========================================================= */
 
-      return (
-        (ai === -1 ? 99 : ai) -
-        (bi === -1 ? 99 : bi)
-      );
+function renderStudents(groupIndex) {
+
+  const group =
+    groups[groupIndex];
+
+  const list =
+    getStudentsForGroup(group.key);
+
+  const grouped =
+    groupByLevel(list);
+
+  document.getElementById(
+    "group-badge"
+  ).textContent = group.label;
+
+  document.getElementById(
+    "days-label"
+  ).textContent = group.days;
+
+  const teacherText =
+    "Teacher: TBD";
+
+  document.getElementById(
+    "slide-content"
+  ).innerHTML = `
+
+    <div class="slide-header">
+
+      <div class="group-title">
+        ${group.days}
+      </div>
+
+      <div class="group-meta">
+
+        <div class="meta-chip">
+          <span class="label">
+            Students
+          </span>
+
+          <span class="value">
+            ${list.length}
+          </span>
+        </div>
+
+        <div class="teacher-chip">
+          ${teacherText}
+        </div>
+
+      </div>
+
+    </div>
+
+    ${
+      grouped.length
+      ?
+      `<div class="levels-grid">
+
+        ${grouped.map(
+          ([level, list]) => `
+
+          <div class="level-card">
+
+            <div class="level-card-header">
+
+              <span class="level-name">
+                ${level}
+              </span>
+
+              <span class="level-count">
+                ${list.length}
+              </span>
+
+            </div>
+
+            ${list.map(
+              student => `
+
+              <div class="student-row">
+
+                <div class="avatar">
+                  ${getInitials(student.name)}
+                </div>
+
+                <div class="student-name">
+                  ${student.name}
+                </div>
+
+                <div
+                  class="status-dot ${
+                    normalize(student.status) === "KY"
+                      ? "ky"
+                      :
+                    normalize(student.status) === "YK"
+                      ? "yk"
+                      :
+                        "empty"
+                  }">
+                </div>
+
+              </div>
+
+            `).join("")}
+
+          </div>
+
+        `
+        ).join("")}
+
+      </div>`
+      :
+      `<div class="loading">
+        No students in this group.
+      </div>`
+    }
+
+  `;
+
+  updateDots();
+
+  document.getElementById(
+    "slide-counter"
+  ).textContent =
+    `${groupIndex + 1} / ${groups.length}`;
+
+}
+
+
+/* =========================================================
+   RENDER TEACHERS
+========================================================= */
+
+function renderTeachers() {
+
+  document.getElementById(
+    "group-badge"
+  ).textContent = "Teachers";
+
+  document.getElementById(
+    "days-label"
+  ).textContent =
+    "Group & Level Assignments";
+
+  let rows = "";
+
+  groups.forEach(group => {
+
+    levels.forEach(level => {
+
+      const teacher =
+        getTeacher(
+          group.key,
+          level
+        );
+
+      rows += `
+
+        <tr>
+
+          <td>
+            <span class="group-code">
+              ${group.key}
+            </span>
+          </td>
+
+          <td>
+            ${level}
+          </td>
+
+          <td>
+
+            ${
+              teacher
+              ?
+              `<span class="teacher-name">
+                ${teacher}
+              </span>`
+              :
+              `<span class="no-teacher">
+                Not assigned
+              </span>`
+            }
+
+          </td>
+
+        </tr>
+
+      `;
 
     });
 
+  });
+
+  document.getElementById(
+    "slide-content"
+  ).innerHTML = `
+
+    <div class="teachers-container">
+
+      <div class="teachers-title">
+        Teachers
+      </div>
+
+      <table class="teacher-table">
+
+        <thead>
+
+          <tr>
+            <th>GROUP</th>
+            <th>LEVEL</th>
+            <th>TEACHER</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${rows}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+
+  document.getElementById(
+    "slide-counter"
+  ).textContent = "Teachers";
+
 }
 
 
 /* =========================================================
-   STATUS CLASS
+   RENDER
 ========================================================= */
 
-function getStatusClass(status) {
+function render() {
 
-  if (status === "KY")
-    return "ky";
+  if (currentTab === "students") {
 
-  if (status === "YK")
-    return "yk";
-
-  return "empty";
-
-}
-
-
-/* =========================================================
-   RENDER SLIDE
-========================================================= */
-
-function renderSlide(groupIdx) {
-
-  if (!students.length)
-    return;
-
-
-  const group =
-    groups[groupIdx];
-
-  const groupStudents =
-    getStudentsForGroup(group.key);
-
-  const byLevel =
-    groupByLevel(groupStudents);
-
-
-  /* HEADER */
-
-  const badge =
-    document.getElementById(
-      "group-badge"
-    );
-
-  const daysLabel =
-    document.getElementById(
-      "days-label"
-    );
-
-
-  badge.textContent =
-    group.label;
-
-  badge.style.background =
-    group.color;
-
-  daysLabel.textContent =
-    group.days;
-
-
-  /* CONTENT */
-
-  const content =
-    document.getElementById(
-      "slide-content"
-    );
-
-
-  if (!groupStudents.length) {
-
-    content.innerHTML = `
-
-      <div class="slide-header">
-
-        <div class="group-title">
-          ${escapeHtml(group.days)}
-        </div>
-
-        <div class="group-meta">
-
-          <div class="meta-chip">
-            <span class="label">
-              Students
-            </span>
-
-            <span class="value">
-              0
-            </span>
-          </div>
-
-          <div class="teacher-chip">
-            Teacher: TBD
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="loading">
-        No students in this group.
-      </div>
-
-    `;
+    renderStudents(currentSlide);
 
   }
 
   else {
 
-    content.innerHTML = `
-
-      <div class="slide-header">
-
-        <div class="group-title">
-          ${escapeHtml(group.days)}
-        </div>
-
-        <div class="group-meta">
-
-          <div class="meta-chip">
-
-            <span class="label">
-              Students
-            </span>
-
-            <span class="value">
-              ${groupStudents.length}
-            </span>
-
-          </div>
-
-          <div class="teacher-chip">
-            Teacher: TBD
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="levels-grid">
-
-        ${byLevel.map(
-          ([level, list]) => `
-
-            <div class="level-card">
-
-              <div class="level-card-header">
-
-                <span class="level-name">
-                  ${escapeHtml(level)}
-                </span>
-
-                <span class="level-count">
-                  ${list.length}
-                </span>
-
-              </div>
-
-
-              <div class="student-list">
-
-                ${list.map(
-                  student => `
-
-                    <div class="student-row">
-
-                      <div class="avatar">
-                        ${escapeHtml(
-                          getInitials(
-                            student.name
-                          )
-                        )}
-                      </div>
-
-                      <div class="student-name">
-                        ${escapeHtml(
-                          student.name
-                        )}
-                      </div>
-
-                      <div
-                        class="status-dot ${getStatusClass(
-                          student.status
-                        )}">
-                      </div>
-
-                    </div>
-
-                  `
-                ).join("")}
-
-              </div>
-
-            </div>
-
-          `
-        ).join("")}
-
-      </div>
-
-    `;
+    renderTeachers();
 
   }
-
-
-  /* COUNTER */
-
-  document.getElementById(
-    "slide-counter"
-  ).textContent =
-    `${groupIdx + 1} / ${groups.length}`;
-
-
-  /* DOTS */
-
-  document
-    .querySelectorAll(".dot")
-    .forEach(
-      (dot, index) => {
-
-        dot.classList.toggle(
-          "active",
-          index === groupIdx
-        );
-
-      }
-    );
 
 }
 
 
 /* =========================================================
-   NAVIGATION DOTS
+   TABS
+========================================================= */
+
+document
+  .getElementById("students-tab")
+  .addEventListener("click", () => {
+
+    currentTab = "students";
+
+    document
+      .getElementById("students-tab")
+      .classList.add("active");
+
+    document
+      .getElementById("teachers-tab")
+      .classList.remove("active");
+
+    render();
+
+  });
+
+
+document
+  .getElementById("teachers-tab")
+  .addEventListener("click", () => {
+
+    currentTab = "teachers";
+
+    document
+      .getElementById("teachers-tab")
+      .classList.add("active");
+
+    document
+      .getElementById("students-tab")
+      .classList.remove("active");
+
+    render();
+
+  });
+
+
+/* =========================================================
+   DOTS
 ========================================================= */
 
 function buildDots() {
 
-  const wrap =
+  const container =
     document.getElementById(
       "nav-dots"
     );
 
+  container.innerHTML = "";
 
   groups.forEach(
     (group, index) => {
 
       const dot =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       dot.className =
         "dot" +
@@ -1187,7 +1223,6 @@ function buildDots() {
       dot.title =
         group.days;
 
-
       dot.addEventListener(
         "click",
         () => {
@@ -1195,17 +1230,14 @@ function buildDots() {
           currentSlide =
             index;
 
-          resetTimer();
+          timer = 0;
 
-          renderSlide(
-            currentSlide
-          );
+          render();
 
         }
       );
 
-
-      wrap.appendChild(dot);
+      container.appendChild(dot);
 
     }
   );
@@ -1214,81 +1246,22 @@ function buildDots() {
 
 
 /* =========================================================
-   TIMER
+   UPDATE DOTS
 ========================================================= */
 
-function resetTimer() {
+function updateDots() {
 
-  elapsed = 0;
+  document
+    .querySelectorAll(".dot")
+    .forEach(
+      (dot, index) => {
 
-  lastTick =
-    performance.now();
+        dot.classList.toggle(
+          "active",
+          index === currentSlide
+        );
 
-}
-
-
-function tick(now) {
-
-  if (!paused) {
-
-    if (lastTick) {
-
-      elapsed +=
-        now - lastTick;
-
-    }
-
-    lastTick = now;
-
-
-    const pct =
-      Math.max(
-        0,
-        100 -
-        (
-          elapsed /
-          SLIDE_DURATION
-        ) * 100
-      );
-
-
-    document.getElementById(
-      "timer-bar"
-    ).style.width =
-      pct + "%";
-
-
-    if (
-      elapsed >=
-      SLIDE_DURATION
-    ) {
-
-      currentSlide =
-        (
-          currentSlide + 1
-        ) %
-        groups.length;
-
-      renderSlide(
-        currentSlide
-      );
-
-      elapsed = 0;
-
-    }
-
-  }
-
-  else {
-
-    lastTick = now;
-
-  }
-
-
-  raf =
-    requestAnimationFrame(
-      tick
+      }
     );
 
 }
@@ -1299,58 +1272,121 @@ function tick(now) {
 ========================================================= */
 
 document
-  .getElementById(
-    "btn-pause"
-  )
+  .getElementById("btn-pause")
   .addEventListener(
     "click",
     () => {
 
-      paused =
-        !paused;
+      paused = !paused;
 
-      document.getElementById(
-        "btn-pause"
-      ).textContent =
+      document
+        .getElementById(
+          "btn-pause"
+        )
+        .textContent =
         paused
-          ? "▶ Resume"
-          : "⏸ Pause";
+        ? "▶ Resume"
+        : "⏸ Pause";
 
     }
   );
 
 
 /* =========================================================
-   START
-========================================================= */
-
-buildDots();
-
-loadGoogleSheet();
-
-resetTimer();
-
-raf =
-  requestAnimationFrame(
-    tick
-  );
-
-
-/* =========================================================
-   AUTO REFRESH GOOGLE SHEET
-   Every 60 seconds
+   AUTO SLIDES
 ========================================================= */
 
 setInterval(
   () => {
 
-    loadGoogleSheet();
+    if (
+      paused ||
+      currentTab !== "students"
+    ) return;
+
+    timer += 1000;
+
+    if (
+      timer >=
+      SLIDE_DURATION
+    ) {
+
+      timer = 0;
+
+      currentSlide =
+        (currentSlide + 1) %
+        groups.length;
+
+      render();
+
+    }
 
   },
-  60000
+  1000
 );
+
+
+/* =========================================================
+   START
+========================================================= */
+
+async function start() {
+
+  document.getElementById(
+    "slide-content"
+  ).innerHTML = `
+    <div class="loading">
+      Loading Google Sheet...
+    </div>
+  `;
+
+  try {
+
+    await loadStudents();
+
+    await loadTeachers();
+
+    buildDots();
+
+    render();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "slide-content"
+    ).innerHTML = `
+
+      <div class="error">
+
+        <strong>
+          Could not load Google Sheet.
+        </strong>
+
+        <br><br>
+
+        ${error.message}
+
+        <br><br>
+
+        Make sure the Google Sheet
+        is publicly accessible.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+start();
 
 </script>
 
 </body>
 </html>
+```
