@@ -137,6 +137,13 @@ body {
   color: #111827;
 }
 
+.group-time {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
 .group-meta {
   display: flex;
   align-items: center;
@@ -445,6 +452,7 @@ const groups = [
     key: "MW",
     label: "MW",
     days: "Monday & Wednesday",
+    time: "17:30 - 19:00",
     color: "#2563eb"
   },
 
@@ -452,6 +460,7 @@ const groups = [
     key: "TT",
     label: "TT",
     days: "Tuesday & Thursday",
+    time: "17:30 - 19:00",
     color: "#ea580c"
   },
 
@@ -459,6 +468,7 @@ const groups = [
     key: "SA",
     label: "SA",
     days: "Saturday",
+    time: "10:00 - 13:10",
     color: "#16a34a"
   },
 
@@ -466,6 +476,7 @@ const groups = [
     key: "SU",
     label: "SU",
     days: "Sunday",
+    time: "10:00 - 13:10",
     color: "#9333ea"
   }
 
@@ -1107,7 +1118,7 @@ function renderSlide(index) {
   document.getElementById(
     "days-label"
   ).textContent =
-    group.days;
+    group.days + " · " + group.time;
 
 
   /* CONTENT */
@@ -1116,8 +1127,13 @@ function renderSlide(index) {
 
     <div class="slide-header">
 
-      <div class="group-title">
-        ${escapeHTML(group.days)}
+      <div>
+        <div class="group-title">
+          ${escapeHTML(group.days)}
+        </div>
+        <div class="group-time">
+          ${escapeHTML(group.time)}
+        </div>
       </div>
 
       <div class="group-meta">
