@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -196,6 +195,16 @@ body {
 }
 
 .teacher strong {
+  color: #111827;
+}
+
+.classroom {
+  margin-top: 3px;
+  font-size: 12px;
+  color: #555;
+}
+
+.classroom strong {
   color: #111827;
 }
 
@@ -755,6 +764,15 @@ async function loadData() {
           "MODARES"
         ]);
 
+      const classroomIndex =
+        findColumn(teacherHeaders, [
+          "CLASSROOM",
+          "SINIF",
+          "ROOM",
+          "DERSLİK",
+          "DERSLIK"
+        ]);
+
 
       if (
         groupIndex !== -1 &&
@@ -776,7 +794,14 @@ async function loadData() {
               teacher:
                 String(
                   row[teacherNameIndex] || ""
-                ).trim()
+                ).trim(),
+
+              classroom:
+                classroomIndex === -1
+                  ? ""
+                  : String(
+                      row[classroomIndex] || ""
+                    ).trim()
 
             }))
             .filter(x =>
@@ -851,7 +876,7 @@ function escapeHTML(value) {
    GET TEACHER
    ========================================================= */
 
-function getTeacher(groupKey, level) {
+function getTeacherInfo(groupKey, level) {
 
   const g =
     normalize(groupKey);
@@ -867,11 +892,10 @@ function getTeacher(groupKey, level) {
     );
 
 
-  if (found && found.teacher) {
-    return found.teacher;
-  }
-
-  return "—";
+  return {
+    teacher: found && found.teacher ? found.teacher : "—",
+    classroom: found && found.classroom ? found.classroom : "—"
+  };
 
 }
 
@@ -1135,8 +1159,8 @@ function renderSlide(index) {
     byLevel.forEach(
       ([level, studentsInLevel]) => {
 
-        const teacher =
-          getTeacher(
+        const info =
+          getTeacherInfo(
             group.key,
             level
           );
@@ -1155,7 +1179,14 @@ function renderSlide(index) {
               <div class="teacher">
                 Teacher:
                 <strong>
-                  ${escapeHTML(teacher)}
+                  ${escapeHTML(info.teacher)}
+                </strong>
+              </div>
+
+              <div class="classroom">
+                Classroom:
+                <strong>
+                  ${escapeHTML(info.classroom)}
                 </strong>
               </div>
 
@@ -1438,4 +1469,3 @@ requestAnimationFrame(tick);
 
 </body>
 </html>
-```
