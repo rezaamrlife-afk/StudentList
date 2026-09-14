@@ -117,6 +117,25 @@ body {
   background: #f3f4f6;
 }
 
+/* MERGE TAB BUTTON */
+.btn-merge {
+  border: 1px solid #7c3aed;
+  background: #fff;
+  color: #7c3aed;
+  padding: 7px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-merge:hover,
+.btn-merge.active {
+  background: #7c3aed;
+  color: #fff;
+}
+
 /* MAIN */
 .slide {
   flex: 1;
@@ -183,16 +202,41 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,.03);
 }
 
+.level-card.merged {
+  border: 2px solid #7c3aed;
+}
+
 .level-card-header {
   padding: 12px 16px;
   background: #fafafa;
   border-bottom: 1px solid #eeeeee;
 }
 
+.level-card.merged .level-card-header {
+  background: #f5f3ff;
+  border-bottom: 1px solid #ede9fe;
+}
+
 .level-name {
   font-size: 14px;
   font-weight: 700;
   color: #2563eb;
+}
+
+.level-card.merged .level-name {
+  color: #7c3aed;
+}
+
+.merge-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  background: #7c3aed;
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 7px;
+  margin-left: 8px;
+  vertical-align: middle;
 }
 
 .teacher {
@@ -213,6 +257,16 @@ body {
 
 .classroom strong {
   color: #111827;
+}
+
+/* level divider inside merged card */
+.level-divider {
+  padding: 4px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7c3aed;
+  background: #ede9fe;
+  letter-spacing: 0.5px;
 }
 
 .student-list {
@@ -243,6 +297,11 @@ body {
   font-size: 10px;
   font-weight: 700;
   flex-shrink: 0;
+}
+
+.level-card.merged .avatar {
+  background: #f5f3ff;
+  color: #7c3aed;
 }
 
 .student-name {
@@ -285,6 +344,58 @@ body {
 .status.empty {
   color: #6b7280;
   background: #f3f4f6;
+}
+
+/* MERGE VIEW HEADER */
+.merge-view-header {
+  margin-bottom: 22px;
+}
+
+.merge-view-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.merge-view-sub {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.merge-group-section {
+  margin-bottom: 30px;
+}
+
+.merge-group-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.merge-group-badge {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 14px;
+}
+
+.merge-group-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.merge-no-merges {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 /* FOOTER */
@@ -330,6 +441,8 @@ body {
 @media (max-width: 700px) {
   .header {
     padding: 14px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
   .days-label {
@@ -396,6 +509,10 @@ body {
         <div id="timer-bar" class="timer-bar"></div>
       </div>
 
+      <button id="merge-tab-btn" class="btn-merge">
+        ⚡ Merge View
+      </button>
+
       <button id="refresh-btn" class="btn">
         ↻ Refresh
       </button>
@@ -448,11 +565,11 @@ body {
 const SHEET_ID =
   "1EP-k7eBQ9w7BUhJ-mdng70EtTPXhDHNMib5lbSXyJBw";
 
-const DATA_SHEET =
-  "DATA";
+const DATA_SHEET     = "DATA";
+const TEACHERS_SHEET = "Teachers";
 
-const TEACHERS_SHEET =
-  "Teachers";
+/* threshold: levels with fewer than this many students get merged */
+const MERGE_THRESHOLD = 3;
 
 
 /* =========================================================
@@ -460,55 +577,25 @@ const TEACHERS_SHEET =
    ========================================================= */
 
 const groups = [
-
-  {
-    key: "MW",
-    label: "MW",
-    days: "Monday & Wednesday",
-    time: "17:30 - 19:00",
-    color: "#2563eb"
-  },
-
-  {
-    key: "TT",
-    label: "TT",
-    days: "Tuesday & Thursday",
-    time: "17:30 - 19:00",
-    color: "#ea580c"
-  },
-
-  {
-    key: "SA",
-    label: "SA",
-    days: "Saturday",
-    time: "10:00 - 13:10",
-    color: "#16a34a"
-  },
-
-  {
-    key: "SU",
-    label: "SU",
-    days: "Sunday",
-    time: "10:00 - 13:10",
-    color: "#9333ea"
-  }
-
+  { key: "MW", label: "MW", days: "Monday & Wednesday", time: "17:30 - 19:00", color: "#2563eb" },
+  { key: "TT", label: "TT", days: "Tuesday & Thursday", time: "17:30 - 19:00", color: "#ea580c" },
+  { key: "SA", label: "SA", days: "Saturday",           time: "10:00 - 13:10", color: "#16a34a" },
+  { key: "SU", label: "SU", days: "Sunday",             time: "10:00 - 13:10", color: "#9333ea" }
 ];
 
 
 /* =========================================================
-   DATA
+   STATE
    ========================================================= */
 
-let students = [];
-let teachers = [];
-
+let students     = [];
+let teachers     = [];
 let currentSlide = 0;
-let paused = false;
+let paused       = false;
+let mergeMode    = false;
 
 const SLIDE_DURATION = 15000;
-
-let elapsed = 0;
+let elapsed  = 0;
 let lastTick = null;
 
 
@@ -517,61 +604,27 @@ let lastTick = null;
    ========================================================= */
 
 function parseCSV(text) {
-
   const rows = [];
-
-  let row = [];
-  let cell = "";
-  let insideQuotes = false;
+  let row = [], cell = "", insideQuotes = false;
 
   for (let i = 0; i < text.length; i++) {
+    const char = text[i], next = text[i + 1];
 
-    const char = text[i];
-    const next = text[i + 1];
-
-    if (char === '"' && insideQuotes && next === '"') {
-      cell += '"';
-      i++;
-      continue;
-    }
-
-    if (char === '"') {
-      insideQuotes = !insideQuotes;
-      continue;
-    }
-
-    if (char === "," && !insideQuotes) {
-      row.push(cell.trim());
-      cell = "";
-      continue;
-    }
+    if (char === '"' && insideQuotes && next === '"') { cell += '"'; i++; continue; }
+    if (char === '"') { insideQuotes = !insideQuotes; continue; }
+    if (char === "," && !insideQuotes) { row.push(cell.trim()); cell = ""; continue; }
 
     if ((char === "\n" || char === "\r") && !insideQuotes) {
-
-      if (char === "\r" && next === "\n") {
-        i++;
-      }
-
+      if (char === "\r" && next === "\n") i++;
       row.push(cell.trim());
-
-      if (row.some(x => x !== "")) {
-        rows.push(row);
-      }
-
-      row = [];
-      cell = "";
-
+      if (row.some(x => x !== "")) rows.push(row);
+      row = []; cell = "";
       continue;
     }
-
     cell += char;
   }
 
-  if (cell !== "" || row.length) {
-    row.push(cell.trim());
-    rows.push(row);
-  }
-
+  if (cell !== "" || row.length) { row.push(cell.trim()); rows.push(row); }
   return rows;
 }
 
@@ -581,69 +634,31 @@ function parseCSV(text) {
    ========================================================= */
 
 async function fetchSheet(sheetName) {
-
-  const url =
-    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-
-  const response = await fetch(url, {
-    cache: "no-store"
-  });
-
-  if (!response.ok) {
-    throw new Error(
-      `Google Sheet returned ${response.status}`
-    );
-  }
-
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw new Error(`Google Sheet returned ${response.status}`);
   const text = await response.text();
-
-  if (
-    text.includes("<!DOCTYPE html>") ||
-    text.includes("<html")
-  ) {
-    throw new Error(
-      `Could not access sheet "${sheetName}". Make sure the Google Sheet is public.`
-    );
+  if (text.includes("<!DOCTYPE html>") || text.includes("<html")) {
+    throw new Error(`Could not access sheet "${sheetName}". Make sure the Google Sheet is public.`);
   }
-
   return parseCSV(text);
 }
 
 
 /* =========================================================
-   NORMALIZE
+   NORMALIZE / FIND COLUMN
    ========================================================= */
 
 function normalize(value) {
-
-  return String(value || "")
-    .trim()
-    .toUpperCase()
-    .replace(/\s+/g, " ");
-
+  return String(value || "").trim().toUpperCase().replace(/\s+/g, " ");
 }
 
-
-/* =========================================================
-   FIND COLUMN
-   ========================================================= */
-
 function findColumn(headers, names) {
-
-  const normalizedHeaders =
-    headers.map(h => normalize(h));
-
+  const nh = headers.map(h => normalize(h));
   for (const name of names) {
-
-    const index =
-      normalizedHeaders.indexOf(normalize(name));
-
-    if (index !== -1) {
-      return index;
-    }
-
+    const index = nh.indexOf(normalize(name));
+    if (index !== -1) return index;
   }
-
   return -1;
 }
 
@@ -653,721 +668,404 @@ function findColumn(headers, names) {
    ========================================================= */
 
 async function loadData() {
-
   document.getElementById("slide-content").innerHTML =
     `<div class="loading">Loading Google Sheet...</div>`;
 
   try {
+    const [dataRows, teacherRows] = await Promise.all([
+      fetchSheet(DATA_SHEET),
+      fetchSheet(TEACHERS_SHEET)
+    ]);
 
-    const [dataRows, teacherRows] =
-      await Promise.all([
-
-        fetchSheet(DATA_SHEET),
-
-        fetchSheet(TEACHERS_SHEET)
-
-      ]);
-
-
-    /* -----------------------------
-       STUDENTS
-       ----------------------------- */
-
-    if (!dataRows.length) {
-      throw new Error("DATA sheet is empty.");
-    }
+    /* --- STUDENTS --- */
+    if (!dataRows.length) throw new Error("DATA sheet is empty.");
 
     const dataHeaders = dataRows[0];
 
-    const nameIndex =
-      findColumn(dataHeaders, [
-        "İSİM SOYİSİM",
-        "ISIM SOYISIM",
-        "NAME",
-        "STUDENT",
-        "STUDENT NAME"
-      ]);
+    const nameIndex   = findColumn(dataHeaders, ["İSİM SOYİSİM","ISIM SOYISIM","NAME","STUDENT","STUDENT NAME"]);
+    const levelIndex  = findColumn(dataHeaders, ["NORM_SEVIYE","NORM SEVIYE","YENI DONEM SEVIYE","LEVEL"]);
+    const timeIndex   = findColumn(dataHeaders, ["ZAMAN","TIME","GROUP"]);
+    const statusIndex = findColumn(dataHeaders, ["Kayıt Durumu (KY/YK)","KAYIT DURUMU (KY/YK)","KAYIT DURUMU","STATUS"]);
+    const ageIndex    = findColumn(dataHeaders, ["YAŞ","YAS","AGE"]);
 
-    const levelIndex =
-      findColumn(dataHeaders, [
-        "NORM_SEVIYE",
-        "NORM SEVIYE",
-        "YENI DONEM SEVIYE",
-        "LEVEL"
-      ]);
+    if (nameIndex  === -1) throw new Error("Could not find student name column in DATA.");
+    if (levelIndex === -1) throw new Error("Could not find level column in DATA.");
+    if (timeIndex  === -1) throw new Error("Could not find ZAMAN/TIME column in DATA.");
 
-    const timeIndex =
-      findColumn(dataHeaders, [
-        "ZAMAN",
-        "TIME",
-        "GROUP"
-      ]);
+    students = dataRows.slice(1).map(row => ({
+      name:   row[nameIndex]   || "",
+      level:  row[levelIndex]  || "BELİRSİZ",
+      time:   row[timeIndex]   || "",
+      status: statusIndex === -1 ? "" : row[statusIndex] || "",
+      age:    ageIndex    === -1 ? "" : row[ageIndex]    || ""
+    })).filter(s => s.name.trim() !== "");
 
-    const statusIndex =
-      findColumn(dataHeaders, [
-        "Kayıt Durumu (KY/YK)",
-        "KAYIT DURUMU (KY/YK)",
-        "KAYIT DURUMU",
-        "STATUS"
-      ]);
-
-    // ← ستون سن
-    const ageIndex =
-      findColumn(dataHeaders, [
-        "YAŞ",
-        "YAS",
-        "AGE"
-      ]);
-
-
-    if (nameIndex === -1) {
-      throw new Error(
-        "Could not find student name column in DATA."
-      );
-    }
-
-    if (levelIndex === -1) {
-      throw new Error(
-        "Could not find level column in DATA."
-      );
-    }
-
-    if (timeIndex === -1) {
-      throw new Error(
-        "Could not find ZAMAN/TIME column in DATA."
-      );
-    }
-
-
-    students = dataRows
-      .slice(1)
-      .map(row => ({
-
-        name: row[nameIndex] || "",
-
-        level:
-          row[levelIndex] ||
-          "BELİRSİZ",
-
-        time:
-          row[timeIndex] ||
-          "",
-
-        status:
-          statusIndex === -1
-            ? ""
-            : row[statusIndex] || "",
-
-        // ← سن دانش‌آموز
-        age:
-          ageIndex === -1
-            ? ""
-            : row[ageIndex] || ""
-
-      }))
-      .filter(s => s.name.trim() !== "");
-
-
-    /* -----------------------------
-       TEACHERS
-       ----------------------------- */
-
+    /* --- TEACHERS --- */
     teachers = [];
-
     if (teacherRows.length > 0) {
+      const th  = teacherRows[0];
+      const gi  = findColumn(th, ["GROUP","GRUP"]);
+      const li  = findColumn(th, ["LEVEL","SEVİYE","SEVIYE"]);
+      const tni = findColumn(th, ["TEACHER","TEACHER NAME","ÖĞRETMEN","OGRETMEN","MODERES","MODARES"]);
+      const ci  = findColumn(th, ["CLASSROOM","SINIF","ROOM","DERSLİK","DERSLIK"]);
 
-      const teacherHeaders =
-        teacherRows[0];
-
-      const groupIndex =
-        findColumn(teacherHeaders, [
-          "GROUP",
-          "GRUP"
-        ]);
-
-      const teacherLevelIndex =
-        findColumn(teacherHeaders, [
-          "LEVEL",
-          "SEVİYE",
-          "SEVIYE"
-        ]);
-
-      const teacherNameIndex =
-        findColumn(teacherHeaders, [
-          "TEACHER",
-          "TEACHER NAME",
-          "ÖĞRETMEN",
-          "OGRETMEN",
-          "MODERES",
-          "MODARES"
-        ]);
-
-      const classroomIndex =
-        findColumn(teacherHeaders, [
-          "CLASSROOM",
-          "SINIF",
-          "ROOM",
-          "DERSLİK",
-          "DERSLIK"
-        ]);
-
-
-      if (
-        groupIndex !== -1 &&
-        teacherLevelIndex !== -1 &&
-        teacherNameIndex !== -1
-      ) {
-
-        teachers =
-          teacherRows
-            .slice(1)
-            .map(row => ({
-
-              group:
-                normalize(row[groupIndex]),
-
-              level:
-                normalize(row[teacherLevelIndex]),
-
-              teacher:
-                String(
-                  row[teacherNameIndex] || ""
-                ).trim(),
-
-              classroom:
-                classroomIndex === -1
-                  ? ""
-                  : String(
-                      row[classroomIndex] || ""
-                    ).trim()
-
-            }))
-            .filter(x =>
-              x.group &&
-              x.level
-            );
-
+      if (gi !== -1 && li !== -1 && tni !== -1) {
+        teachers = teacherRows.slice(1).map(row => ({
+          group:     normalize(row[gi]),
+          level:     normalize(row[li]),
+          teacher:   String(row[tni] || "").trim(),
+          classroom: ci === -1 ? "" : String(row[ci] || "").trim()
+        })).filter(x => x.group && x.level);
       }
-
     }
 
-
-    renderSlide(currentSlide);
+    if (mergeMode) {
+      renderMergeView();
+    } else {
+      renderSlide(currentSlide);
+    }
 
     document.getElementById("updated").textContent =
-      "Updated " +
-      new Date().toLocaleTimeString();
-
+      "Updated " + new Date().toLocaleTimeString();
 
   } catch (error) {
-
     console.error(error);
-
     document.getElementById("slide-content").innerHTML = `
       <div class="error">
-
-        <strong>Could not load Google Sheet.</strong>
-
-        <br><br>
-
-        ${escapeHTML(error.message)}
-
-        <br><br>
-
-        Make sure both tabs are named exactly:
-
-        <strong>DATA</strong>
-
-        and
-
-        <strong>Teachers</strong>.
-
-        <br><br>
-
+        <strong>Could not load Google Sheet.</strong><br><br>
+        ${escapeHTML(error.message)}<br><br>
+        Make sure both tabs are named exactly <strong>DATA</strong> and <strong>Teachers</strong>.
         Also make sure the Google Sheet is accessible publicly.
-
-      </div>
-    `;
-
+      </div>`;
   }
-
 }
 
 
 /* =========================================================
-   ESCAPE HTML
+   HELPERS
    ========================================================= */
 
 function escapeHTML(value) {
-
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-
 }
-
-
-/* =========================================================
-   GET TEACHER
-   ========================================================= */
 
 function getTeacherInfo(groupKey, level) {
-
-  const g =
-    normalize(groupKey);
-
-  const l =
-    normalize(level);
-
-
-  const found =
-    teachers.find(t =>
-      t.group === g &&
-      t.level === l
-    );
-
-
+  const found = teachers.find(t =>
+    t.group === normalize(groupKey) && t.level === normalize(level)
+  );
   return {
-    teacher: found && found.teacher ? found.teacher : "—",
+    teacher:   found && found.teacher   ? found.teacher   : "—",
     classroom: found && found.classroom ? found.classroom : "—"
   };
-
 }
-
-
-/* =========================================================
-   GET STUDENTS FOR GROUP
-   ========================================================= */
 
 function getStudentsForGroup(groupKey) {
-
   return students.filter(student => {
-
-    const time =
-      normalize(student.time);
-
-    if (groupKey === "MW") {
-      return time.includes("MW");
-    }
-
-    if (groupKey === "TT") {
-      return time.includes("TT");
-    }
-
-    if (groupKey === "SA") {
-      return (
-        time === "SA" ||
-        time === "SA-SU"
-      );
-    }
-
-    if (groupKey === "SU") {
-      return (
-        time === "SU" ||
-        time === "SA-SU"
-      );
-    }
-
+    const time = normalize(student.time);
+    if (groupKey === "MW") return time.includes("MW");
+    if (groupKey === "TT") return time.includes("TT");
+    if (groupKey === "SA") return time === "SA" || time === "SA-SU";
+    if (groupKey === "SU") return time === "SU" || time === "SA-SU";
     return false;
-
   });
-
 }
-
-
-/* =========================================================
-   LEVEL ORDER
-   ========================================================= */
 
 const levelOrder = [
-
-  "A1.1",
-  "A1.2",
-  "A1.3",
-
-  "A2.1",
-  "A2.2",
-  "A2.3",
-  "A2.3 MINI",
-
-  "B1.1",
-  "B1.2",
-  "B1.3",
-
-  "B2.1",
-  "B2.2",
-  "B2.3",
-
+  "A1.1","A1.2","A1.3",
+  "A2.1","A2.2","A2.3","A2.3 MINI",
+  "B1.1","B1.2","B1.3",
+  "B2.1","B2.2","B2.3",
   "BELİRSİZ"
-
 ];
 
-
-/* =========================================================
-   GROUP BY LEVEL
-   ========================================================= */
-
 function groupByLevel(list) {
-
   const map = {};
-
   list.forEach(student => {
-
-    const level =
-      student.level || "BELİRSİZ";
-
-    if (!map[level]) {
-      map[level] = [];
-    }
-
+    const level = student.level || "BELİRSİZ";
+    if (!map[level]) map[level] = [];
     map[level].push(student);
-
   });
-
-
-  return Object.entries(map)
-    .sort(([a], [b]) => {
-
-      const ai =
-        levelOrder.indexOf(
-          normalize(a)
-        );
-
-      const bi =
-        levelOrder.indexOf(
-          normalize(b)
-        );
-
-      return (
-        (ai === -1 ? 999 : ai) -
-        (bi === -1 ? 999 : bi)
-      );
-
-    });
-
+  return Object.entries(map).sort(([a], [b]) => {
+    const ai = levelOrder.indexOf(normalize(a));
+    const bi = levelOrder.indexOf(normalize(b));
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+  });
 }
-
-
-/* =========================================================
-   INITIALS
-   ========================================================= */
 
 function getInitials(name) {
-
-  const parts =
-    String(name)
-      .trim()
-      .split(/\s+/);
-
-  if (!parts.length) {
-    return "?";
-  }
-
-  return (
-    parts[0][0] +
-    (parts[1] ? parts[1][0] : "")
-  ).toUpperCase();
-
+  const parts = String(name).trim().split(/\s+/);
+  if (!parts.length) return "?";
+  return (parts[0][0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
 }
-
-
-/* =========================================================
-   STATUS
-   ========================================================= */
 
 function statusHTML(status) {
+  const s = normalize(status);
+  if (s === "KY") return `<span class="status ky">Renewal</span>`;
+  if (s === "YK") return `<span class="status yk">New Reg.</span>`;
+  return `<span class="status empty">—</span>`;
+}
 
-  const s =
-    normalize(status);
-
-  if (s === "KY") {
-
-    return `
-      <span class="status ky">
-        Renewal
-      </span>
-    `;
-
-  }
-
-  if (s === "YK") {
-
-    return `
-      <span class="status yk">
-        New Registration
-      </span>
-    `;
-
-  }
-
+function studentRowHTML(student) {
   return `
-    <span class="status empty">
-      —
-    </span>
-  `;
-
+    <div class="student-row">
+      <div class="avatar">${escapeHTML(getInitials(student.name))}</div>
+      <div class="student-name">${escapeHTML(student.name)}</div>
+      ${student.age ? `<span class="age-badge">${escapeHTML(student.age)}</span>` : ""}
+      ${statusHTML(student.status)}
+    </div>`;
 }
 
 
 /* =========================================================
-   RENDER
+   MERGE LOGIC
+   =========================================================
+   For each group:
+   1. Sort levels by levelOrder
+   2. Find levels with < MERGE_THRESHOLD students
+   3. Merge each small level with its nearest neighbour
+      (prefer next; fall back to merging into the previous card)
+   4. Return an array of card-objects:
+      { levels[], students[], ismerged, perLevel? }
+   ========================================================= */
+
+function computeMergedCards(groupKey) {
+  const list    = getStudentsForGroup(groupKey);
+  const byLevel = groupByLevel(list);   // [[levelName, [students]], ...]
+
+  if (!byLevel.length) return [];
+
+  const items = byLevel.map(([level, studs]) => ({
+    level,
+    students: studs,
+    idx: levelOrder.indexOf(normalize(level))
+  }));
+
+  const small = items.map(it => it.students.length < MERGE_THRESHOLD);
+
+  const merged = [];
+  const used   = new Array(items.length).fill(false);
+
+  for (let i = 0; i < items.length; i++) {
+    if (used[i]) continue;
+
+    if (!small[i]) {
+      merged.push({ levels: [items[i].level], students: [...items[i].students], ismerged: false });
+      used[i] = true;
+    } else {
+      // Try to merge with the next unused neighbour
+      let partner = -1;
+      if (i + 1 < items.length && !used[i + 1]) {
+        partner = i + 1;
+      } else if (i - 1 >= 0 && !used[i - 1] && merged.length > 0) {
+        // absorb into the previous card
+        const last = merged[merged.length - 1];
+        if (last.levels.includes(items[i - 1].level)) {
+          last.levels.push(items[i].level);
+          last.students.push(...items[i].students);
+          last.ismerged = true;
+          if (!last.perLevel) {
+            last.perLevel = [{ level: items[i - 1].level, students: last.students.filter(s => items[i - 1].students.includes(s)) }];
+          }
+          last.perLevel.push({ level: items[i].level, students: items[i].students });
+          used[i] = true;
+          continue;
+        }
+      }
+
+      if (partner !== -1) {
+        merged.push({
+          levels:   [items[i].level, items[partner].level],
+          students: [...items[i].students, ...items[partner].students],
+          ismerged: true,
+          perLevel: [
+            { level: items[i].level,       students: items[i].students },
+            { level: items[partner].level, students: items[partner].students }
+          ]
+        });
+        used[i]       = true;
+        used[partner] = true;
+      } else {
+        // no neighbour available — show standalone even if small
+        merged.push({ levels: [items[i].level], students: [...items[i].students], ismerged: false });
+        used[i] = true;
+      }
+    }
+  }
+
+  return merged;
+}
+
+
+/* =========================================================
+   RENDER NORMAL SLIDE
    ========================================================= */
 
 function renderSlide(index) {
+  const group   = groups[index];
+  const list    = getStudentsForGroup(group.key);
+  const byLevel = groupByLevel(list);
 
-  const group =
-    groups[index];
-
-  const list =
-    getStudentsForGroup(group.key);
-
-  const byLevel =
-    groupByLevel(list);
-
-
-  /* HEADER */
-
-  const badge =
-    document.getElementById(
-      "group-badge"
-    );
-
-  badge.textContent =
-    group.label;
-
-  badge.style.background =
-    group.color;
-
-
-  document.getElementById(
-    "days-label"
-  ).textContent =
-    group.days + " · " + group.time;
-
-
-  /* CONTENT */
+  const badge = document.getElementById("group-badge");
+  badge.textContent      = group.label;
+  badge.style.background = group.color;
+  document.getElementById("days-label").textContent = group.days + " · " + group.time;
 
   let html = `
-
     <div class="slide-header">
-
       <div>
-        <div class="group-title">
-          ${escapeHTML(group.days)}
-        </div>
-        <div class="group-time">
-          ${escapeHTML(group.time)}
-        </div>
+        <div class="group-title">${escapeHTML(group.days)}</div>
+        <div class="group-time">${escapeHTML(group.time)}</div>
       </div>
-
       <div class="group-meta">
-
         <div class="meta-chip">
-
-          <span class="label">
-            Students
-          </span>
-
-          <span class="value">
-            ${list.length}
-          </span>
-
+          <span class="label">Students</span>
+          <span class="value">${list.length}</span>
         </div>
-
       </div>
-
-    </div>
-
-  `;
-
+    </div>`;
 
   if (!list.length) {
-
-    html += `
-      <div class="loading">
-        No students in this group.
-      </div>
-    `;
-
+    html += `<div class="loading">No students in this group.</div>`;
   } else {
-
-    html += `
-      <div class="levels-grid">
-    `;
-
-
-    byLevel.forEach(
-      ([level, studentsInLevel]) => {
-
-        const info =
-          getTeacherInfo(
-            group.key,
-            level
-          );
-
-
-        html += `
-
-          <div class="level-card">
-
-            <div class="level-card-header">
-
-              <div class="level-name">
-                ${escapeHTML(level)}
-              </div>
-
-              <div class="teacher">
-                Teacher:
-                <strong>
-                  ${escapeHTML(info.teacher)}
-                </strong>
-              </div>
-
-              <div class="classroom">
-                Classroom:
-                <strong>
-                  ${escapeHTML(info.classroom)}
-                </strong>
-              </div>
-
-            </div>
-
-            <div class="student-list">
-
-        `;
-
-
-        studentsInLevel.forEach(student => {
-
-          html += `
-
-            <div class="student-row">
-
-              <div class="avatar">
-                ${escapeHTML(
-                  getInitials(student.name)
-                )}
-              </div>
-
-              <div class="student-name">
-                ${escapeHTML(student.name)}
-              </div>
-
-              ${student.age
-                ? `<span class="age-badge">${escapeHTML(student.age)}</span>`
-                : ""
-              }
-
-              ${statusHTML(student.status)}
-
-            </div>
-
-          `;
-
-        });
-
-
-        html += `
-
-            </div>
-
+    html += `<div class="levels-grid">`;
+    byLevel.forEach(([level, studentsInLevel]) => {
+      const info = getTeacherInfo(group.key, level);
+      html += `
+        <div class="level-card">
+          <div class="level-card-header">
+            <div class="level-name">${escapeHTML(level)}</div>
+            <div class="teacher">Teacher: <strong>${escapeHTML(info.teacher)}</strong></div>
+            <div class="classroom">Classroom: <strong>${escapeHTML(info.classroom)}</strong></div>
           </div>
-
-        `;
-
-      }
-    );
-
-
+          <div class="student-list">`;
+      studentsInLevel.forEach(student => { html += studentRowHTML(student); });
+      html += `</div></div>`;
+    });
     html += `</div>`;
-
   }
 
-
-  document.getElementById(
-    "slide-content"
-  ).innerHTML = html;
-
-
-  /* COUNTER */
-
-  document.getElementById(
-    "slide-counter"
-  ).textContent =
-    `${index + 1} / ${groups.length}`;
-
-
-  /* DOTS */
-
-  document
-    .querySelectorAll(".dot")
-    .forEach((dot, i) => {
-
-      dot.classList.toggle(
-        "active",
-        i === index
-      );
-
-    });
-
+  document.getElementById("slide-content").innerHTML = html;
+  document.getElementById("slide-counter").textContent = `${index + 1} / ${groups.length}`;
+  document.querySelectorAll(".dot").forEach((dot, i) =>
+    dot.classList.toggle("active", i === index)
+  );
 }
 
 
 /* =========================================================
-   DOTS
+   RENDER MERGE VIEW
+   ========================================================= */
+
+function renderMergeView() {
+  document.getElementById("group-badge").textContent      = "⚡";
+  document.getElementById("group-badge").style.background = "#7c3aed";
+  document.getElementById("days-label").textContent       = "Merged Small Levels";
+  document.getElementById("slide-counter").textContent    = "Merge View";
+
+  let html = `
+    <div class="merge-view-header">
+      <div class="merge-view-title">Merged Level View</div>
+      <div class="merge-view-sub">Levels with fewer than ${MERGE_THRESHOLD} students are merged with the nearest level</div>
+    </div>`;
+
+  groups.forEach(group => {
+    const cards       = computeMergedCards(group.key);
+    const mergedCards = cards.filter(c => c.ismerged);
+
+    html += `
+      <div class="merge-group-section">
+        <div class="merge-group-label">
+          <span class="merge-group-badge" style="background:${group.color}">${group.label}</span>
+          <span class="merge-group-name">${escapeHTML(group.days)}</span>
+        </div>`;
+
+    if (!mergedCards.length) {
+      html += `<div class="merge-no-merges">✓ No merges needed — all levels have ${MERGE_THRESHOLD}+ students</div>`;
+    } else {
+      html += `<div class="levels-grid">`;
+      mergedCards.forEach(card => {
+        const title = card.levels.join(" + ");
+        html += `
+          <div class="level-card merged">
+            <div class="level-card-header">
+              <div class="level-name">
+                ${escapeHTML(title)}
+                <span class="merge-tag">MERGED</span>
+              </div>
+              <div class="teacher">Total students: <strong>${card.students.length}</strong></div>
+            </div>
+            <div class="student-list">`;
+
+        if (card.perLevel) {
+          card.perLevel.forEach(pl => {
+            html += `<div class="level-divider">${escapeHTML(pl.level)} (${pl.students.length})</div>`;
+            pl.students.forEach(s => { html += studentRowHTML(s); });
+          });
+        } else {
+          card.students.forEach(s => { html += studentRowHTML(s); });
+        }
+
+        html += `</div></div>`;
+      });
+      html += `</div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  document.getElementById("slide-content").innerHTML = html;
+  document.querySelectorAll(".dot").forEach(dot => dot.classList.remove("active"));
+}
+
+
+/* =========================================================
+   NAV DOTS
    ========================================================= */
 
 function buildDots() {
-
-  const container =
-    document.getElementById(
-      "nav-dots"
-    );
-
+  const container = document.getElementById("nav-dots");
   container.innerHTML = "";
-
-
-  groups.forEach(
-    (group, index) => {
-
-      const dot =
-        document.createElement("div");
-
-      dot.className =
-        "dot";
-
-      if (index === 0) {
-        dot.classList.add("active");
+  groups.forEach((group, index) => {
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    if (index === 0) dot.classList.add("active");
+    dot.title = group.days;
+    dot.addEventListener("click", () => {
+      if (mergeMode) {
+        mergeMode = false;
+        document.getElementById("merge-tab-btn").classList.remove("active");
       }
-
-      dot.title =
-        group.days;
-
-      dot.addEventListener(
-        "click",
-        () => {
-
-          currentSlide =
-            index;
-
-          resetTimer();
-
-          renderSlide(
-            currentSlide
-          );
-
-        }
-      );
-
-      container.appendChild(dot);
-
-    }
-  );
-
+      currentSlide = index;
+      resetTimer();
+      renderSlide(currentSlide);
+    });
+    container.appendChild(dot);
+  });
 }
+
+
+/* =========================================================
+   MERGE TAB BUTTON
+   ========================================================= */
+
+document.getElementById("merge-tab-btn").addEventListener("click", () => {
+  mergeMode = !mergeMode;
+  document.getElementById("merge-tab-btn").classList.toggle("active", mergeMode);
+
+  if (mergeMode) {
+    paused = true;
+    document.getElementById("pause-btn").textContent = "▶ Resume";
+    renderMergeView();
+  } else {
+    paused = false;
+    document.getElementById("pause-btn").textContent = "⏸ Pause";
+    renderSlide(currentSlide);
+    resetTimer();
+  }
+});
 
 
 /* =========================================================
@@ -1375,128 +1073,48 @@ function buildDots() {
    ========================================================= */
 
 function resetTimer() {
-
-  elapsed = 0;
-
-  lastTick =
-    performance.now();
-
-  document.getElementById(
-    "timer-bar"
-  ).style.width = "100%";
-
+  elapsed  = 0;
+  lastTick = performance.now();
+  document.getElementById("timer-bar").style.width = "100%";
 }
-
 
 function tick(now) {
-
-  if (!paused) {
-
-    if (lastTick !== null) {
-
-      elapsed +=
-        now - lastTick;
-
-    }
-
+  if (!paused && !mergeMode) {
+    if (lastTick !== null) elapsed += now - lastTick;
     lastTick = now;
 
+    const pct = Math.max(0, 100 - (elapsed / SLIDE_DURATION) * 100);
+    document.getElementById("timer-bar").style.width = pct + "%";
 
-    const percentage =
-      Math.max(
-        0,
-        100 -
-        (elapsed / SLIDE_DURATION) *
-        100
-      );
-
-
-    document.getElementById(
-      "timer-bar"
-    ).style.width =
-      percentage + "%";
-
-
-    if (
-      elapsed >=
-      SLIDE_DURATION
-    ) {
-
-      currentSlide =
-        (currentSlide + 1) %
-        groups.length;
-
-      renderSlide(
-        currentSlide
-      );
-
+    if (elapsed >= SLIDE_DURATION) {
+      currentSlide = (currentSlide + 1) % groups.length;
+      renderSlide(currentSlide);
       elapsed = 0;
-
     }
-
   } else {
-
     lastTick = now;
-
   }
-
-
   requestAnimationFrame(tick);
-
 }
 
 
 /* =========================================================
-   PAUSE
+   PAUSE / REFRESH
    ========================================================= */
 
-document
-  .getElementById("pause-btn")
-  .addEventListener(
-    "click",
-    () => {
+document.getElementById("pause-btn").addEventListener("click", () => {
+  if (mergeMode) return;
+  paused = !paused;
+  document.getElementById("pause-btn").textContent = paused ? "▶ Resume" : "⏸ Pause";
+});
 
-      paused =
-        !paused;
-
-      document.getElementById(
-        "pause-btn"
-      ).textContent =
-        paused
-          ? "▶ Resume"
-          : "⏸ Pause";
-
-    }
-  );
-
-
-/* =========================================================
-   REFRESH
-   ========================================================= */
-
-document
-  .getElementById("refresh-btn")
-  .addEventListener(
-    "click",
-    async () => {
-
-      const button =
-        document.getElementById(
-          "refresh-btn"
-        );
-
-      button.textContent =
-        "↻ Loading...";
-
-      await loadData();
-
-      button.textContent =
-        "↻ Refresh";
-
-      resetTimer();
-
-    }
-  );
+document.getElementById("refresh-btn").addEventListener("click", async () => {
+  const btn = document.getElementById("refresh-btn");
+  btn.textContent = "↻ Loading...";
+  await loadData();
+  btn.textContent = "↻ Refresh";
+  if (!mergeMode) resetTimer();
+});
 
 
 /* =========================================================
@@ -1504,14 +1122,10 @@ document
    ========================================================= */
 
 buildDots();
-
 loadData();
-
 resetTimer();
-
 requestAnimationFrame(tick);
 
 </script>
-
 </body>
 </html>
