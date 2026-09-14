@@ -206,6 +206,10 @@ body {
   border: 2px solid #7c3aed;
 }
 
+.level-card.cross-merged {
+  border: 2px solid #0891b2;
+}
+
 .level-card-header {
   padding: 12px 16px;
   background: #fafafa;
@@ -215,6 +219,11 @@ body {
 .level-card.merged .level-card-header {
   background: #f5f3ff;
   border-bottom: 1px solid #ede9fe;
+}
+
+.level-card.cross-merged .level-card-header {
+  background: #ecfeff;
+  border-bottom: 1px solid #cffafe;
 }
 
 .level-name {
@@ -227,11 +236,27 @@ body {
   color: #7c3aed;
 }
 
+.level-card.cross-merged .level-name {
+  color: #0891b2;
+}
+
 .merge-tag {
   display: inline-block;
   font-size: 10px;
   font-weight: 700;
   background: #7c3aed;
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 7px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.cross-merge-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  background: #0891b2;
   color: #fff;
   border-radius: 6px;
   padding: 2px 7px;
@@ -269,6 +294,11 @@ body {
   letter-spacing: 0.5px;
 }
 
+.level-divider.cross {
+  color: #0891b2;
+  background: #cffafe;
+}
+
 .student-list {
   padding: 5px 0;
 }
@@ -302,6 +332,11 @@ body {
 .level-card.merged .avatar {
   background: #f5f3ff;
   color: #7c3aed;
+}
+
+.level-card.cross-merged .avatar {
+  background: #ecfeff;
+  color: #0891b2;
 }
 
 .student-name {
@@ -346,7 +381,7 @@ body {
   background: #f3f4f6;
 }
 
-/* MERGE VIEW HEADER */
+/* MERGE VIEW */
 .merge-view-header {
   margin-bottom: 22px;
 }
@@ -361,6 +396,51 @@ body {
   font-size: 14px;
   color: #6b7280;
   margin-top: 4px;
+}
+
+/* MERGE SECTION TABS */
+.merge-section-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0;
+}
+
+.merge-tab {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s;
+}
+
+.merge-tab.active {
+  color: #7c3aed;
+  border-bottom-color: #7c3aed;
+}
+
+.merge-tab.cross-active {
+  color: #0891b2;
+  border-bottom-color: #0891b2;
+}
+
+.merge-tab:hover {
+  color: #374151;
+}
+
+.merge-section {
+  display: none;
+}
+
+.merge-section.visible {
+  display: block;
 }
 
 .merge-group-section {
@@ -396,6 +476,34 @@ body {
   padding: 12px 16px;
   font-size: 13px;
   font-weight: 600;
+}
+
+/* Age group divider */
+.age-group-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  margin-top: 16px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.age-group-title:first-child {
+  margin-top: 0;
+}
+
+/* Cross-day merge section */
+.cross-section-header {
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #0e7490;
 }
 
 /* FOOTER */
@@ -562,9 +670,7 @@ body {
    GOOGLE SHEET
    ========================================================= */
 
-const SHEET_ID =
-  "1EP-k7eBQ9w7BUhJ-mdng70EtTPXhDHNMib5lbSXyJBw";
-
+const SHEET_ID       = "1EP-k7eBQ9w7BUhJ-mdng70EtTPXhDHNMib5lbSXyJBw";
 const DATA_SHEET     = "DATA";
 const TEACHERS_SHEET = "Teachers";
 
@@ -585,6 +691,63 @@ const groups = [
 
 
 /* =========================================================
+   CEFR GROUP DEFINITIONS
+   ========================================================= */
+
+const CEFR_GROUPS = {
+  "A1": ["A1.1","A1.2","A1.3"],
+  "A2": ["A2.1","A2.2","A2.3","A2.3 MINI"],
+  "B1": ["B1.1","B1.2","B1.3"],
+  "B2": ["B2.1","B2.2","B2.3"]
+};
+
+/* Levels that NEVER get merged */
+const NEVER_MERGE = ["A1.1"];
+
+function getCEFRGroup(level) {
+  const norm = normalize(level);
+  for (const [group, levels] of Object.entries(CEFR_GROUPS)) {
+    if (levels.map(l => normalize(l)).includes(norm)) return group;
+  }
+  return null;
+}
+
+function canMerge(levelA, levelB) {
+  const normA = normalize(levelA);
+  const normB = normalize(levelB);
+  if (NEVER_MERGE.map(l => normalize(l)).includes(normA)) return false;
+  if (NEVER_MERGE.map(l => normalize(l)).includes(normB)) return false;
+  return getCEFRGroup(levelA) === getCEFRGroup(levelB) && getCEFRGroup(levelA) !== null;
+}
+
+
+/* =========================================================
+   AGE UTILITIES
+   ========================================================= */
+
+function parseAge(ageStr) {
+  const n = parseInt(String(ageStr || "").trim(), 10);
+  return isNaN(n) ? null : n;
+}
+
+function getAgeGroup(ageStr) {
+  const age = parseAge(ageStr);
+  if (age === null) return "unknown";
+  if (age >= 8 && age <= 10) return "8-10";
+  if (age > 10)              return "10+";
+  return "unknown";
+}
+
+function ageGroupLabel(key) {
+  if (key === "8-10") return "Ages 8–10";
+  if (key === "10+")  return "Ages 10+";
+  return "Age Unknown";
+}
+
+const AGE_GROUP_ORDER = ["8-10","10+","unknown"];
+
+
+/* =========================================================
    STATE
    ========================================================= */
 
@@ -593,6 +756,7 @@ let teachers     = [];
 let currentSlide = 0;
 let paused       = false;
 let mergeMode    = false;
+let activeMergeTab = "within"; // "within" | "cross"
 
 const SLIDE_DURATION = 15000;
 let elapsed  = 0;
@@ -808,7 +972,7 @@ function statusHTML(status) {
   return `<span class="status empty">—</span>`;
 }
 
-function studentRowHTML(student) {
+function studentRowHTML(student, crossMerge = false) {
   return `
     <div class="student-row">
       <div class="avatar">${escapeHTML(getInitials(student.name))}</div>
@@ -820,82 +984,210 @@ function studentRowHTML(student) {
 
 
 /* =========================================================
-   MERGE LOGIC
+   WITHIN-GROUP MERGE LOGIC
    =========================================================
-   For each group:
-   1. Sort levels by levelOrder
-   2. Find levels with < MERGE_THRESHOLD students
-   3. Merge each small level with its nearest neighbour
-      (prefer next; fall back to merging into the previous card)
-   4. Return an array of card-objects:
-      { levels[], students[], ismerged, perLevel? }
+   Rules:
+   1. First group students by age (8-10, 10+, unknown)
+   2. Within each age group, sort by level
+   3. Merge only if:
+      - level is NOT in NEVER_MERGE
+      - both levels are in the same CEFR group
+      - student count < MERGE_THRESHOLD
    ========================================================= */
 
-function computeMergedCards(groupKey) {
-  const list    = getStudentsForGroup(groupKey);
-  const byLevel = groupByLevel(list);   // [[levelName, [students]], ...]
+function computeWithinGroupMergedCards(groupKey) {
+  const list = getStudentsForGroup(groupKey);
+  if (!list.length) return [];
 
-  if (!byLevel.length) return [];
+  // Group by age first
+  const byAge = {};
+  list.forEach(s => {
+    const ag = getAgeGroup(s.age);
+    if (!byAge[ag]) byAge[ag] = [];
+    byAge[ag].push(s);
+  });
 
-  const items = byLevel.map(([level, studs]) => ({
-    level,
-    students: studs,
-    idx: levelOrder.indexOf(normalize(level))
-  }));
+  const allCards = [];
 
-  const small = items.map(it => it.students.length < MERGE_THRESHOLD);
+  AGE_GROUP_ORDER.forEach(ageKey => {
+    if (!byAge[ageKey]) return;
 
-  const merged = [];
-  const used   = new Array(items.length).fill(false);
+    const ageStudents = byAge[ageKey];
+    const byLevel     = groupByLevel(ageStudents);
 
-  for (let i = 0; i < items.length; i++) {
-    if (used[i]) continue;
+    if (!byLevel.length) return;
 
-    if (!small[i]) {
-      merged.push({ levels: [items[i].level], students: [...items[i].students], ismerged: false });
-      used[i] = true;
-    } else {
-      // Try to merge with the next unused neighbour
-      let partner = -1;
-      if (i + 1 < items.length && !used[i + 1]) {
-        partner = i + 1;
-      } else if (i - 1 >= 0 && !used[i - 1] && merged.length > 0) {
-        // absorb into the previous card
-        const last = merged[merged.length - 1];
-        if (last.levels.includes(items[i - 1].level)) {
-          last.levels.push(items[i].level);
-          last.students.push(...items[i].students);
-          last.ismerged = true;
-          if (!last.perLevel) {
-            last.perLevel = [{ level: items[i - 1].level, students: last.students.filter(s => items[i - 1].students.includes(s)) }];
+    const items = byLevel.map(([level, studs]) => ({ level, students: studs }));
+    const used  = new Array(items.length).fill(false);
+    const cards = [];
+
+    for (let i = 0; i < items.length; i++) {
+      if (used[i]) continue;
+
+      const isSmall  = items[i].students.length < MERGE_THRESHOLD;
+      const neverMrg = NEVER_MERGE.map(l => normalize(l)).includes(normalize(items[i].level));
+
+      if (!isSmall || neverMrg) {
+        // standalone card
+        cards.push({
+          levels:   [items[i].level],
+          students: [...items[i].students],
+          ismerged: false,
+          ageGroup: ageKey
+        });
+        used[i] = true;
+      } else {
+        // find next unused neighbour in same CEFR group
+        let partner = -1;
+        for (let j = i + 1; j < items.length; j++) {
+          if (!used[j] && canMerge(items[i].level, items[j].level)) {
+            partner = j;
+            break;
           }
-          last.perLevel.push({ level: items[i].level, students: items[i].students });
+        }
+
+        if (partner !== -1) {
+          cards.push({
+            levels:   [items[i].level, items[partner].level],
+            students: [...items[i].students, ...items[partner].students],
+            ismerged: true,
+            ageGroup: ageKey,
+            perLevel: [
+              { level: items[i].level,       students: items[i].students },
+              { level: items[partner].level, students: items[partner].students }
+            ]
+          });
+          used[i]       = true;
+          used[partner] = true;
+        } else {
+          // no valid neighbour — show standalone even if small
+          cards.push({
+            levels:   [items[i].level],
+            students: [...items[i].students],
+            ismerged: false,
+            ageGroup: ageKey
+          });
           used[i] = true;
-          continue;
         }
       }
-
-      if (partner !== -1) {
-        merged.push({
-          levels:   [items[i].level, items[partner].level],
-          students: [...items[i].students, ...items[partner].students],
-          ismerged: true,
-          perLevel: [
-            { level: items[i].level,       students: items[i].students },
-            { level: items[partner].level, students: items[partner].students }
-          ]
-        });
-        used[i]       = true;
-        used[partner] = true;
-      } else {
-        // no neighbour available — show standalone even if small
-        merged.push({ levels: [items[i].level], students: [...items[i].students], ismerged: false });
-        used[i] = true;
-      }
     }
-  }
 
-  return merged;
+    allCards.push({ ageKey, cards });
+  });
+
+  return allCards;
+}
+
+
+/* =========================================================
+   CROSS-GROUP MERGE LOGIC
+   =========================================================
+   Find levels that are small (< threshold) across different
+   day groups and suggest merging them together.
+   Rules:
+   - Same age group
+   - Same CEFR group (or same level)
+   - Neither level is in NEVER_MERGE
+   - Both are small (< MERGE_THRESHOLD)
+   ========================================================= */
+
+function computeCrossGroupMerges() {
+  // Collect all small levels across all groups, keyed by ageGroup + level
+  // structure: { ageGroup_level: [{ groupKey, students }] }
+
+  const smallByAgeLevel = {};
+
+  groups.forEach(group => {
+    const list = getStudentsForGroup(group.key);
+    const byLevel = groupByLevel(list);
+
+    // Also group by age within this group
+    const byAge = {};
+    list.forEach(s => {
+      const ag = getAgeGroup(s.age);
+      if (!byAge[ag]) byAge[ag] = [];
+      byAge[ag].push(s);
+    });
+
+    AGE_GROUP_ORDER.forEach(ageKey => {
+      if (!byAge[ageKey]) return;
+      const ageStudents = byAge[ageKey];
+      const byLevelAge  = groupByLevel(ageStudents);
+
+      byLevelAge.forEach(([level, studs]) => {
+        const neverMrg = NEVER_MERGE.map(l => normalize(l)).includes(normalize(level));
+        if (neverMrg) return;
+        if (studs.length < MERGE_THRESHOLD) {
+          const key = `${ageKey}||${normalize(level)}`;
+          if (!smallByAgeLevel[key]) smallByAgeLevel[key] = [];
+          smallByAgeLevel[key].push({ groupKey: group.key, level, students: studs, ageKey });
+        }
+      });
+    });
+  });
+
+  // Now find groups of small levels that can be merged cross-group
+  // Two entries can merge if they are in the same CEFR group
+  // We also want to suggest merges across different levels in same CEFR group
+
+  const suggestions = [];
+  const usedKeys    = new Set();
+
+  const allKeys = Object.keys(smallByAgeLevel);
+
+  // First pass: exact same level across groups (easiest merge)
+  allKeys.forEach(key => {
+    if (usedKeys.has(key)) return;
+    const entries = smallByAgeLevel[key];
+    if (entries.length < 2) return; // need at least 2 groups
+
+    usedKeys.add(key);
+    const [ageKey, level] = key.split("||");
+    suggestions.push({
+      type:     "same-level",
+      ageKey,
+      level,
+      entries,
+      totalStudents: entries.reduce((s, e) => s + e.students.length, 0)
+    });
+  });
+
+  // Second pass: different levels in same CEFR group, same age group
+  // Group remaining small entries by ageGroup + CEFR group
+  const byCEFR = {};
+  allKeys.forEach(key => {
+    if (usedKeys.has(key)) return;
+    const entries = smallByAgeLevel[key];
+    const [ageKey, level] = key.split("||");
+    const cefrGroup = getCEFRGroup(level);
+    if (!cefrGroup) return;
+
+    const cefrKey = `${ageKey}||${cefrGroup}`;
+    if (!byCEFR[cefrKey]) byCEFR[cefrKey] = [];
+    entries.forEach(e => byCEFR[cefrKey].push({ ...e, key }));
+  });
+
+  Object.entries(byCEFR).forEach(([cefrKey, entries]) => {
+    if (entries.length < 2) return;
+    // Group by level so we show perLevel breakdown
+    const [ageKey, cefrGroup] = cefrKey.split("||");
+    const perLevel = {};
+    entries.forEach(e => {
+      const lk = `${e.groupKey}||${normalize(e.level)}`;
+      if (!perLevel[lk]) perLevel[lk] = { groupKey: e.groupKey, level: e.level, students: [] };
+      perLevel[lk].students.push(...e.students);
+    });
+
+    suggestions.push({
+      type:    "same-cefr",
+      ageKey,
+      cefrGroup,
+      entries: Object.values(perLevel),
+      totalStudents: entries.reduce((s, e) => s + e.students.length, 0)
+    });
+  });
+
+  return suggestions;
 }
 
 
@@ -962,18 +1254,44 @@ function renderSlide(index) {
 function renderMergeView() {
   document.getElementById("group-badge").textContent      = "⚡";
   document.getElementById("group-badge").style.background = "#7c3aed";
-  document.getElementById("days-label").textContent       = "Merged Small Levels";
+  document.getElementById("days-label").textContent       = "Merged View";
   document.getElementById("slide-counter").textContent    = "Merge View";
+
+  const withinActive = activeMergeTab === "within";
 
   let html = `
     <div class="merge-view-header">
       <div class="merge-view-title">Merged Level View</div>
-      <div class="merge-view-sub">Levels with fewer than ${MERGE_THRESHOLD} students are merged with the nearest level</div>
+      <div class="merge-view-sub">Levels with fewer than ${MERGE_THRESHOLD} students — merged by age group then by CEFR level</div>
+    </div>
+
+    <div class="merge-section-tabs">
+      <button class="merge-tab ${withinActive ? 'active' : ''}" onclick="switchMergeTab('within')">
+        ⚡ Within Group Merges
+      </button>
+      <button class="merge-tab ${!withinActive ? 'cross-active' : ''}" onclick="switchMergeTab('cross')">
+        🔀 Cross-Day Merges
+      </button>
+    </div>
+
+    <div class="merge-section ${withinActive ? 'visible' : ''}" id="within-section">
+      ${renderWithinSection()}
+    </div>
+
+    <div class="merge-section ${!withinActive ? 'visible' : ''}" id="cross-section">
+      ${renderCrossSection()}
     </div>`;
 
+  document.getElementById("slide-content").innerHTML = html;
+  document.querySelectorAll(".dot").forEach(dot => dot.classList.remove("active"));
+}
+
+function renderWithinSection() {
+  let html = "";
+
   groups.forEach(group => {
-    const cards       = computeMergedCards(group.key);
-    const mergedCards = cards.filter(c => c.ismerged);
+    const ageGroups   = computeWithinGroupMergedCards(group.key);
+    const mergedCards = ageGroups.flatMap(ag => ag.cards.filter(c => c.ismerged));
 
     html += `
       <div class="merge-group-section">
@@ -985,39 +1303,133 @@ function renderMergeView() {
     if (!mergedCards.length) {
       html += `<div class="merge-no-merges">✓ No merges needed — all levels have ${MERGE_THRESHOLD}+ students</div>`;
     } else {
-      html += `<div class="levels-grid">`;
-      mergedCards.forEach(card => {
-        const title = card.levels.join(" + ");
-        html += `
-          <div class="level-card merged">
-            <div class="level-card-header">
-              <div class="level-name">
-                ${escapeHTML(title)}
-                <span class="merge-tag">MERGED</span>
+      ageGroups.forEach(({ ageKey, cards }) => {
+        const mergedInAge = cards.filter(c => c.ismerged);
+        if (!mergedInAge.length) return;
+
+        html += `<div class="age-group-title">${ageGroupLabel(ageKey)}</div>`;
+        html += `<div class="levels-grid">`;
+
+        mergedInAge.forEach(card => {
+          const title = card.levels.join(" + ");
+          html += `
+            <div class="level-card merged">
+              <div class="level-card-header">
+                <div class="level-name">
+                  ${escapeHTML(title)}
+                  <span class="merge-tag">MERGED</span>
+                </div>
+                <div class="teacher">Total students: <strong>${card.students.length}</strong></div>
               </div>
-              <div class="teacher">Total students: <strong>${card.students.length}</strong></div>
-            </div>
-            <div class="student-list">`;
+              <div class="student-list">`;
 
-        if (card.perLevel) {
-          card.perLevel.forEach(pl => {
-            html += `<div class="level-divider">${escapeHTML(pl.level)} (${pl.students.length})</div>`;
-            pl.students.forEach(s => { html += studentRowHTML(s); });
-          });
-        } else {
-          card.students.forEach(s => { html += studentRowHTML(s); });
-        }
+          if (card.perLevel) {
+            card.perLevel.forEach(pl => {
+              html += `<div class="level-divider">${escapeHTML(pl.level)} (${pl.students.length})</div>`;
+              pl.students.forEach(s => { html += studentRowHTML(s); });
+            });
+          } else {
+            card.students.forEach(s => { html += studentRowHTML(s); });
+          }
 
-        html += `</div></div>`;
+          html += `</div></div>`;
+        });
+
+        html += `</div>`;
       });
-      html += `</div>`;
     }
 
     html += `</div>`;
   });
 
-  document.getElementById("slide-content").innerHTML = html;
-  document.querySelectorAll(".dot").forEach(dot => dot.classList.remove("active"));
+  return html;
+}
+
+function renderCrossSection() {
+  const suggestions = computeCrossGroupMerges();
+
+  let html = `
+    <div class="cross-section-header">
+      🔀 These are suggested merges between different day groups — levels that are small across multiple groups and could share a class.
+    </div>`;
+
+  if (!suggestions.length) {
+    html += `<div class="merge-no-merges">✓ No cross-day merges needed — all levels have ${MERGE_THRESHOLD}+ students in their own groups</div>`;
+    return html;
+  }
+
+  // Group by age
+  const byAge = {};
+  suggestions.forEach(s => {
+    if (!byAge[s.ageKey]) byAge[s.ageKey] = [];
+    byAge[s.ageKey].push(s);
+  });
+
+  AGE_GROUP_ORDER.forEach(ageKey => {
+    if (!byAge[ageKey]) return;
+
+    html += `<div class="age-group-title">${ageGroupLabel(ageKey)}</div>`;
+    html += `<div class="levels-grid">`;
+
+    byAge[ageKey].forEach(sug => {
+      if (sug.type === "same-level") {
+        const groupLabels = sug.entries.map(e => e.groupKey).join(" + ");
+        html += `
+          <div class="level-card cross-merged">
+            <div class="level-card-header">
+              <div class="level-name">
+                ${escapeHTML(sug.level)}
+                <span class="cross-merge-tag">CROSS</span>
+              </div>
+              <div class="teacher">Groups: <strong>${escapeHTML(groupLabels)}</strong> · Total: <strong>${sug.totalStudents}</strong></div>
+            </div>
+            <div class="student-list">`;
+
+        sug.entries.forEach(e => {
+          html += `<div class="level-divider cross">${escapeHTML(e.groupKey)} — ${escapeHTML(e.level)} (${e.students.length})</div>`;
+          e.students.forEach(s => { html += studentRowHTML(s, true); });
+        });
+
+        html += `</div></div>`;
+
+      } else if (sug.type === "same-cefr") {
+        const levelNames = [...new Set(sug.entries.map(e => e.level))].join(" + ");
+        const groupNames = [...new Set(sug.entries.map(e => e.groupKey))].join(" + ");
+        html += `
+          <div class="level-card cross-merged">
+            <div class="level-card-header">
+              <div class="level-name">
+                ${escapeHTML(levelNames)}
+                <span class="cross-merge-tag">CROSS</span>
+              </div>
+              <div class="teacher">Groups: <strong>${escapeHTML(groupNames)}</strong> · Total: <strong>${sug.totalStudents}</strong></div>
+              <div class="classroom">CEFR group: <strong>${escapeHTML(sug.cefrGroup)}</strong></div>
+            </div>
+            <div class="student-list">`;
+
+        sug.entries.forEach(e => {
+          html += `<div class="level-divider cross">${escapeHTML(e.groupKey)} — ${escapeHTML(e.level)} (${e.students.length})</div>`;
+          e.students.forEach(s => { html += studentRowHTML(s, true); });
+        });
+
+        html += `</div></div>`;
+      }
+    });
+
+    html += `</div>`;
+  });
+
+  return html;
+}
+
+
+/* =========================================================
+   MERGE TAB SWITCHER
+   ========================================================= */
+
+function switchMergeTab(tab) {
+  activeMergeTab = tab;
+  renderMergeView();
 }
 
 
