@@ -252,6 +252,19 @@ body {
   color: #374151;
 }
 
+/* AGE BADGE */
+.age-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4b5563;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .status {
   font-size: 10px;
   padding: 3px 7px;
@@ -698,6 +711,14 @@ async function loadData() {
         "STATUS"
       ]);
 
+    // ← ستون سن
+    const ageIndex =
+      findColumn(dataHeaders, [
+        "YAŞ",
+        "YAS",
+        "AGE"
+      ]);
+
 
     if (nameIndex === -1) {
       throw new Error(
@@ -735,7 +756,13 @@ async function loadData() {
         status:
           statusIndex === -1
             ? ""
-            : row[statusIndex] || ""
+            : row[statusIndex] || "",
+
+        // ← سن دانش‌آموز
+        age:
+          ageIndex === -1
+            ? ""
+            : row[ageIndex] || ""
 
       }))
       .filter(s => s.name.trim() !== "");
@@ -1229,9 +1256,12 @@ function renderSlide(index) {
                 ${escapeHTML(student.name)}
               </div>
 
-              ${statusHTML(
-                student.status
-              )}
+              ${student.age
+                ? `<span class="age-badge">${escapeHTML(student.age)}</span>`
+                : ""
+              }
+
+              ${statusHTML(student.status)}
 
             </div>
 
