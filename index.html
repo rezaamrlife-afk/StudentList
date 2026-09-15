@@ -232,16 +232,14 @@ body {
   color: #2563eb;
 }
 
-.student-count {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  background: #e0e7ff;
-  color: #3730a3;
-  border-radius: 10px;
-  padding: 1px 7px;
-  margin-left: 6px;
-  vertical-align: middle;
+.student-count-row {
+  margin-top: 3px;
+  font-size: 12px;
+  color: #555;
+}
+
+.student-count-row strong {
+  color: #111827;
 }
 
 .level-card.merged .level-name {
@@ -1240,9 +1238,10 @@ function renderSlide(index) {
       html += `
         <div class="level-card">
           <div class="level-card-header">
-            <div class="level-name">${escapeHTML(level)} <span class="student-count">${studentsInLevel.length}</span></div>
+            <div class="level-name">${escapeHTML(level)}</div>
             <div class="teacher">Teacher: <strong>${escapeHTML(info.teacher)}</strong></div>
             <div class="classroom">Classroom: <strong>${escapeHTML(info.classroom)}</strong></div>
+            <div class="student-count-row">Students: <strong>${studentsInLevel.length}</strong></div>
           </div>
           <div class="student-list">`;
       studentsInLevel.forEach(student => { html += studentRowHTML(student); });
