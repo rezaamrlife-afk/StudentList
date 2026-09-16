@@ -232,6 +232,14 @@ body {
   color: #2563eb;
 }
 
+.level-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 .student-count-row {
   margin-top: 3px;
   font-size: 12px;
@@ -698,6 +706,21 @@ const groups = [
   { key: "SA", label: "SA", days: "Saturday",           time: "10:00 - 13:10", color: "#16a34a" },
   { key: "SU", label: "SU", days: "Sunday",             time: "10:00 - 13:10", color: "#9333ea" }
 ];
+
+
+/* =========================================================
+   LEVEL TITLES
+   ========================================================= */
+
+const LEVEL_TITLES = {
+  "MW F4": "A2+ LEARN & SPEAK",
+  "TT F3": "A1+ LEARN & SPEAK",
+  "SA F5": "A1+ LEARN & SPEAK"
+};
+
+function getLevelTitle(level) {
+  return LEVEL_TITLES[String(level).trim()] || null;
+}
 
 
 /* =========================================================
@@ -1238,7 +1261,7 @@ function renderSlide(index) {
       html += `
         <div class="level-card">
           <div class="level-card-header">
-            <div class="level-name">${escapeHTML(level)}</div>
+            <div class="level-name">${escapeHTML(level)}${getLevelTitle(level) ? ` <span class="level-title">${escapeHTML(getLevelTitle(level))}</span>` : ""}</div>
             <div class="teacher">Teacher: <strong>${escapeHTML(info.teacher)}</strong></div>
             <div class="classroom">Classroom: <strong>${escapeHTML(info.classroom)}</strong></div>
             <div class="student-count-row">Students: <strong>${studentsInLevel.length}</strong></div>
