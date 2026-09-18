@@ -524,7 +524,171 @@ body {
   color: #0e7490;
 }
 
-/* FOOTER */
+/* CLASS INFO TAB BUTTON */
+.btn-classinfo {
+  border: 1px solid #0891b2;
+  background: #fff;
+  color: #0891b2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-classinfo:hover,
+.btn-classinfo.active {
+  background: #0891b2;
+  color: #fff;
+}
+
+/* CLASS INFO CARDS */
+.classinfo-header {
+  margin-bottom: 28px;
+}
+
+.classinfo-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.classinfo-sub {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.classinfo-group-section {
+  margin-bottom: 32px;
+}
+
+.classinfo-group-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.classinfo-group-badge {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 14px;
+}
+
+.classinfo-group-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.classinfo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.classinfo-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.classinfo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.09);
+}
+
+.classinfo-card-top {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.classinfo-day-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+}
+
+.classinfo-level {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.classinfo-level-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-top: 3px;
+  letter-spacing: 0.3px;
+}
+
+.classinfo-card-body {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.classinfo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.classinfo-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.classinfo-icon.teacher {
+  background: #eff6ff;
+}
+
+.classinfo-icon.room {
+  background: #f0fdf4;
+}
+
+.classinfo-icon.time {
+  background: #fefce8;
+}
+
+.classinfo-row-text {
+  font-size: 12px;
+  color: #374151;
+}
+
+.classinfo-row-text strong {
+  font-weight: 700;
+  color: #111827;
+}
+
+.classinfo-row-label {
+  font-size: 10px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 1px;
+}
 .footer {
   padding: 12px 30px;
   background: #ffffff;
@@ -637,6 +801,10 @@ body {
 
       <button id="merge-tab-btn" class="btn-merge">
         ⚡ Merge View
+      </button>
+
+      <button id="classinfo-tab-btn" class="btn-classinfo">
+        📋 Class Info
       </button>
 
       <button id="refresh-btn" class="btn">
@@ -790,6 +958,7 @@ let teachers     = [];
 let currentSlide = 0;
 let paused       = false;
 let mergeMode    = false;
+let classInfoMode = false;
 let activeMergeTab = "within"; // "within" | "cross"
 
 const SLIDE_DURATION = 15000;
@@ -1469,6 +1638,81 @@ function switchMergeTab(tab) {
 
 
 /* =========================================================
+   RENDER CLASS INFO VIEW
+   ========================================================= */
+
+function renderClassInfoView() {
+  document.getElementById("group-badge").textContent      = "📋";
+  document.getElementById("group-badge").style.background = "#0891b2";
+  document.getElementById("days-label").textContent       = "Class Information";
+  document.getElementById("slide-counter").textContent    = "Class Info";
+
+  let html = `
+    <div class="classinfo-header">
+      <div class="classinfo-title">Class Information</div>
+      <div class="classinfo-sub">Teacher, classroom and schedule for each level</div>
+    </div>`;
+
+  groups.forEach(group => {
+    const list    = getStudentsForGroup(group.key);
+    const byLevel = groupByLevel(list);
+
+    if (!byLevel.length) return;
+
+    html += `
+      <div class="classinfo-group-section">
+        <div class="classinfo-group-label">
+          <span class="classinfo-group-badge" style="background:${group.color}">${group.label}</span>
+          <span class="classinfo-group-name">${escapeHTML(group.days)} · ${escapeHTML(group.time)}</span>
+        </div>
+        <div class="classinfo-grid">`;
+
+    byLevel.forEach(([level]) => {
+      const info  = getTeacherInfo(group.key, level);
+      const title = getLevelTitle(level);
+
+      html += `
+        <div class="classinfo-card">
+          <div class="classinfo-card-top">
+            <div class="classinfo-day-badge" style="background:${group.color}">${escapeHTML(group.label)}</div>
+            <div class="classinfo-level">${escapeHTML(level)}</div>
+            ${title ? `<div class="classinfo-level-title">${escapeHTML(title)}</div>` : ""}
+          </div>
+          <div class="classinfo-card-body">
+            <div class="classinfo-row">
+              <div class="classinfo-icon teacher">👤</div>
+              <div class="classinfo-row-text">
+                <div class="classinfo-row-label">Teacher</div>
+                <strong>${escapeHTML(info.teacher)}</strong>
+              </div>
+            </div>
+            <div class="classinfo-row">
+              <div class="classinfo-icon room">🚪</div>
+              <div class="classinfo-row-text">
+                <div class="classinfo-row-label">Classroom</div>
+                <strong>${escapeHTML(info.classroom)}</strong>
+              </div>
+            </div>
+            <div class="classinfo-row">
+              <div class="classinfo-icon time">🕐</div>
+              <div class="classinfo-row-text">
+                <div class="classinfo-row-label">Time</div>
+                <strong>${escapeHTML(group.time)}</strong>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  document.getElementById("slide-content").innerHTML = html;
+  document.querySelectorAll(".dot").forEach(dot => dot.classList.remove("active"));
+}
+
+
+/* =========================================================
    NAV DOTS
    ========================================================= */
 
@@ -1485,6 +1729,10 @@ function buildDots() {
         mergeMode = false;
         document.getElementById("merge-tab-btn").classList.remove("active");
       }
+      if (classInfoMode) {
+        classInfoMode = false;
+        document.getElementById("classinfo-tab-btn").classList.remove("active");
+      }
       currentSlide = index;
       resetTimer();
       renderSlide(currentSlide);
@@ -1498,11 +1746,31 @@ function buildDots() {
    MERGE TAB BUTTON
    ========================================================= */
 
+document.getElementById("classinfo-tab-btn").addEventListener("click", () => {
+  classInfoMode = !classInfoMode;
+  document.getElementById("classinfo-tab-btn").classList.toggle("active", classInfoMode);
+
+  if (classInfoMode) {
+    mergeMode = false;
+    document.getElementById("merge-tab-btn").classList.remove("active");
+    paused = true;
+    document.getElementById("pause-btn").textContent = "▶ Resume";
+    renderClassInfoView();
+  } else {
+    paused = false;
+    document.getElementById("pause-btn").textContent = "⏸ Pause";
+    renderSlide(currentSlide);
+    resetTimer();
+  }
+});
+
 document.getElementById("merge-tab-btn").addEventListener("click", () => {
   mergeMode = !mergeMode;
   document.getElementById("merge-tab-btn").classList.toggle("active", mergeMode);
 
   if (mergeMode) {
+    classInfoMode = false;
+    document.getElementById("classinfo-tab-btn").classList.remove("active");
     paused = true;
     document.getElementById("pause-btn").textContent = "▶ Resume";
     renderMergeView();
@@ -1526,7 +1794,7 @@ function resetTimer() {
 }
 
 function tick(now) {
-  if (!paused && !mergeMode) {
+  if (!paused && !mergeMode && !classInfoMode) {
     if (lastTick !== null) elapsed += now - lastTick;
     lastTick = now;
 
@@ -1550,7 +1818,7 @@ function tick(now) {
    ========================================================= */
 
 document.getElementById("pause-btn").addEventListener("click", () => {
-  if (mergeMode) return;
+  if (mergeMode || classInfoMode) return;
   paused = !paused;
   document.getElementById("pause-btn").textContent = paused ? "▶ Resume" : "⏸ Pause";
 });
@@ -1560,7 +1828,7 @@ document.getElementById("refresh-btn").addEventListener("click", async () => {
   btn.textContent = "↻ Loading...";
   await loadData();
   btn.textContent = "↻ Refresh";
-  if (!mergeMode) resetTimer();
+  if (!mergeMode && !classInfoMode) resetTimer();
 });
 
 
